@@ -7,9 +7,10 @@ import {
   InputLabel,
   withStyles
 } from '@material-ui/core';
-import { useCallback, useEffect } from 'react';
 import { useField, useFormikContext } from 'formik';
+
 import { AttachFile } from '@material-ui/icons';
+import { useCallback } from 'react';
 
 const HiddenInput = withStyles({
   root: { display: 'none' }
@@ -19,10 +20,6 @@ export function UploadField({ label, disabled, ...props }) {
   const { isSubmitting, setFieldValue } = useFormikContext();
   const [field, meta] = useField(props);
   const hasError = !!(meta.touched && meta.error);
-
-  useEffect(() => {
-    setFieldValue(field.name, null);
-  }, [field.name, setFieldValue]);
 
   const handleChange = useCallback(
     (event) => {

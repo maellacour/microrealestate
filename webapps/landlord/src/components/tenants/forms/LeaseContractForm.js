@@ -377,7 +377,7 @@ function LeaseContractForm({ readOnly, onSubmit }) {
                     </div>
                     <ArrayField
                       name={`properties[${index}].expenses`}
-                      addLabel={t('Add an expense')}
+                      addLabel={t('Add a expense')}
                       emptyItem={{
                         ...emptyExpense(),
                         beginDate: values.beginDate,
