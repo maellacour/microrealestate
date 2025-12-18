@@ -198,6 +198,11 @@
   border-radius: 16px;
 }
 
+.ProseMirror .editor-image.ProseMirror-selectednode {
+  outline: 2px solid var(--tw-ring-color);
+  outline-offset: 0;
+}
+
 .tableWrapper {
   padding: 1rem 0;
   overflow-x: auto;

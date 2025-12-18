@@ -12,15 +12,18 @@ import {
   RadioFieldGroup,
   SelectField,
   SubmitButton,
-  TextField
+  TextField,
+  UploadField
 } from '@microrealestate/commonui/components';
-import { useCallback, useContext, useMemo } from 'react';
+import { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import cc from 'currency-codes';
 import config from '../../config';
 import getSymbolFromCurrency from 'currency-symbol-map';
+import SignatureThumbnail from './SignatureThumbnail';
 import { StoreContext } from '../../store';
 import { toast } from 'sonner';
+import { uploadDocument } from '../../utils/fetch';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 
@@ -82,11 +85,22 @@ const languages = [
   { id: 'es-CO', label: 'Español (Colombia)', value: 'es-CO' }
 ];
 
+// Create a hash from file attributes to uniquely identify files
+const createFileHash = (file) => {
+  if (!file || typeof file !== 'object') return null;
+
+  return `${file.lastModified}-${file.name}-${file.size}-${file.type}`;
+};
+
 export default function LandlordForm({ organization, firstAccess }) {
   const { t } = useTranslation('common');
   const store = useContext(StoreContext);
   const router = useRouter();
   const queryClient = useQueryClient();
+  const [signatureUploading, setSignatureUploading] = useState(false);
+  const [signatureRemoving, setSignatureRemoving] = useState(false);
+  const lastSignatureHashRef = useRef(null);
+
   const mutateCreateOrganization = useMutation({
     mutationFn: createOrganization,
     onSuccess: (createdOrgpanization) => {
@@ -100,6 +114,25 @@ export default function LandlordForm({ organization, firstAccess }) {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.ORGANIZATIONS] });
     }
   });
+
+  const handleRemoveSignature = useCallback(async () => {
+    try {
+      setSignatureRemoving(true);
+      await mutateUpdateOrganization.mutateAsync({
+        store,
+        organization: mergeOrganization(organization, { signature: '' })
+      });
+      await store.document.delete([organization.signature]);
+
+      // Reset ref to allow future uploads
+      lastSignatureHashRef.current = null;
+    } catch (error) {
+      console.error(error);
+      toast.error(t('Cannot remove signature'));
+    } finally {
+      setSignatureRemoving(false);
+    }
+  }, [store, organization, mutateUpdateOrganization, t]);
 
   if (mutateCreateOrganization.isError) {
     toast.error(t('Error creating organization'));
@@ -120,13 +153,60 @@ export default function LandlordForm({ organization, firstAccess }) {
       company: organization?.companyInfo?.name || '',
       ein: organization?.companyInfo?.ein || '',
       dos: organization?.companyInfo?.dos || '',
-      capital: organization?.companyInfo?.capital || ''
+      capital: organization?.companyInfo?.capital || '',
+      signature: organization?.signature
     }),
     [organization]
   );
 
   const onSubmit = useCallback(
     async (landlord) => {
+      let signatureId;
+      // Only upload if it's a new file (check hash of file attributes against ref)
+      const isSignatureChanged =
+        typeof landlord.signature === 'object' &&
+        createFileHash(landlord.signature) !== lastSignatureHashRef.current;
+      if (isSignatureChanged) {
+        try {
+          setSignatureUploading(true);
+          // TODO rework POST /documents/upload endpoint to automatically create
+          // the associated document (POST /documents)
+          const response = await uploadDocument({
+            endpoint: '/documents/upload',
+            documentName: `signature_${Date.now()}`,
+            file: landlord.signature,
+            folder: 'signatures'
+          });
+          const { status, data: signatureDocument } =
+            await store.document.create({
+              type: 'file',
+              name: response.data.fileName,
+              url: response.data.key,
+              mimeType: landlord.signature.type
+            });
+
+          signatureId = signatureDocument._id;
+
+          // Update ref to track this file's hash
+          if (typeof landlord.signature === 'object') {
+            lastSignatureHashRef.current = createFileHash(landlord.signature);
+          }
+
+          if (status !== 200) {
+            throw new Error('Failed to upload signature');
+          }
+        } catch (error) {
+          console.error(error);
+          signatureId = null;
+          toast.error(t('Cannot upload signature'));
+        } finally {
+          setSignatureUploading(false);
+        }
+      } else {
+        // Keep existing signature (UUID) or set to null if no signature
+        signatureId = organization.signature || null;
+      }
+
       if (firstAccess) {
         const createdOrgpanization = {
           ...landlord,
@@ -155,7 +235,8 @@ export default function LandlordForm({ organization, firstAccess }) {
           name: landlord.name,
           isCompany: landlord.isCompany === 'true',
           currency: landlord.currency,
-          locale: landlord.locale
+          locale: landlord.locale,
+          signature: signatureId
         };
 
         if (updatedOrgPart.isCompany) {
@@ -191,6 +272,7 @@ export default function LandlordForm({ organization, firstAccess }) {
     [
       firstAccess,
       store,
+      t,
       mutateCreateOrganization,
       router,
       mutateUpdateOrganization,
@@ -258,9 +340,24 @@ export default function LandlordForm({ organization, firstAccess }) {
                 <NumberField label={t('Capital')} name="capital" />
               </>
             )}
+            <SignatureThumbnail
+              signature={organization.signature}
+              onRemove={handleRemoveSignature}
+              disabled={signatureRemoving || isSubmitting}
+              className="mt-2"
+            />
+            {!organization?.signature ? (
+              <UploadField
+                label={t('Signature')}
+                name="signature"
+                accept="image/*,.svg"
+                disabled={signatureUploading || signatureRemoving}
+              />
+            ) : null}
             <SubmitButton
               size="large"
               label={!isSubmitting ? t('Save') : t('Saving')}
+              disabled={signatureUploading || signatureRemoving}
             />
           </Form>
         );

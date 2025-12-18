@@ -95,7 +95,8 @@ async function _getTemplateValues(organization, tenantId, leaseId) {
       name: organization.name,
       contact: organization.contacts?.[0] || {},
       address: organization.addresses?.[0] || {},
-      companyInfo: landlordCompanyInfo
+      companyInfo: landlordCompanyInfo,
+      signature: organization.signature || ''
     },
 
     tenant: {
@@ -215,8 +216,23 @@ function _resolveTemplates(element, templateValues) {
   }
 
   if (element.type === 'template') {
+    const resolvedTemplate = Handlebars.compile(element.attrs.id)(
+      templateValues
+    );
+
+    if (element.attrs?.id === '{{landlord.signature}}') {
+      element.type = 'image';
+      element.attrs = {
+        ...element.attrs,
+        'data-template-id': 'template.landlord.signature',
+        src: resolvedTemplate || null,
+        alt: 'Landlord signature'
+      };
+      return element;
+    }
+
     element.type = 'text';
-    element.text = Handlebars.compile(element.attrs.id)(templateValues) || ' '; // empty text node are not allowed in tiptap editor
+    element.text = resolvedTemplate || ' '; // empty text node are not allowed in tiptap editor
     // TODO check if this doesn't open XSS issues
     element.text = element.text.replace(/&#x27;/g, "'");
     delete element.attrs;
@@ -345,7 +361,7 @@ export default function () {
     uploadMiddleware(),
     Middlewares.asyncWrapper(async (req, res) => {
       const key = [req.body.s3Dir, req.body.fileName].join('/');
-      if (s3.isEnabled(req.realm.thirdParties.b2)) {
+      if (s3.isEnabled(req.realm.thirdParties?.b2)) {
         try {
           const data = await s3.uploadFile(req.realm.thirdParties.b2, {
             file: req.file,
@@ -375,16 +391,6 @@ export default function () {
     '/',
     Middlewares.asyncWrapper(async (req, res) => {
       const dataSet = req.body || {};
-
-      if (!dataSet.tenantId) {
-        logger.error('missing tenant Id to generate document');
-        throw new ServiceError('missing fields', 422);
-      }
-
-      if (!dataSet.leaseId) {
-        logger.error('missing lease Id to generate document');
-        throw new ServiceError('missing fields', 422);
-      }
 
       let template;
       if (dataSet.templateId) {
