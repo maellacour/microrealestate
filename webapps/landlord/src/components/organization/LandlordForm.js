@@ -18,12 +18,13 @@ import {
 import { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import cc from 'currency-codes';
+import { apiFetcher, uploadDocument } from '../../utils/fetch';
 import config from '../../config';
+import ConfirmDialog from '../ConfirmDialog';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import SignatureThumbnail from './SignatureThumbnail';
 import { StoreContext } from '../../store';
 import { toast } from 'sonner';
-import { apiFetcher, uploadDocument } from '../../utils/fetch';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 
@@ -99,6 +100,8 @@ export default function LandlordForm({ organization, firstAccess }) {
   const queryClient = useQueryClient();
   const [signatureUploading, setSignatureUploading] = useState(false);
   const [signatureRemoving, setSignatureRemoving] = useState(false);
+  const [openRemoveSignatureDialog, setOpenRemoveSignatureDialog] =
+    useState(false);
   const lastSignatureHashRef = useRef(null);
 
   const mutateCreateOrganization = useMutation({
@@ -280,85 +283,97 @@ export default function LandlordForm({ organization, firstAccess }) {
   );
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      {({ values, isSubmitting }) => {
-        return (
-          <Form autoComplete="off">
-            <TextField label={t('Name')} name="name" />
-            <SelectField
-              label={t('Language')}
-              name="locale"
-              values={languages}
-            />
-            <SelectField
-              label={t('Currency')}
-              name="currency"
-              values={currencies}
-            />
-            <RadioFieldGroup
-              aria-label="organization type"
-              label={t('The organization/landlord belongs to')}
-              name="isCompany"
-            >
-              <RadioField
-                value="false"
-                label={t('A personal account')}
-                data-cy="companyFalse"
+    <>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {({ values, isSubmitting }) => {
+          return (
+            <Form autoComplete="off">
+              <TextField label={t('Name')} name="name" />
+              <SelectField
+                label={t('Language')}
+                name="locale"
+                values={languages}
               />
-              <RadioField
-                value="true"
-                label={t('A business or an institution')}
-                data-cy="companyTrue"
+              <SelectField
+                label={t('Currency')}
+                name="currency"
+                values={currencies}
               />
-            </RadioFieldGroup>
-            {values.isCompany === 'true' && (
-              <>
-                <TextField
-                  label={t('Legal representative')}
-                  name="legalRepresentative"
+              <RadioFieldGroup
+                aria-label="organization type"
+                label={t('The organization/landlord belongs to')}
+                name="isCompany"
+              >
+                <RadioField
+                  value="false"
+                  label={t('A personal account')}
+                  data-cy="companyFalse"
                 />
-                <TextField label={t('Legal structure')} name="legalStructure" />
-                <TextField
-                  label={t('Name of business or institution')}
-                  name="company"
+                <RadioField
+                  value="true"
+                  label={t('A business or an institution')}
+                  data-cy="companyTrue"
                 />
-                <TextField
-                  label={t('Employer Identification Number')}
-                  name="ein"
+              </RadioFieldGroup>
+              {values.isCompany === 'true' && (
+                <>
+                  <TextField
+                    label={t('Legal representative')}
+                    name="legalRepresentative"
+                  />
+                  <TextField
+                    label={t('Legal structure')}
+                    name="legalStructure"
+                  />
+                  <TextField
+                    label={t('Name of business or institution')}
+                    name="company"
+                  />
+                  <TextField
+                    label={t('Employer Identification Number')}
+                    name="ein"
+                  />
+                  <TextField
+                    label={t('Administrative jurisdiction')}
+                    name="dos"
+                  />
+                  <NumberField label={t('Capital')} name="capital" />
+                </>
+              )}
+              <SignatureThumbnail
+                signature={organization.signature}
+                onRemove={() => setOpenRemoveSignatureDialog(true)}
+                disabled={signatureRemoving || isSubmitting}
+                className="mt-2"
+              />
+              {!organization?.signature ? (
+                <UploadField
+                  label={t('Signature')}
+                  name="signature"
+                  accept="image/*,.svg"
+                  disabled={signatureUploading || signatureRemoving}
                 />
-                <TextField
-                  label={t('Administrative jurisdiction')}
-                  name="dos"
-                />
-                <NumberField label={t('Capital')} name="capital" />
-              </>
-            )}
-            <SignatureThumbnail
-              signature={organization.signature}
-              onRemove={handleRemoveSignature}
-              disabled={signatureRemoving || isSubmitting}
-              className="mt-2"
-            />
-            {!organization?.signature ? (
-              <UploadField
-                label={t('Signature')}
-                name="signature"
-                accept="image/*,.svg"
+              ) : null}
+              <SubmitButton
+                size="large"
+                label={!isSubmitting ? t('Save') : t('Saving')}
                 disabled={signatureUploading || signatureRemoving}
               />
-            ) : null}
-            <SubmitButton
-              size="large"
-              label={!isSubmitting ? t('Save') : t('Saving')}
-              disabled={signatureUploading || signatureRemoving}
-            />
-          </Form>
-        );
-      }}
-    </Formik>
+            </Form>
+          );
+        }}
+      </Formik>
+      <ConfirmDialog
+        title={t('Remove signature?')}
+        subTitle={t('This will delete the signature file')}
+        open={openRemoveSignatureDialog}
+        setOpen={setOpenRemoveSignatureDialog}
+        onConfirm={handleRemoveSignature}
+      />
+    </>
   );
 }
