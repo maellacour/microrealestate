@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { apiFetcher, uploadDocument } from '../../utils/fetch';
 import {
   createOrganization,
   QueryKeys,
@@ -18,7 +19,6 @@ import {
 import { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import cc from 'currency-codes';
-import { apiFetcher, uploadDocument } from '../../utils/fetch';
 import config from '../../config';
 import ConfirmDialog from '../ConfirmDialog';
 import getSymbolFromCurrency from 'currency-symbol-map';
