@@ -122,9 +122,15 @@ export default function LandlordForm({ organization, firstAccess }) {
     try {
       setSignatureRemoving(true);
       if (organization.signature) {
-        await apiFetcher().delete(
-          `/documents/signature/${encodeURIComponent(organization.signature)}`
-        );
+        try {
+          await apiFetcher().delete(
+            `/documents/signature/${encodeURIComponent(organization.signature)}`
+          );
+        } catch (error) {
+          if (error?.response?.status !== 404) {
+            throw error;
+          }
+        }
       }
       await mutateUpdateOrganization.mutateAsync({
         store,
