@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { apiFetcher } from '../../utils/fetch';
 import { Button } from '../../components/ui/button';
 import { cn } from '../../utils';
-import Image from 'next/image';
 import { LuTrash } from 'react-icons/lu';
 import useTranslation from 'next-translate/useTranslation';
 
@@ -56,13 +55,12 @@ export default function SignatureThumbnail({
       <div className="text-muted-foreground text-xs">{t('Signature')}</div>
       <div className="flex items-center gap-2">
         {!hasError && imageSrc ? (
-          <div className="w-full max-w-xs h-40 mb-2 relative">
-            <Image
+          <div className="w-full max-w-xs h-40 mb-2">
+            <img
               src={imageSrc}
-              fill
               alt={t('Current signature')}
               onError={() => setHasError(true)}
-              className="object-contain"
+              className="object-contain w-full h-full"
             />
           </div>
         ) : null}

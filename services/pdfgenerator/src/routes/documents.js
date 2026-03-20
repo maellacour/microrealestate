@@ -308,6 +308,16 @@ export default function () {
       const filePath = path.join(UPLOADS_DIRECTORY, signatureKey);
       if (fs.existsSync(filePath)) {
         try {
+          const ext = path.extname(filePath).toLowerCase().slice(1);
+          const mimeTypes = {
+            png: 'image/png',
+            jpg: 'image/jpeg',
+            jpeg: 'image/jpeg',
+            gif: 'image/gif',
+            svg: 'image/svg+xml'
+          };
+          const contentType = mimeTypes[ext] || 'application/octet-stream';
+          res.setHeader('Content-Type', contentType);
           return fs.createReadStream(filePath).pipe(res);
         } catch (error) {
           logger.error(`cannot download signature ${signatureKey}`, error);
