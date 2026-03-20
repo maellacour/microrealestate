@@ -16,7 +16,7 @@ import {
   TextField,
   UploadField
 } from '@microrealestate/commonui/components';
-import { useCallback, useContext, useMemo, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import cc from 'currency-codes';
 import config from '../../config';
@@ -92,6 +92,28 @@ const createFileHash = (file) => {
 
   return `${file.lastModified}-${file.name}-${file.size}-${file.type}`;
 };
+
+function SignatureFilePreview({ file }) {
+  const [src, setSrc] = useState(null);
+
+  useEffect(() => {
+    if (!file) {
+      setSrc(null);
+      return;
+    }
+    const url = URL.createObjectURL(file);
+    setSrc(url);
+    return () => URL.revokeObjectURL(url);
+  }, [file]);
+
+  if (!src) return null;
+
+  return (
+    <div className="w-full max-w-xs h-24 mt-2">
+      <img src={src} alt="signature" className="object-contain w-full h-full" />
+    </div>
+  );
+}
 
 export default function LandlordForm({ organization, firstAccess }) {
   const { t } = useTranslation('common');
@@ -357,12 +379,17 @@ export default function LandlordForm({ organization, firstAccess }) {
                 className="mt-2"
               />
               {!organization?.signature ? (
-                <UploadField
-                  label={t('Signature')}
-                  name="signature"
-                  accept="image/*,.svg"
-                  disabled={signatureUploading || signatureRemoving}
-                />
+                <>
+                  <UploadField
+                    label={t('Signature')}
+                    name="signature"
+                    accept="image/*,.svg"
+                    disabled={signatureUploading || signatureRemoving}
+                  />
+                  <SignatureFilePreview
+                    file={values.signature instanceof File ? values.signature : null}
+                  />
+                </>
               ) : null}
               <SubmitButton
                 size="large"
