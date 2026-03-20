@@ -99,6 +99,8 @@ services:
       - CIPHER_KEY
       - CIPHER_IV_KEY
       - UPLOAD_MAX_SIZE
+    volumes:
+      - pdfgenerator_uploads:/usr/app/services/pdfgenerator/uploads
     expose:
       - '$PDFGENERATOR_PORT'
     networks:
@@ -235,3 +237,8 @@ services:
 networks:
   net:
     driver: bridge
+###############################################################################
+# persistent volumes
+###############################################################################
+volumes:
+  pdfgenerator_uploads:

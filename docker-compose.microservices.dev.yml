@@ -108,6 +108,7 @@ services:
       - ./services/pdfgenerator/data:/usr/app/services/pdfgenerator/data
       - ./services/pdfgenerator/src:/usr/app/services/pdfgenerator/src
       - ./services/pdfgenerator/templates:/usr/app/services/pdfgenerator/templates
+      - ./services/pdfgenerator/uploads:/usr/app/services/pdfgenerator/uploads
       - ./services/pdfgenerator/package.json:/usr/app/services/pdfgenerator/package.json
     ports:
       - '$PDFGENERATOR_DEBUG_PORT:9227'

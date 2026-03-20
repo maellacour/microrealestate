@@ -2,6 +2,7 @@
 node_modules
 tmp
 /data
+services/pdfgenerator/uploads
 .env*
 !.env.domain
 .vscode/ipch
