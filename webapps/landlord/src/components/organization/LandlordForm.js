@@ -196,7 +196,7 @@ export default function LandlordForm({ organization, firstAccess }) {
           }
         } catch (error) {
           console.error(error);
-          signatureKey = null;
+          signatureKey = organization.signature || null;
           toast.error(t('Cannot upload signature'));
         } finally {
           setSignatureUploading(false);
