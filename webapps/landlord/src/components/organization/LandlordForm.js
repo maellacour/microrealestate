@@ -313,6 +313,7 @@ export default function LandlordForm({ organization, firstAccess }) {
   return (
     <>
       <Formik
+        enableReinitialize
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
