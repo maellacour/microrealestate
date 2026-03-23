@@ -61,9 +61,9 @@ export const setAccessToken = (accessToken) => {
 export const setOrganizationId = (organizationId) => {
   apiFetcher();
   if (organizationId) {
-    apiFetch.defaults.headers.organizationId = organizationId;
+    apiFetch.defaults.headers.common['organizationId'] = organizationId;
   } else if (organizationId === null) {
-    delete apiFetch.defaults.headers.organizationId;
+    delete apiFetch.defaults.headers.common['organizationId'];
   }
 };
 
