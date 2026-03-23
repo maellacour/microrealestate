@@ -26,7 +26,7 @@ export function RangeDateField({
   useEffect(() => {
     if (duration && beginField.value?.isValid()) {
       let newEndDate = durationEndMoment(
-        moment(beginField.value.startOf('day')),
+        moment(beginField.value).startOf('day'),
         duration
       );
       if (maxDate && newEndDate.isAfter(maxDate)) {
@@ -42,8 +42,7 @@ export function RangeDateField({
     endField.value,
     endName,
     setFieldValue,
-    maxDate,
-    endLabel
+    maxDate
   ]);
 
   return (
