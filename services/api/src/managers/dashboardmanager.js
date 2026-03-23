@@ -131,12 +131,13 @@ export async function all(req, res) {
           return;
         }
         const key = termMoment.format('MMYYYY');
+        const thisMonthAmount = rent.total.grandTotal - rent.total.balance;
         const revenue = {
           month: key,
           paid: rent.total.payment,
           notPaid:
-            rent.total.payment - rent.total.grandTotal < 0
-              ? rent.total.payment - rent.total.grandTotal
+            rent.total.payment - thisMonthAmount < 0
+              ? rent.total.payment - thisMonthAmount
               : 0
         };
         if (acc[key]) {
