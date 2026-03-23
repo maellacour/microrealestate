@@ -13,13 +13,14 @@ export default function SignatureThumbnail({
 }) {
   const { t } = useTranslation('common');
   const [imageSrc, setImageSrc] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     let fetchedImageSrc;
     const fetchSignatureImage = async () => {
+      setIsLoading(true);
       try {
-        // Extract filename from the full path
         const response = await apiFetcher().get(
           `/documents/signature/${encodeURIComponent(signature)}`,
           {
@@ -32,14 +33,20 @@ export default function SignatureThumbnail({
         setImageSrc(fetchedImageSrc);
         setHasError(false);
       } catch (error) {
-        console.error('Failed to load signature image:', error);
+        console.error('Failed to load signature image:', error?.response?.status, error?.message);
         setImageSrc(null);
         setHasError(true);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     if (signature) {
       fetchSignatureImage();
+    } else {
+      setImageSrc(null);
+      setHasError(false);
+      setIsLoading(false);
     }
 
     // Cleanup blob URL when component unmounts
@@ -54,7 +61,12 @@ export default function SignatureThumbnail({
     <div className={cn('space-y-2', className)}>
       <div className="text-muted-foreground text-xs">{t('Signature')}</div>
       <div className="flex items-center gap-2">
-        {!hasError && imageSrc ? (
+        {isLoading ? (
+          <div className="flex items-center justify-center w-full max-w-xs h-40 mb-2 border-dashed border-2 border-muted text-muted-foreground">
+            ...
+          </div>
+        ) : null}
+        {!isLoading && !hasError && imageSrc ? (
           <div className="w-full max-w-xs h-40 mb-2">
             <img
               src={imageSrc}
@@ -64,7 +76,7 @@ export default function SignatureThumbnail({
             />
           </div>
         ) : null}
-        {hasError ? (
+        {!isLoading && hasError ? (
           <div className="flex items-center justify-center w-80 h-40 mb-2 border-dashed border-2 border-muted text-destructive">
             {t('Failed to load signature image')}
           </div>
