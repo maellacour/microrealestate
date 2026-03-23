@@ -19,21 +19,28 @@ export default function SignatureThumbnail({
   useEffect(() => {
     let fetchedImageSrc;
     const fetchSignatureImage = async () => {
+      const url = `/documents/signature/${encodeURIComponent(signature)}`;
+      console.log('[DEBUG SignatureThumbnail] fetching signature image:', url);
+      console.log('[DEBUG SignatureThumbnail] apiFetcher headers:', JSON.stringify(apiFetcher().defaults.headers?.common));
       setIsLoading(true);
       try {
-        const response = await apiFetcher().get(
-          `/documents/signature/${encodeURIComponent(signature)}`,
-          {
-            responseType: 'blob'
-          }
-        );
+        const response = await apiFetcher().get(url, {
+          responseType: 'blob'
+        });
 
+        console.log('[DEBUG SignatureThumbnail] fetch success, blob size:', response.data?.size, 'type:', response.data?.type);
         // Create a blob URL for the image
         fetchedImageSrc = URL.createObjectURL(response.data);
         setImageSrc(fetchedImageSrc);
         setHasError(false);
       } catch (error) {
-        console.error('Failed to load signature image:', error?.response?.status, error?.message);
+        console.error('[DEBUG SignatureThumbnail] fetch FAILED:', {
+          status: error?.response?.status,
+          statusText: error?.response?.statusText,
+          message: error?.message,
+          url,
+          responseData: error?.response?.data
+        });
         setImageSrc(null);
         setHasError(true);
       } finally {
@@ -41,9 +48,11 @@ export default function SignatureThumbnail({
       }
     };
 
+    console.log('[DEBUG SignatureThumbnail] useEffect, signature prop:', signature, 'typeof:', typeof signature);
     if (signature) {
       fetchSignatureImage();
     } else {
+      console.log('[DEBUG SignatureThumbnail] no signature, resetting state');
       setImageSrc(null);
       setHasError(false);
       setIsLoading(false);
