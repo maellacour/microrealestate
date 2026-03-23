@@ -1,5 +1,4 @@
 import { Collections, logger, Service } from '@microrealestate/common';
-import fileUrl from 'file-url';
 import fs from 'fs-extra';
 import moment from 'moment';
 import path from 'path';
@@ -35,9 +34,20 @@ export async function getRentsData(params) {
     const { UPLOADS_DIRECTORY } = Service.getInstance().envConfig.getValues();
     const signaturePath = path.join(UPLOADS_DIRECTORY, landlord.signature);
 
-    // Check if signature file exists
+    // Check if signature file exists and embed as base64 data URL
+    // (fileUrl/file:// URLs are blocked by modern Chromium cross-directory policy)
     if (fs.existsSync(signaturePath)) {
-      landlord.signatureUrl = fileUrl(signaturePath);
+      const ext = path.extname(signaturePath).toLowerCase().slice(1);
+      const mimeTypes = {
+        png: 'image/png',
+        jpg: 'image/jpeg',
+        jpeg: 'image/jpeg',
+        gif: 'image/gif',
+        svg: 'image/svg+xml'
+      };
+      const mimeType = mimeTypes[ext] || 'image/png';
+      const imageBuffer = fs.readFileSync(signaturePath);
+      landlord.signatureUrl = `data:${mimeType};base64,${imageBuffer.toString('base64')}`;
     } else {
       logger.warn(`Signature file not found: ${signaturePath}`);
       landlord.hasSignature = false;
