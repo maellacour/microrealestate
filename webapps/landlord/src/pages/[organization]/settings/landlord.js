@@ -30,11 +30,6 @@ function LandlordSettings() {
     data?.find((org) => org._id === store.organization.selected?._id) ||
     data?.[0];
 
-  // DEBUG: trace signature through the data flow
-  console.log('[DEBUG landlord.js] isLoading:', isLoading, 'isError:', isError);
-  console.log('[DEBUG landlord.js] data:', data?.length, 'orgs, selected._id:', store.organization.selected?._id);
-  console.log('[DEBUG landlord.js] organization._id:', organization?._id, 'organization.signature:', organization?.signature);
-
   return (
     <Page loading={isLoading} dataCy="landlordPage">
       <Card>

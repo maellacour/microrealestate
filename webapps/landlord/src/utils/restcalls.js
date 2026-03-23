@@ -17,7 +17,6 @@ export async function fetchDashboard(store) {
 
 export async function fetchOrganizations(store) {
   const response = await store.organization.fetch();
-  console.log('[DEBUG fetchOrganizations] response.data signatures:', response.data?.map?.(o => ({ _id: o._id, name: o.name, signature: o.signature })));
   return response.data;
 }
 

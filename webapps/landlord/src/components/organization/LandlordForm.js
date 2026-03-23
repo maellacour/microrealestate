@@ -135,7 +135,6 @@ export default function LandlordForm({ organization, firstAccess }) {
   const mutateUpdateOrganization = useMutation({
     mutationFn: updateOrganization,
     onSuccess: (updatedOrganization) => {
-      console.log('[DEBUG mutation onSuccess] updatedOrganization.signature:', updatedOrganization?.signature);
       updateStoreOrganization(store, updatedOrganization);
       queryClient.invalidateQueries({ queryKey: [QueryKeys.ORGANIZATIONS] });
     }
@@ -197,14 +196,11 @@ export default function LandlordForm({ organization, firstAccess }) {
 
   const onSubmit = useCallback(
     async (landlord) => {
-      console.log('[DEBUG onSubmit] landlord.signature:', landlord.signature, 'typeof:', typeof landlord.signature);
-      console.log('[DEBUG onSubmit] organization.signature:', organization?.signature);
       let signatureKey;
       // Only upload if it's a new file (check hash of file attributes against ref)
       const isSignatureChanged =
         typeof landlord.signature === 'object' &&
         createFileHash(landlord.signature) !== lastSignatureHashRef.current;
-      console.log('[DEBUG onSubmit] isSignatureChanged:', isSignatureChanged);
       if (isSignatureChanged) {
         try {
           setSignatureUploading(true);
@@ -237,8 +233,6 @@ export default function LandlordForm({ organization, firstAccess }) {
         // Keep existing signature (UUID) or set to null if no signature
         signatureKey = organization.signature || null;
       }
-
-      console.log('[DEBUG onSubmit] final signatureKey:', signatureKey);
 
       if (firstAccess) {
         const createdOrgpanization = {
@@ -379,8 +373,6 @@ export default function LandlordForm({ organization, firstAccess }) {
                   <NumberField label={t('Capital')} name="capital" />
                 </>
               )}
-              {/* DEBUG */}
-              {console.log('[DEBUG LandlordForm] organization.signature:', organization?.signature, 'typeof:', typeof organization?.signature)}
               <SignatureThumbnail
                 signature={organization.signature}
                 onRemove={() => setOpenRemoveSignatureDialog(true)}
