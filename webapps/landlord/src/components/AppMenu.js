@@ -193,6 +193,9 @@ export function HamburgerMenu({ className, onChange }) {
               })}
           </div>
           <SponsorMenu />
+          <div className="text-muted-foreground/50 text-[10px] text-center pb-2">
+            v{process.env.NEXT_PUBLIC_APP_VERSION || '?'}
+          </div>
         </SheetContent>
       </Sheet>
       {selectedMenu ? (
@@ -268,7 +271,10 @@ export function SideMenu({ className }) {
             );
           })}
       </div>
-      <SponsorMenu className="mb-20" />
+      <SponsorMenu className="mb-2" />
+      <div className="text-muted-foreground/50 text-[10px] text-center mb-20">
+        v{process.env.NEXT_PUBLIC_APP_VERSION || '?'}
+      </div>
     </div>
   );
 }

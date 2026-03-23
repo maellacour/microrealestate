@@ -1,15 +1,19 @@
 const path = require('path');
 const nextTranslate = require('next-translate-plugin');
+const { version } = require('./package.json');
 
 module.exports = nextTranslate({
   output: 'standalone',
   experimental: {
     externalDir: true
   },
+  env: {
+    NEXT_PUBLIC_APP_VERSION: version
+  },
   webpack: (
     config /*,
     {
-     buildId, dev, isServer, defaultLoaders,  webpack 
+     buildId, dev, isServer, defaultLoaders,  webpack
     }
     */
   ) => {
