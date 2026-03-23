@@ -38,22 +38,22 @@ function TenantTabs({ onSubmit /*, setError*/, readOnly }) {
           </div>
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="tenant">
+      <TabsContent forceMount value="tenant" className="data-[state=inactive]:hidden">
         <Card className="p-6">
           <TenantForm onSubmit={onSubmit} readOnly={readOnly} />
         </Card>
       </TabsContent>
-      <TabsContent value="lease">
+      <TabsContent forceMount value="lease" className="data-[state=inactive]:hidden">
         <Card className="p-6">
           <LeaseContractForm onSubmit={onSubmit} readOnly={readOnly} />
         </Card>
       </TabsContent>
-      <TabsContent value="billing">
+      <TabsContent forceMount value="billing" className="data-[state=inactive]:hidden">
         <Card className="p-6">
           <BillingForm onSubmit={onSubmit} readOnly={readOnly} />
         </Card>
       </TabsContent>
-      <TabsContent value="documents">
+      <TabsContent forceMount value="documents" className="data-[state=inactive]:hidden">
         <Card className="p-6">
           <DocumentsForm onSubmit={onSubmit} readOnly={readOnly} />
         </Card>
