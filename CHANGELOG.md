@@ -23,6 +23,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Signature image now renders correctly in generated PDFs.
 - Signature persists in Settings form after page reload.
 - Fixed issue #267.
+- Tenant form no longer resets when switching between tabs while editing.
+- Charge (expense) date range fields no longer mutate form state on render.
+- Dashboard "not paid" amounts no longer include carry-forward debt from previous months.
+- All services now consistently use fork images, preventing silent field drops from upstream schema mismatches.
 
 ## [1.0.0-alpha.3]
 
