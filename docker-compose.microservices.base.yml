@@ -31,7 +31,7 @@ services:
   # Gateway
   ###############################################################################
   gateway:
-    image: 'ghcr.io/microrealestate/microrealestate/gateway:${MRE_VERSION:-latest}'
+    image: 'ghcr.io/maellacour/microrealestate/gateway:${MRE_VERSION:-latest}'
     environment:
       - NODE_ENV
       - LOGGER_LEVEL=$LOGGER_LEVEL
@@ -62,7 +62,7 @@ services:
   # Authenticator
   ###############################################################################
   authenticator:
-    image: 'ghcr.io/microrealestate/microrealestate/authenticator:${MRE_VERSION:-latest}'
+    image: 'ghcr.io/maellacour/microrealestate/authenticator:${MRE_VERSION:-latest}'
     environment:
       - NODE_ENV
       - PORT=$AUTHENTICATOR_PORT
@@ -89,7 +89,7 @@ services:
   # PDFGenerator
   ###############################################################################
   pdfgenerator:
-    image: 'ghcr.io/microrealestate/microrealestate/pdfgenerator:${MRE_VERSION:-latest}'
+    image: 'ghcr.io/maellacour/microrealestate/pdfgenerator:${MRE_VERSION:-latest}'
     environment:
       - NODE_ENV
       - PORT=$PDFGENERATOR_PORT
@@ -111,7 +111,7 @@ services:
   # Emailer
   ###############################################################################
   emailer:
-    image: 'ghcr.io/microrealestate/microrealestate/emailer:${MRE_VERSION:-latest}'
+    image: 'ghcr.io/maellacour/microrealestate/emailer:${MRE_VERSION:-latest}'
     environment:
       - NODE_ENV
       - ALLOW_SENDING_EMAILS
@@ -148,7 +148,7 @@ services:
   # api
   ###############################################################################
   api:
-    image: 'ghcr.io/microrealestate/microrealestate/api:${MRE_VERSION:-latest}'
+    image: 'ghcr.io/maellacour/microrealestate/api:${MRE_VERSION:-latest}'
     volumes:
       - ./backup:/usr/app/backup
     environment:
@@ -175,7 +175,7 @@ services:
   # tenant api
   ###############################################################################
   tenantapi:
-    image: 'ghcr.io/microrealestate/microrealestate/tenantapi:${MRE_VERSION:-latest}'
+    image: 'ghcr.io/maellacour/microrealestate/tenantapi:${MRE_VERSION:-latest}'
     environment:
       - NODE_ENV
       - PORT=$TENANTAPI_PORT
@@ -193,7 +193,7 @@ services:
   # Landlord frontend
   ###############################################################################
   landlord-frontend:
-    image: 'ghcr.io/microrealestate/microrealestate/landlord-frontend:${MRE_VERSION:-latest}'
+    image: 'ghcr.io/maellacour/microrealestate/landlord-frontend:${MRE_VERSION:-latest}'
     environment:
       - BASE_PATH=$LANDLORD_BASE_PATH
       - PORT=$LANDLORD_FRONTEND_PORT
@@ -214,7 +214,7 @@ services:
   # Tenant frontend
   ###############################################################################
   tenant-frontend:
-    image: 'ghcr.io/microrealestate/microrealestate/tenant-frontend:${MRE_VERSION:-latest}'
+    image: 'ghcr.io/maellacour/microrealestate/tenant-frontend:${MRE_VERSION:-latest}'
     environment:
       - BASE_PATH=$TENANT_BASE_PATH
       - PORT=$TENANT_FRONTEND_PORT
