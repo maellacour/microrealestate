@@ -76,19 +76,27 @@ function UploadFileList({ disabled }) {
     store.tenant.selected.terminated
   ]);
 
-  const handleView = useCallback((doc, template) => {
-    if (doc.mimeType.indexOf('image/') !== -1) {
-      setOpenImageViewer({ url: `/documents/${doc._id}`, title: doc.name });
-    } else if (doc.mimeType.indexOf('application/pdf') !== -1) {
-      setPdfDoc({ url: `/documents/${doc._id}`, title: template.name });
-      setOpenPdfViewer(true);
-    } else {
-      downloadDocument({
-        endpoint: `/documents/${doc._id}`,
-        documentName: doc.name
-      });
-    }
-  }, []);
+  const handleView = useCallback(
+    async (doc, template) => {
+      if (doc.mimeType.indexOf('image/') !== -1) {
+        setOpenImageViewer({ url: `/documents/${doc._id}`, title: doc.name });
+      } else if (doc.mimeType.indexOf('application/pdf') !== -1) {
+        setPdfDoc({ url: `/documents/${doc._id}`, title: template.name });
+        setOpenPdfViewer(true);
+      } else {
+        try {
+          await downloadDocument({
+            endpoint: `/documents/${doc._id}`,
+            documentName: doc.name
+          });
+        } catch (error) {
+          console.error(error);
+          toast.error(t('Something went wrong'));
+        }
+      }
+    },
+    [t]
+  );
 
   const handleUpload = useCallback(
     (template) => {

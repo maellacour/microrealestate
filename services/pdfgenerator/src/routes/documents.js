@@ -269,7 +269,10 @@ export default function () {
         const pdfFile = await pdf.generate(req.params.document, req.params);
         return res.download(pdfFile);
       } catch (error) {
-        throw new ServiceError(error, 404);
+        logger.error(
+          `cannot generate the ${req.params.document} document: ${String(error)}`
+        );
+        throw new ServiceError(error, 500);
       }
     })
   );

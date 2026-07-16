@@ -16,6 +16,7 @@ import PeriodPicker from '../../../components/PeriodPicker';
 import SearchFilterBar from '../../../components/SearchFilterBar';
 import { StoreContext } from '../../../store';
 import TenantSettlements from '../../../components/accounting/TenantSettlements';
+import { toast } from 'sonner';
 import useFillStore from '../../../hooks/useFillStore';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
@@ -64,12 +65,17 @@ function Accounting() {
   const getSettlementsAsCsv = useCallback(
     async (e) => {
       e.stopPropagation();
-      downloadDocument({
-        endpoint: `/csv/settlements/${router.query.year}`,
-        documentName: t('Settlements - {{year}}.csv', {
-          year: router.query.year
-        })
-      });
+      try {
+        await downloadDocument({
+          endpoint: `/csv/settlements/${router.query.year}`,
+          documentName: t('Settlements - {{year}}.csv', {
+            year: router.query.year
+          })
+        });
+      } catch (error) {
+        console.error(error);
+        toast.error(t('Something went wrong'));
+      }
     },
     [t, router.query.year]
   );
@@ -77,12 +83,17 @@ function Accounting() {
   const getIncomingTenantsAsCsv = useCallback(
     async (e) => {
       e.stopPropagation();
-      downloadDocument({
-        endpoint: `/csv/tenants/incoming/${router.query.year}`,
-        documentName: t('Incoming tenants - {{year}}.csv', {
-          year: router.query.year
-        })
-      });
+      try {
+        await downloadDocument({
+          endpoint: `/csv/tenants/incoming/${router.query.year}`,
+          documentName: t('Incoming tenants - {{year}}.csv', {
+            year: router.query.year
+          })
+        });
+      } catch (error) {
+        console.error(error);
+        toast.error(t('Something went wrong'));
+      }
     },
     [t, router.query.year]
   );
@@ -90,22 +101,32 @@ function Accounting() {
   const getOutgoingTenantsAsCsv = useCallback(
     async (e) => {
       e.stopPropagation();
-      downloadDocument({
-        endpoint: `/csv/tenants/outgoing/${router.query.year}`,
-        documentName: t('Outgoing tenants - {{year}}.csv', {
-          year: router.query.year
-        })
-      });
+      try {
+        await downloadDocument({
+          endpoint: `/csv/tenants/outgoing/${router.query.year}`,
+          documentName: t('Outgoing tenants - {{year}}.csv', {
+            year: router.query.year
+          })
+        });
+      } catch (error) {
+        console.error(error);
+        toast.error(t('Something went wrong'));
+      }
     },
     [t, router.query.year]
   );
 
   const getYearInvoices = useCallback(
-    (tenant) => () => {
-      downloadDocument({
-        endpoint: `/documents/invoice/${tenant._id}/${router.query.year}`,
-        documentName: `${tenant.name}-${router.query.year}-${t('invoice')}.pdf`
-      });
+    (tenant) => async () => {
+      try {
+        await downloadDocument({
+          endpoint: `/documents/invoice/${tenant._id}/${router.query.year}`,
+          documentName: `${tenant.name}-${router.query.year}-${t('invoice')}.pdf`
+        });
+      } catch (error) {
+        console.error(error);
+        toast.error(t('Something went wrong'));
+      }
     },
     [router.query.year, t]
   );

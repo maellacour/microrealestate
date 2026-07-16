@@ -28,6 +28,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Dashboard "not paid" amounts no longer include carry-forward debt from previous months.
 - All services now consistently use fork images, preventing silent field drops from upstream schema mismatches.
 - Invoices and rent documents can now be generated for tenants whose name contains a slash or other special characters. Their download buttons silently did nothing, and their invoice emails were never sent.
+- Document and CSV download buttons now report a failure instead of silently doing nothing.
+- Document generation failures are now logged and returned as a server error, instead of being reported as "not found".
 
 ## [1.0.0-alpha.3]
 

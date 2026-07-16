@@ -13,6 +13,7 @@ import RentHistoryDialog from './RentHistoryDialog';
 import { Separator } from '../ui/separator';
 import { StoreContext } from '../../store';
 import { TbCashRegister } from 'react-icons/tb';
+import { toast } from 'sonner';
 import Tooltip from '../Tooltip';
 import useTranslation from 'next-translate/useTranslation';
 
@@ -63,9 +64,14 @@ function Reminder({ rent, className }) {
 
   const visible = label && sentDate;
 
-  const handleDownloadClick = useCallback(() => {
-    downloadDocument({ endpoint, documentName });
-  }, [documentName, endpoint]);
+  const handleDownloadClick = useCallback(async () => {
+    try {
+      await downloadDocument({ endpoint, documentName });
+    } catch (error) {
+      console.error(error);
+      toast.error(t('Something went wrong'));
+    }
+  }, [documentName, endpoint, t]);
 
   return visible ? (
     <Button
