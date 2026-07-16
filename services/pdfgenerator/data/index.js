@@ -2,6 +2,7 @@ import { Collections, logger, Service } from '@microrealestate/common';
 import fs from 'fs-extra';
 import moment from 'moment';
 import path from 'path';
+import { sanitize } from '../src/utils/index.js';
 
 export async function getRentsData(params) {
   const { id: tenantId, term } = params;
@@ -114,7 +115,7 @@ export async function getRentsData(params) {
   }
 
   return {
-    fileName: `${dbTenant.name}-${term}`,
+    fileName: sanitize(`${dbTenant.name}-${term}`),
     tenant,
     landlord
   };
