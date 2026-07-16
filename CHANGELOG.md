@@ -30,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Invoices and rent documents can now be generated for tenants whose name contains a slash or other special characters. Their download buttons silently did nothing, and their invoice emails were never sent.
 - Document and CSV download buttons now report a failure instead of silently doing nothing.
 - Document generation failures are now logged and returned as a server error, instead of being reported as "not found".
+- `ServiceError` now keeps the original error as its `cause`, which a typo had been discarding for every wrapped error.
 
 ## [1.0.0-alpha.3]
 

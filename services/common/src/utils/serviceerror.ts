@@ -6,7 +6,7 @@ export default class ServiceError extends Error {
       typeof messageOrError === 'object'
         ? messageOrError.message
         : messageOrError,
-      messageOrError === 'object' ? { cause: messageOrError } : undefined
+      typeof messageOrError === 'object' ? { cause: messageOrError } : undefined
     );
     this.statusCode = statusCode;
   }
