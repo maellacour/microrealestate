@@ -7,6 +7,7 @@ export function ContactField({
   emailName,
   phone1Name,
   phone2Name,
+  showPhone2 = true,
   disabled
 }) {
   const { t } = useTranslation('common');
@@ -28,18 +29,20 @@ export function ContactField({
       </Grid>
       <Grid item xs={12} md={4}>
         <TextField
-          label={t('Phone 1')}
+          label={showPhone2 ? t('Phone 1') : t('Phone')}
           name={phone1Name || 'phone1'}
           disabled={disabled}
         />
       </Grid>
-      <Grid item xs={12} md={4}>
-        <TextField
-          label={t('Phone 2')}
-          name={phone2Name || 'phone2'}
-          disabled={disabled}
-        />
-      </Grid>
+      {showPhone2 && (
+        <Grid item xs={12} md={4}>
+          <TextField
+            label={t('Phone 2')}
+            name={phone2Name || 'phone2'}
+            disabled={disabled}
+          />
+        </Grid>
+      )}
     </Grid>
   );
 }

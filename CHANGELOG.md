@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Tenant contact phone number is now saved. The tenant form used `phone1`/`phone2` fields that the database model (single `phone`) silently dropped; the form now uses a single `phone` field that matches the model.
+
 ## [1.1.0]
 
 ### Added
