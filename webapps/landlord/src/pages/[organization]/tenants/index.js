@@ -44,7 +44,7 @@ function _filterData(data, filters) {
         // Search match contact
         if (!found) {
           found = !!contacts
-            ?.map(({ contact = '', email = '', phone = '' }) => ({
+            ?.map(({ name: contact = '', email = '', phone = '' }) => ({
               contact: contact.replace(regExp, '').toLowerCase(),
               email: email.toLowerCase(),
               phone: phone.replace(regExp, '')

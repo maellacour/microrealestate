@@ -63,8 +63,8 @@ const initValues = (tenant) => {
     dos: tenant?.rcs || '',
     capital: tenant?.capital || '',
     contacts: tenant?.contacts?.length
-      ? tenant.contacts.map(({ contact, email, phone }) => ({
-          contact,
+      ? tenant.contacts.map(({ name, contact, email, phone }) => ({
+          contact: name || contact || '',
           email,
           phone: phone || ''
         }))
@@ -114,7 +114,7 @@ const TenantForm = observer(({ readOnly, onSubmit }) => {
         .filter(({ contact }) => !!contact)
         .map(({ contact, email, phone }) => {
           return {
-            contact,
+            name: contact,
             email,
             phone
           };

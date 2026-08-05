@@ -30,7 +30,7 @@ const TenantSchema = new mongoose.Schema<CollectionTypes.Tenant>({
   // contacts
   contacts: [
     {
-      contact: String,
+      name: String,
       phone: String,
       email: String
     }

@@ -237,7 +237,7 @@ export namespace CollectionTypes {
     city: string;
     country: string;
     contacts: {
-      contact: string;
+      name: string;
       phone: string;
       email: string;
     }[];

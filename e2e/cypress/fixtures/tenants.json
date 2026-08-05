@@ -14,14 +14,12 @@
       {
         "name": "Camel Aissani",
         "email": "camel@test.com",
-        "phone1": "0123456789",
-        "phone2": "9876543210"
+        "phone": "0123456789"
       },
       {
         "name": "Elon ksum",
         "email": "elon@test.com",
-        "phone1": "0123456789",
-        "phone2": "2468013579"
+        "phone": "0123456789"
       }
     ],
     "lease": {

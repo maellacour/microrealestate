@@ -114,6 +114,35 @@ async function cleanupUnusedAttributes() {
   );
 }
 
+async function renameTenantContactName() {
+  // The tenant contacts sub-field holding the contact person's name used to be
+  // called `contact`; it is now `name`, to match the Realm contacts schema.
+  const result = await Collections.Tenant.collection.updateMany(
+    { 'contacts.contact': { $exists: true } },
+    [
+      {
+        $set: {
+          contacts: {
+            $map: {
+              input: '$contacts',
+              as: 'c',
+              in: {
+                _id: '$$c._id',
+                name: { $ifNull: ['$$c.name', '$$c.contact'] },
+                email: '$$c.email',
+                phone: '$$c.phone'
+              }
+            }
+          }
+        }
+      }
+    ]
+  );
+  logger.info(
+    `renamed tenant contact name field on ${result.modifiedCount} records`
+  );
+}
+
 export default async function migratedb() {
   let failure = false;
   let db;
@@ -130,6 +159,7 @@ export default async function migratedb() {
     logger.info('Starting migration...');
     await cleanupUnusedAttributes();
     await updateThirdPartyConfiguration();
+    await renameTenantContactName();
     logger.info('Migration done');
   } catch (error) {
     logger.error(String(error));
