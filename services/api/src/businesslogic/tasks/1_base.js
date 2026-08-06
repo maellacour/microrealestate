@@ -1,3 +1,4 @@
+import { occupancyFraction, round2 } from '../prorate.js';
 import moment from 'moment';
 
 export default function taskBase(
@@ -42,18 +43,38 @@ export default function taskBase(
     .forEach(function (property) {
       if (property.property) {
         const name = property.property.name || '';
-        const preTaxAmount = property.rent || 0;
         const expenses = property.expenses || [];
+
+        // Effective exit for this term: the property exit date, brought forward
+        // to the early-termination date when the lease is terminated early.
+        const exitBound = contract.termination
+          ? moment.min(
+              moment(property.exitDate),
+              moment(contract.termination)
+            )
+          : moment(property.exitDate);
+
+        // Prorate the first/last partial periods (pro rata temporis).
+        const fraction = occupancyFraction(
+          currentMoment,
+          contract.frequency,
+          property.entryDate,
+          exitBound
+        );
 
         rent.preTaxAmounts.push({
           description: name,
-          amount: preTaxAmount
+          amount: round2((property.rent || 0) * fraction)
         });
 
         if (expenses.length) {
           rent.charges.push(
             ...expenses
               .filter(({ beginDate, endDate }) => {
+                // An expense without a date window applies to every term.
+                if (!beginDate || !endDate) {
+                  return true;
+                }
                 const expenseBegin = moment(beginDate, 'DD/MM/YYYY').startOf(
                   'day'
                 );
@@ -68,7 +89,7 @@ export default function taskBase(
               })
               .map(({ title, amount }) => ({
                 description: title,
-                amount
+                amount: round2((amount || 0) * fraction)
               }))
           );
         }
