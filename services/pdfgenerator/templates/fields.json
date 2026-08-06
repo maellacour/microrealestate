@@ -280,6 +280,31 @@
     "type": "amount"
   },
   {
+    "_id": "lease_terminationDate",
+    "marker": "{{lease.terminationDate}}",
+    "type": "date"
+  },
+  {
+    "_id": "lease_depositRefund",
+    "marker": "{{lease.depositRefund}}",
+    "type": "amount"
+  },
+  {
+    "_id": "lease_depositToRefund",
+    "marker": "{{lease.depositToRefund}}",
+    "type": "amount"
+  },
+  {
+    "_id": "lease_depositRefundDate",
+    "marker": "{{lease.depositRefundDate}}",
+    "type": "date"
+  },
+  {
+    "_id": "lease_depositRefundDueDate",
+    "marker": "{{lease.depositRefundDueDate}}",
+    "type": "date"
+  },
+  {
     "_id": "lease_rentAmount",
     "marker": "{{properties.total.rentAmount}}",
     "type": "amount"

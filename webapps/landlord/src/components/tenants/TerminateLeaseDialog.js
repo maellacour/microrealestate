@@ -4,7 +4,6 @@ import React, { useContext, useMemo, useRef, useState } from 'react';
 import { Button } from '../ui/button';
 import { DateField } from '../formfields/DateField';
 import moment from 'moment';
-import { NumberField } from '../formfields/NumberField';
 import { QueryKeys } from '../../utils/restcalls';
 import ResponsiveDialog from '../ResponsiveDialog';
 import { SelectField } from '../formfields/SelectField';
@@ -16,8 +15,7 @@ import useTranslation from 'next-translate/useTranslation';
 
 const validationSchema = Yup.object().shape({
   tenantId: Yup.string().required(),
-  terminationDate: Yup.date().required(),
-  guarantyPayback: Yup.number().min(0)
+  terminationDate: Yup.date().required()
 });
 
 export default function TerminateLeaseDialog({ open, setOpen, tenantList }) {
@@ -44,12 +42,10 @@ export default function TerminateLeaseDialog({ open, setOpen, tenantList }) {
       terminationDate:
         !tenantList && store.tenant.selected?.terminationDate
           ? moment(store.tenant.selected.terminationDate, 'DD/MM/YYYY')
-          : null,
-      guarantyPayback: !tenantList ? store.tenant.selected?.guarantyPayback : ''
+          : null
     }),
     [
       store.tenant.selected._id,
-      store.tenant.selected?.guarantyPayback,
       store.tenant.selected.terminationDate,
       tenantList
     ]
@@ -108,8 +104,7 @@ export default function TerminateLeaseDialog({ open, setOpen, tenantList }) {
         store.tenant.selected;
       const updatedTenant = {
         ...toJS(tenant),
-        terminationDate: tenantPart.terminationDate.format('DD/MM/YYYY'),
-        guarantyPayback: tenantPart.guarantyPayback || 0
+        terminationDate: tenantPart.terminationDate.format('DD/MM/YYYY')
       };
 
       const { status, data } = await store.tenant.update(updatedTenant);
@@ -171,10 +166,6 @@ export default function TerminateLeaseDialog({ open, setOpen, tenantList }) {
                     name="terminationDate"
                     minDate={minMaxDates.minDate}
                     maxDate={minMaxDates.maxDate}
-                  />
-                  <NumberField
-                    label={t('Amount of the deposit refund')}
-                    name="guarantyPayback"
                   />
                 </div>
               </Form>

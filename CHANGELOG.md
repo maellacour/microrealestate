@@ -6,11 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Security-deposit refund tracking. The lease end now carries a legal refund deadline (2 months after the effective end date) and a status — to refund / overdue / refunded — shown in the "Outgoing tenants" accounting view and exported in its CSV.
+- New contract template variables for building a "solde de tout compte" (final settlement) document: `{{lease.terminationDate}}`, `{{lease.depositRefund}}`, `{{lease.depositToRefund}}`, `{{lease.depositRefundDate}}`, `{{lease.depositRefundDueDate}}`.
+
 ### Changed
 
 - Tenant contact's name field renamed from `contact` to `name` in the database, to match the landlord (Realm) contacts schema. Existing records are migrated automatically on API startup.
 - Harmonized the date pickers in the contract/lease form. The lease form now uses the same calendar date picker (shadcn) as the rest of the app instead of the legacy Material-UI one, so the termination date, lease dates, and per-property dates are consistent with the termination dialog and other screens.
 - Rent is now prorated for partial periods (pro rata temporis). A tenant entering or leaving mid-month — or a lease terminated early — is billed only for the days actually occupied, instead of a full month. Full periods are unchanged.
+- Terminating a lease now only sets the termination date. The deposit refund (amount and date) is recorded separately, afterwards, in the lease form's Termination section — you no longer have to guess the refund amount at termination time (before the exit inventory).
 
 ### Fixed
 

@@ -13,6 +13,8 @@
   "Properties": "Biens",
   "Reference": "Référence",
   "Refunded deposit": "Remboursement du dépôt de garantie",
+  "Deposit refund due date": "Date limite de restitution du dépôt",
+  "Deposit still to refund": "Dépôt restant à restituer",
   "Tenant": "Locataire",
   "transfer": "Virement"
 }

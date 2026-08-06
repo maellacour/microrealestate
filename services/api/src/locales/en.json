@@ -13,6 +13,8 @@
   "Properties": "Properties",
   "Reference": "Reference",
   "Refunded deposit": "Refunded deposit",
+  "Deposit refund due date": "Deposit refund due date",
+  "Deposit still to refund": "Deposit still to refund",
   "Tenant": "Tenant",
   "transfer": "Transfer"
 }

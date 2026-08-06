@@ -85,7 +85,8 @@ const validationSchema = Yup.object().shape({
     )
     .min(1),
   guaranty: Yup.number().min(0).required(),
-  guarantyPayback: Yup.number().min(0)
+  guarantyPayback: Yup.number().min(0),
+  guarantyPaybackDate: Yup.date().nullable()
 });
 
 const emptyExpense = () => ({
@@ -147,7 +148,10 @@ const initValues = (tenant) => {
           }
         ],
     guaranty: tenant?.guaranty || 0,
-    guarantyPayback: tenant?.guarantyPayback || 0
+    guarantyPayback: tenant?.guarantyPayback || 0,
+    guarantyPaybackDate: tenant?.guarantyPaybackDate
+      ? moment(tenant.guarantyPaybackDate, 'DD/MM/YYYY')
+      : null
   };
 };
 
@@ -227,6 +231,8 @@ function LeaseContractForm({ readOnly, onSubmit }) {
         terminationDate: lease.terminationDate?.format('DD/MM/YYYY') || '',
         guaranty: lease.guaranty || 0,
         guarantyPayback: lease.guarantyPayback || 0,
+        guarantyPaybackDate:
+          lease.guarantyPaybackDate?.format('DD/MM/YYYY') || '',
         properties: lease.properties
           .filter((property) => !!property._id)
           .map((property) => {
@@ -312,6 +318,12 @@ function LeaseContractForm({ readOnly, onSubmit }) {
                 <NumberField
                   label={t('Amount of the deposit refund')}
                   name="guarantyPayback"
+                  disabled={readOnly}
+                />
+                <DateField
+                  label={t('Deposit refund date')}
+                  name="guarantyPaybackDate"
+                  minDate={values.terminationDate}
                   disabled={readOnly}
                 />
               </Section>

@@ -1,4 +1,5 @@
 import { Collections } from '@microrealestate/common';
+import { depositRefundInfo } from '../businesslogic/deposit.js';
 import i18n from 'i18n';
 import moment from 'moment';
 import { Parser } from 'json2csv';
@@ -184,6 +185,13 @@ function _outgoingTenants(tenants, locale, currency, rawData = true) {
             total: { grandTotal: 0 }
           };
 
+      const refund = depositRefundInfo({
+        guaranty: tenant.guaranty,
+        guarantyPayback: tenant.guarantyPayback,
+        guarantyPaybackDate: tenant.guarantyPaybackDate,
+        leaseEnd: tenant.terminationDate || tenant.endDate
+      });
+
       return {
         _id: tenant._id,
         name: tenant.name,
@@ -194,6 +202,18 @@ function _outgoingTenants(tenants, locale, currency, rawData = true) {
         terminationDate,
         guaranty: NumberFormat.format(tenant.guaranty || 0),
         guarantyPayback: NumberFormat.format(tenant.guarantyPayback || 0),
+        guarantyPaybackDate: rawData
+          ? tenant.guarantyPaybackDate
+          : tenant.guarantyPaybackDate
+            ? moment(tenant.guarantyPaybackDate).locale(locale).format('L')
+            : '',
+        depositToRefund: NumberFormat.format(refund.remaining),
+        depositRefundStatus: refund.status,
+        depositRefundDueDate: rawData
+          ? refund.dueDate
+          : refund.dueDate
+            ? moment(refund.dueDate).locale(locale).format('L')
+            : '',
         balance: NumberFormat.format(
           (lastRent.total.payment ? lastRent.total.payment : 0) -
             lastRent.total.grandTotal
@@ -384,6 +404,14 @@ async function outgoingTenantsAsCsv(req, res) {
     {
       label: i18n.__('Refunded deposit'),
       value: 'guarantyPayback'
+    },
+    {
+      label: i18n.__('Deposit refund due date'),
+      value: 'depositRefundDueDate'
+    },
+    {
+      label: i18n.__('Deposit still to refund'),
+      value: 'depositToRefund'
     },
     {
       label: i18n.__('Last rent balance'),

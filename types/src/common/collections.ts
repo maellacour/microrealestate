@@ -265,6 +265,7 @@ export namespace CollectionTypes {
     discount: number;
     guaranty: number;
     guarantyPayback: number;
+    guarantyPaybackDate: Date;
 
     stepperMode: boolean;
   };

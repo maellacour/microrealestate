@@ -10,6 +10,12 @@ import { StoreContext } from '../../store';
 import { useContext } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 
+const DEPOSIT_STATUS_LABEL = {
+  pending: 'Deposit to refund',
+  overdue: 'Deposit refund overdue',
+  settled: 'Deposit refunded'
+};
+
 export default function OutgoingTenants({ onCSVClick }) {
   const { t } = useTranslation('common');
   const store = useContext(StoreContext);
@@ -69,6 +75,32 @@ export default function OutgoingTenants({ onCSVClick }) {
                   <NumberFormat value={tenant.guarantyPayback} />
                 </div>
               </div>
+              {tenant.depositRefundStatus &&
+              tenant.depositRefundStatus !== 'notApplicable' ? (
+                <div>
+                  <div className="text-muted-foreground text-xs">
+                    {t(DEPOSIT_STATUS_LABEL[tenant.depositRefundStatus])}
+                  </div>
+                  <div
+                    className={cn(
+                      tenant.depositRefundStatus === 'overdue' &&
+                        'text-destructive'
+                    )}
+                  >
+                    {t('by {{date}}', {
+                      date: tenant.depositRefundDueDate
+                        ? moment(tenant.depositRefundDueDate).format('L')
+                        : ''
+                    })}
+                    {tenant.depositRefundStatus !== 'settled' ? (
+                      <>
+                        {' · '}
+                        <NumberFormat value={tenant.depositToRefund} />
+                      </>
+                    ) : null}
+                  </div>
+                </div>
+              ) : null}
               <div>
                 <div className="text-muted-foreground text-xs">
                   {t('Last rent balance')}

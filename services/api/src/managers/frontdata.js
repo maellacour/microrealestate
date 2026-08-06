@@ -267,6 +267,12 @@ export function toOccupantData(inputOccupant) {
     );
   }
 
+  if (occupant.guarantyPaybackDate) {
+    occupant.guarantyPaybackDate = moment(occupant.guarantyPaybackDate).format(
+      'DD/MM/YYYY'
+    );
+  }
+
   occupant.contactEmails =
     occupant.contacts && occupant.contacts.length
       ? occupant.contacts.reduce((acc, { email }) => {
