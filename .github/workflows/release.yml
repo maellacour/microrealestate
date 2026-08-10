@@ -1,8 +1,9 @@
 name: Release
 
-on: 
-  release:
-    types: [published]
+on:
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   
@@ -13,7 +14,7 @@ jobs:
     steps:
       - name: Get tag
         run: |
-         TAG=${{ github.event.release.tag_name }}
+         TAG=${{ github.ref_name }}
          echo "RELEASE_TAG=${TAG#v}" >> $GITHUB_ENV
     
       - name: Checkout
@@ -41,8 +42,8 @@ jobs:
       - name: Upload commands in release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.event.release.tag_name }}
-          name: ${{ github.event.release.tag_name }}
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
           files: |
            ./mre-linux-x64.tar.gz
            ./mre-macos-x64.tar.gz
@@ -51,6 +52,9 @@ jobs:
 
   build-push-images:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     strategy:
       matrix:
         include:
@@ -85,7 +89,7 @@ jobs:
     steps:
         - name: Get tag
           run: |
-           TAG=${{ github.event.release.tag_name }}
+           TAG=${{ github.ref_name }}
            echo "RELEASE_TAG=${TAG#v}" >> $GITHUB_ENV
 
         - name: Checkout
