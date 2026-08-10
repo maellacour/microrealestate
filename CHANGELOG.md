@@ -24,6 +24,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Tenant contact phone number is now saved. The tenant form used `phone1`/`phone2` fields that the database model (single `phone`) silently dropped; the form now uses a single `phone` field that matches the model.
 - Clearer validation messages for the contract termination date, and removed a few edge-case crashes in the lease form (unset dates when opening the termination picker or submitting an expense with no dates).
 - A property expense with no date window is now billed on every term (previously it was silently dropped from the rent).
+- Recording a rent payment no longer fails with a `CastError` for tenants whose embedded property snapshot has a shape Mongoose can't re-cast (e.g. string entry/exit dates). Only the computed `rents` are persisted now, instead of rewriting the whole document. (ported from jpfrehe's fork)
+
+### Security
+
+- Bumped `axios` from 1.8.4 to 1.19.0 across all services and frontends (SSRF and credential-leak fixes).
 
 ## [1.1.0]
 

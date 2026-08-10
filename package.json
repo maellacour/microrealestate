@@ -59,7 +59,7 @@
     "prettier": "3.5.2"
   },
   "resolutions": {
-    "axios": "1.8.4",
+    "axios": "1.19.0",
     "braces": "3.0.3",
     "cross-spawn": "7.0.5",
     "esbuild": "0.25.0",
