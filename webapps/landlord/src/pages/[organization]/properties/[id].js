@@ -14,6 +14,7 @@ import moment from 'moment';
 import NumberFormat from '../../../components/NumberFormat';
 import { observer } from 'mobx-react-lite';
 import Page from '../../../components/Page';
+import PropertyExpenses from '../../../components/properties/PropertyExpenses';
 import PropertyForm from '../../../components/properties/PropertyForm';
 import ShortcutButton from '../../../components/ShortcutButton';
 import { StoreContext } from '../../../store';
@@ -199,12 +200,24 @@ function Property() {
               <TabsTrigger value="property" className="w-1/2">
                 {t('Property')}
               </TabsTrigger>
+              {store.property.selected._id ? (
+                <TabsTrigger value="expenses" className="w-1/2">
+                  {t('Expenses')}
+                </TabsTrigger>
+              ) : null}
             </TabsList>
             <TabsContent value="property">
               <Card className="p-6">
                 <PropertyForm onSubmit={onSubmit} />
               </Card>
             </TabsContent>
+            {store.property.selected._id ? (
+              <TabsContent value="expenses">
+                <Card className="p-6">
+                  <PropertyExpenses propertyId={store.property.selected._id} />
+                </Card>
+              </TabsContent>
+            ) : null}
           </Tabs>
           <div className="hidden md:grid grid-cols-1 gap-4 h-fit">
             <PropertyOverviewCard />

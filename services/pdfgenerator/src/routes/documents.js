@@ -202,11 +202,36 @@ async function _getTemplateValues(organization, tenantId, leaseId) {
       timeRange: lease?.timeRange,
       beginDate: moment(tenant.beginDate).format('LL'),
       endDate: moment(tenant.endDate).format('LL'),
+      terminationDate: tenant.terminationDate
+        ? moment(tenant.terminationDate).format('LL')
+        : '',
       deposit: Format.formatCurrency(
         organization.locale,
         organization.currency,
         tenant.guaranty || 0
-      )
+      ),
+      depositRefund: Format.formatCurrency(
+        organization.locale,
+        organization.currency,
+        tenant.guarantyPayback || 0
+      ),
+      depositToRefund: Format.formatCurrency(
+        organization.locale,
+        organization.currency,
+        Math.round(
+          ((tenant.guaranty || 0) - (tenant.guarantyPayback || 0)) * 100
+        ) / 100
+      ),
+      depositRefundDate: tenant.guarantyPaybackDate
+        ? moment(tenant.guarantyPaybackDate).format('LL')
+        : '',
+      // Legal maximum: deposit returned within 2 months of the lease end.
+      depositRefundDueDate:
+        tenant.terminationDate || tenant.endDate
+          ? moment(tenant.terminationDate || tenant.endDate)
+              .add(2, 'months')
+              .format('LL')
+          : ''
     }
   };
   return templateValues;

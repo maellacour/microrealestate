@@ -237,7 +237,7 @@ export namespace CollectionTypes {
     city: string;
     country: string;
     contacts: {
-      contact: string;
+      name: string;
       phone: string;
       email: string;
     }[];
@@ -265,7 +265,30 @@ export namespace CollectionTypes {
     discount: number;
     guaranty: number;
     guarantyPayback: number;
+    guarantyPaybackDate: Date;
 
     stepperMode: boolean;
+  };
+
+  export type ExpenseCategory =
+    | 'works'
+    | 'insurance'
+    | 'property_tax'
+    | 'condo_charges'
+    | 'management_fees'
+    | 'loan_interest'
+    | 'other';
+
+  export type Expense = {
+    _id: string;
+    realmId: string;
+    propertyId: string;
+    category: ExpenseCategory;
+    amount: number;
+    date: Date;
+    description: string;
+    documentId?: string;
+    createdDate: Date;
+    updatedDate: Date;
   };
 }

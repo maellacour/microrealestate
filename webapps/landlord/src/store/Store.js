@@ -5,6 +5,7 @@ import Accounting from './Accounting';
 import AppHistory from './AppHistory';
 import Dashboard from './Dashboard';
 import Document from './Document';
+import Expense from './Expense';
 import Lease from './Lease';
 import moment from 'moment';
 import Organization from './Organization';
@@ -25,6 +26,7 @@ export default class Store {
     this.property = new Property();
     this.template = new Template();
     this.document = new Document();
+    this.expense = new Expense();
     this.dashboard = new Dashboard();
     this.accounting = new Accounting();
 
@@ -37,6 +39,7 @@ export default class Store {
       property: observable,
       template: observable,
       document: observable,
+      expense: observable,
       dashboard: observable,
       accounting: observable,
       appHistory: observable

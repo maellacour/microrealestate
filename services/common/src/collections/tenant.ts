@@ -30,7 +30,7 @@ const TenantSchema = new mongoose.Schema<CollectionTypes.Tenant>({
   // contacts
   contacts: [
     {
-      contact: String,
+      name: String,
       phone: String,
       email: String
     }
@@ -126,6 +126,7 @@ const TenantSchema = new mongoose.Schema<CollectionTypes.Tenant>({
   discount: Number,
   guaranty: Number,
   guarantyPayback: Number,
+  guarantyPaybackDate: Date,
 
   // ui state
   stepperMode: { type: Boolean, default: false }

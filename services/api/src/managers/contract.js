@@ -2,6 +2,13 @@ import * as BL from '../businesslogic/index.js';
 import _ from 'lodash';
 import moment from 'moment';
 
+// contract begin/end/termination can be Date instances or raw 'DD/MM/YYYY'
+// strings; moment() without an explicit format falls back to ambiguous JS
+// Date parsing for strings, which mis-parses any date with day > 12.
+function toContractMoment(date) {
+  return typeof date === 'string' ? moment(date, 'DD/MM/YYYY') : moment(date);
+}
+
 export function create(contract) {
   const supportedFrequencies = ['hours', 'days', 'weeks', 'months', 'years'];
 
@@ -20,11 +27,11 @@ export function create(contract) {
     throw Error('properties not defined or empty');
   }
 
-  const momentBegin = moment(contract.begin);
-  const momentEnd = moment(contract.end);
+  const momentBegin = toContractMoment(contract.begin);
+  const momentEnd = toContractMoment(contract.end);
   let momentTermination;
   if (contract.termination) {
-    momentTermination = moment(contract.termination);
+    momentTermination = toContractMoment(contract.termination);
     if (!momentTermination.isBetween(momentBegin, momentEnd, 'minutes', '[]')) {
       throw Error('termination date is out of the contract time frame');
     }
@@ -69,11 +76,11 @@ export function update(inputContract, modification) {
     ...modification
   };
 
-  const momentBegin = moment(modifiedContract.begin);
-  const momentEnd = moment(modifiedContract.end);
+  const momentBegin = toContractMoment(modifiedContract.begin);
+  const momentEnd = toContractMoment(modifiedContract.end);
   let momentTermination;
   if (modifiedContract.termination) {
-    momentTermination = moment(modifiedContract.termination);
+    momentTermination = toContractMoment(modifiedContract.termination);
   }
 
   // Check possible payments loss
@@ -107,7 +114,7 @@ export function update(inputContract, modification) {
 }
 
 export function renew(contract) {
-  const momentEnd = moment(contract.end);
+  const momentEnd = toContractMoment(contract.end);
   const momentNewEnd = moment(momentEnd).add(
     contract.terms,
     contract.frequency
@@ -128,8 +135,8 @@ export function payTerm(contract, term, settlements) {
     throw Error('cannot pay term, the rents were not generated');
   }
   const current = moment(term, 'YYYYMMDDHH');
-  const momentBegin = moment(contract.begin);
-  const momentEnd = moment(contract.termination || contract.end);
+  const momentBegin = toContractMoment(contract.begin);
+  const momentEnd = toContractMoment(contract.termination || contract.end);
 
   if (!current.isBetween(momentBegin, momentEnd, contract.frequency, '[]')) {
     throw Error('payment term is out of the contract time frame');

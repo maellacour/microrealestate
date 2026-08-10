@@ -34,7 +34,9 @@ AccountSchema.pre('save', function (next) {
     this.createdDate = new Date();
   }
   this.email = this.email.toLowerCase();
-  this.password = bcrypt.hashSync(this.password, 10);
+  if (this.isModified('password')) {
+    this.password = bcrypt.hashSync(this.password, 10);
+  }
   next();
 });
 

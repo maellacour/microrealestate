@@ -1,12 +1,4 @@
 import * as Yup from 'yup';
-import {
-  DateField,
-  NumberField,
-  RangeDateField,
-  SelectField,
-  SubmitButton,
-  TextField
-} from '@microrealestate/commonui/components';
 import { Form, Formik, validateYupSchema, yupToFormErrors } from 'formik';
 import {
   Fragment,
@@ -16,10 +8,18 @@ import {
   useMemo,
   useState
 } from 'react';
+import {
+  NumberField,
+  SelectField,
+  SubmitButton,
+  TextField
+} from '@microrealestate/commonui/components';
 import { ArrayField } from '../../formfields/ArrayField';
+import { DateField } from '../../formfields/DateField';
 import moment from 'moment';
 import { nanoid } from 'nanoid';
 import { observer } from 'mobx-react-lite';
+import { RangeDateField } from '../../formfields/RangeDateField';
 import { Section } from '../../formfields/Section';
 import { StoreContext } from '../../../store';
 import useTranslation from 'next-translate/useTranslation';
@@ -29,8 +29,14 @@ const validationSchema = Yup.object().shape({
   beginDate: Yup.date().required(),
   endDate: Yup.date().required(),
   terminationDate: Yup.date()
-    .min(Yup.ref('beginDate'))
-    .max(Yup.ref('endDate'))
+    .min(
+      Yup.ref('beginDate'),
+      'Termination date must be on or after the start date'
+    )
+    .max(
+      Yup.ref('endDate'),
+      'Termination date must be on or before the end date'
+    )
     .nullable(),
   properties: Yup.array()
     .of(
@@ -79,7 +85,8 @@ const validationSchema = Yup.object().shape({
     )
     .min(1),
   guaranty: Yup.number().min(0).required(),
-  guarantyPayback: Yup.number().min(0)
+  guarantyPayback: Yup.number().min(0),
+  guarantyPaybackDate: Yup.date().nullable()
 });
 
 const emptyExpense = () => ({
@@ -119,11 +126,11 @@ const initValues = (tenant) => {
             key: property.property._id,
             _id: property.property._id,
             rent: property.rent || '',
-            expenses: property.expenses.map((expense) => ({
+            expenses: (property.expenses || []).map((expense) => ({
               ...expense,
               beginDate: moment(expense.beginDate, 'DD/MM/YYYY'),
               endDate: moment(expense.endDate, 'DD/MM/YYYY')
-            })) || [...emptyExpense(), beginDate, endDate],
+            })),
             entryDate: property.entryDate
               ? moment(property.entryDate, 'DD/MM/YYYY')
               : moment(beginDate),
@@ -141,7 +148,10 @@ const initValues = (tenant) => {
           }
         ],
     guaranty: tenant?.guaranty || 0,
-    guarantyPayback: tenant?.guarantyPayback || 0
+    guarantyPayback: tenant?.guarantyPayback || 0,
+    guarantyPaybackDate: tenant?.guarantyPaybackDate
+      ? moment(tenant.guarantyPaybackDate, 'DD/MM/YYYY')
+      : null
   };
 };
 
@@ -221,6 +231,8 @@ function LeaseContractForm({ readOnly, onSubmit }) {
         terminationDate: lease.terminationDate?.format('DD/MM/YYYY') || '',
         guaranty: lease.guaranty || 0,
         guarantyPayback: lease.guarantyPayback || 0,
+        guarantyPaybackDate:
+          lease.guarantyPaybackDate?.format('DD/MM/YYYY') || '',
         properties: lease.properties
           .filter((property) => !!property._id)
           .map((property) => {
@@ -230,8 +242,8 @@ function LeaseContractForm({ readOnly, onSubmit }) {
               expenses: property.expenses.length
                 ? property.expenses.map((expense) => ({
                     ...expense,
-                    beginDate: expense.beginDate.format('DD/MM/YYYY'),
-                    endDate: expense.endDate.format('DD/MM/YYYY')
+                    beginDate: expense.beginDate?.format('DD/MM/YYYY'),
+                    endDate: expense.endDate?.format('DD/MM/YYYY')
                   }))
                 : [],
               entryDate: property.entryDate?.format('DD/MM/YYYY'),
@@ -299,13 +311,19 @@ function LeaseContractForm({ readOnly, onSubmit }) {
                 <DateField
                   label={t('Termination date')}
                   name="terminationDate"
-                  minDate={values.beginDate.toISOString()}
-                  maxDate={values.endDate.toISOString()}
+                  minDate={values.beginDate}
+                  maxDate={values.endDate}
                   disabled={readOnly}
                 />
                 <NumberField
                   label={t('Amount of the deposit refund')}
                   name="guarantyPayback"
+                  disabled={readOnly}
+                />
+                <DateField
+                  label={t('Deposit refund date')}
+                  name="guarantyPaybackDate"
+                  minDate={values.terminationDate}
                   disabled={readOnly}
                 />
               </Section>

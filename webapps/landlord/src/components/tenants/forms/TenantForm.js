@@ -38,8 +38,7 @@ const validationSchema = Yup.object().shape({
     Yup.object().shape({
       contact: Yup.string().required(),
       email: Yup.string().email().required(),
-      phone1: Yup.string(),
-      phone2: Yup.string()
+      phone: Yup.string()
     })
   ),
   address: Yup.object().shape({
@@ -52,7 +51,7 @@ const validationSchema = Yup.object().shape({
   })
 });
 
-const emptyContact = { contact: '', email: '', phone1: '', phone2: '' };
+const emptyContact = { contact: '', email: '', phone: '' };
 
 const initValues = (tenant) => {
   return {
@@ -64,11 +63,10 @@ const initValues = (tenant) => {
     dos: tenant?.rcs || '',
     capital: tenant?.capital || '',
     contacts: tenant?.contacts?.length
-      ? tenant.contacts.map(({ contact, email, phone, phone1, phone2 }) => ({
-          contact,
+      ? tenant.contacts.map(({ name, contact, email, phone }) => ({
+          contact: name || contact || '',
           email,
-          phone1: phone1 || phone,
-          phone2: phone2 || ''
+          phone: phone || ''
         }))
       : [emptyContact],
     address: {
@@ -114,12 +112,11 @@ const TenantForm = observer(({ readOnly, onSubmit }) => {
       country: tenant.address.country,
       contacts: tenant.contacts
         .filter(({ contact }) => !!contact)
-        .map(({ contact, email, phone1, phone2 }) => {
+        .map(({ contact, email, phone }) => {
           return {
-            contact,
+            name: contact,
             email,
-            phone1,
-            phone2
+            phone
           };
         })
     });
@@ -209,8 +206,8 @@ const TenantForm = observer(({ readOnly, onSubmit }) => {
                   <ContactField
                     contactName={`contacts[${index}].contact`}
                     emailName={`contacts[${index}].email`}
-                    phone1Name={`contacts[${index}].phone1`}
-                    phone2Name={`contacts[${index}].phone2`}
+                    phone1Name={`contacts[${index}].phone`}
+                    showPhone2={false}
                     disabled={readOnly}
                   />
                 )}

@@ -1,6 +1,7 @@
 import * as accountingManager from './managers/accountingmanager.js';
 import * as dashboardManager from './managers/dashboardmanager.js';
 import * as emailManager from './managers/emailmanager.js';
+import * as expenseManager from './managers/expensemanager.js';
 import * as leaseManager from './managers/leasemanager.js';
 import * as occupantManager from './managers/occupantmanager.js';
 import * as propertyManager from './managers/propertymanager.js';
@@ -83,6 +84,17 @@ export default function routes() {
     Middlewares.asyncWrapper(propertyManager.remove)
   );
   router.use('/properties', propertiesRouter);
+
+  const expensesRouter = express.Router();
+  expensesRouter.get('/', Middlewares.asyncWrapper(expenseManager.all));
+  expensesRouter.get('/:id', Middlewares.asyncWrapper(expenseManager.one));
+  expensesRouter.post('/', Middlewares.asyncWrapper(expenseManager.add));
+  expensesRouter.patch('/:id', Middlewares.asyncWrapper(expenseManager.update));
+  expensesRouter.delete(
+    '/:ids',
+    Middlewares.asyncWrapper(expenseManager.remove)
+  );
+  router.use('/expenses', expensesRouter);
 
   router.get(
     '/accounting/:year',

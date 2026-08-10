@@ -241,8 +241,12 @@ export function toOccupantData(inputOccupant) {
 
   // set default values for occupant
   Object.assign(occupant, {
-    beginDate: moment(occupant.beginDate).format('DD/MM/YYYY'),
-    endDate: moment(occupant.endDate).format('DD/MM/YYYY'),
+    beginDate: occupant.beginDate
+      ? moment(occupant.beginDate).format('DD/MM/YYYY')
+      : '',
+    endDate: occupant.endDate
+      ? moment(occupant.endDate).format('DD/MM/YYYY')
+      : '',
     frequency: occupant.frequency || 'months',
     street1: occupant.street1 || '',
     street2: occupant.street2 || '',
@@ -267,6 +271,12 @@ export function toOccupantData(inputOccupant) {
     );
   }
 
+  if (occupant.guarantyPaybackDate) {
+    occupant.guarantyPaybackDate = moment(occupant.guarantyPaybackDate).format(
+      'DD/MM/YYYY'
+    );
+  }
+
   occupant.contactEmails =
     occupant.contacts && occupant.contacts.length
       ? occupant.contacts.reduce((acc, { email }) => {
@@ -287,7 +297,7 @@ export function toOccupantData(inputOccupant) {
     occupant.terminationDate || occupant.endDate,
     'DD/MM/YYYY'
   );
-  if (endMoment.isBefore(currentDate, 'day')) {
+  if (endMoment.isValid() && endMoment.isBefore(currentDate, 'day')) {
     occupant.terminated = true;
     occupant.status = 'stopped';
   }

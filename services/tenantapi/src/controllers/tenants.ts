@@ -92,7 +92,7 @@ function _toTenantResponse(
       id: tenant._id,
       name: tenant.name,
       contacts: tenant.contacts.map((contact) => ({
-        name: contact.contact,
+        name: contact.name,
         email: contact.email,
         phone1: contact.phone
       })),

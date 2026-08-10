@@ -156,14 +156,13 @@ Cypress.Commands.add(
       cy.get('input[name="address.state"]').type(state);
       cy.get('input[name="address.country"]').type(country);
     }
-    contacts.forEach(({ name, email, phone1, phone2 }, index) => {
+    contacts.forEach(({ name, email, phone }, index) => {
       if (index > 0) {
         cy.get('button[data-cy=addContactsItem]').click();
       }
       cy.get(`input[name="contacts[${index}].contact"]`).type(name);
       cy.get(`input[name="contacts[${index}].email"]`).type(email);
-      cy.get(`input[name="contacts[${index}].phone1"]`).type(phone1);
-      cy.get(`input[name="contacts[${index}].phone2"]`).type(phone2);
+      cy.get(`input[name="contacts[${index}].phone"]`).type(phone);
     });
     cy.get('[data-cy=submit]').click();
 

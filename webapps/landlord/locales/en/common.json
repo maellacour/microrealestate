@@ -117,6 +117,11 @@
   "Demonstration mode": "Demonstration mode",
   "Deposit": "Deposit",
   "Deposit reimbursement": "Deposit reimbursement",
+  "Deposit refund date": "Deposit refund date",
+  "Deposit to refund": "Deposit to refund",
+  "Deposit refund overdue": "Deposit refund overdue",
+  "Deposit refunded": "Deposit refunded",
+  "by {{date}}": "by {{date}}",
   "Describe the document that will be uploaded when creating the lease": "Describe the document that will be uploaded when creating the lease",
   "Description": "Description",
   "Description (visible to tenant)": "Description (visible to tenant)",
@@ -461,5 +466,20 @@
   "Your account": "Your account",
   "Your account information": "Your account information",
   "Your organizations": "Your organizations",
-  "Zip code": "Zip code"
+  "Zip code": "Zip code",
+  "Edit expense": "Edit expense",
+  "Category": "Category",
+  "No expenses recorded yet": "No expenses recorded yet",
+  "Delete this expense?": "Delete this expense?",
+  "Enter a valid amount": "Enter a valid amount",
+  "Enter a date": "Enter a date",
+  "expenseCategory": {
+    "works": "Works",
+    "insurance": "Insurance (landlord)",
+    "property_tax": "Property tax",
+    "condo_charges": "Condo charges",
+    "management_fees": "Management fees",
+    "loan_interest": "Loan interest",
+    "other": "Other"
+  }
 }

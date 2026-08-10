@@ -3,7 +3,7 @@ name: PR Continuous Integration
 on:
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   setup:

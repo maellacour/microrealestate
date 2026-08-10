@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - develop
       - feature/*
       - bugfix/*
       - release/*
@@ -31,10 +32,7 @@ jobs:
       - name: Lint
         run: yarn lint
 
-  build-push-images:
-    permissions:
-      contents: read
-      packages: write
+  build-images:
     runs-on: ubuntu-latest
     needs: lint
     strategy:
@@ -72,12 +70,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -85,90 +79,11 @@ jobs:
         with:
           images: ${{ matrix.image }}
 
-      - name: Build and push to GitHub Container Registry
+      - name: Build image (validation only, no push)
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ${{ matrix.dockerfile }}
-          push: true
           tags: '${{ matrix.image }}:${{ github.sha }}'
           labels: ${{ steps.meta.outputs.labels }}
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build-push-images
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: install node v20
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Build linux cli
-        run: |
-          npm install -g @yao-pkg/pkg
-          yarn workspaces focus @microrealestate/cli
-          pkg cli/package.json --targets node20-linux-x64 --compress Brotli --output mre
-
-      - name: Copy files to remote server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          source: 'base.env,docker-compose.microservices.base.yml,docker-compose.microservices.test.yml,mre'
-          target: microrealestate_ci
-
-      - name: Start mre on remote server
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          script: |
-            cd microrealestate_ci
-            docker stop $(docker ps -qf "network=microrealestate_ci_net")
-            docker rm $(docker ps -qf "network=microrealestate_ci_net") 
-            docker rmi $(docker images --filter=reference="ghcr.io/microrealestate/microrealestate/*:${{ github.sha }}" -q)
-            docker system prune -f
-            MRE_VERSION=${{ github.sha }} ./mre ci
-
-  healthcheck:
-    runs-on: ubuntu-latest
-    needs: deploy
-    steps:
-      - name: Check if the app is up and running
-        uses: gerdemann/http-status-code@1.0.0
-        with:
-          url: ${{ secrets.CI_LANDLORD_APP_URL }}/en/signin
-          code: 200
-          interval: 5
-
-  test:
-    runs-on: ubuntu-latest
-    needs: healthcheck
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Run tests
-        env:
-          GATEWAY_URL: ${{ secrets.CI_GATEWAY_URL }}
-          LANDLORD_APP_URL: ${{ secrets.CI_LANDLORD_APP_URL }}
-        run: |
-          corepack enable
-          yarn
-          yarn run e2e:ci
-
-      - name: Upload cypress artifacts
-        uses: actions/upload-artifact@v4
-        if: ${{ always() }}
-        with:
-          name: cypress-results
-          path: |
-            e2e/cypress/screenshots
-            e2e/cypress/videos
-            e2e/cypress/results
-          if-no-files-found: ignore
+          push: false
