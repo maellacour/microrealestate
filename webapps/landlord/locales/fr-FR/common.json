@@ -282,7 +282,6 @@
   "Percentage of occupied properties": "Pourcentage de biens occupés",
   "Period": "Période",
   "Phone": "Téléphone",
-  "Phone": "Téléphone",
   "Phone 1": "Téléphone 1",
   "Phone 2": "Téléphone 2",
   "Port": "Port",
@@ -467,5 +466,20 @@
   "Your account": "Votre compte",
   "Your account information": "Informations sur votre compte",
   "Your organizations": "Vos organisations",
-  "Zip code": "Code postal"
+  "Zip code": "Code postal",
+  "Edit expense": "Modifier la charge",
+  "Category": "Catégorie",
+  "No expenses recorded yet": "Aucune charge enregistrée",
+  "Delete this expense?": "Supprimer cette charge ?",
+  "Enter a valid amount": "Saisissez un montant valide",
+  "Enter a date": "Saisissez une date",
+  "expenseCategory": {
+    "works": "Travaux",
+    "insurance": "Assurance (PNO)",
+    "property_tax": "Taxe foncière",
+    "condo_charges": "Charges de copropriété",
+    "management_fees": "Frais de gestion",
+    "loan_interest": "Intérêts d'emprunt",
+    "other": "Autre"
+  }
 }

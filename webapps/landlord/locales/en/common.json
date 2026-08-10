@@ -282,7 +282,6 @@
   "Percentage of occupied properties": "Percentage of occupied properties",
   "Period": "Period",
   "Phone": "Phone",
-  "Phone": "Phone",
   "Phone 1": "Phone 1",
   "Phone 2": "Phone 2",
   "Port": "Port",
@@ -467,5 +466,20 @@
   "Your account": "Your account",
   "Your account information": "Your account information",
   "Your organizations": "Your organizations",
-  "Zip code": "Zip code"
+  "Zip code": "Zip code",
+  "Edit expense": "Edit expense",
+  "Category": "Category",
+  "No expenses recorded yet": "No expenses recorded yet",
+  "Delete this expense?": "Delete this expense?",
+  "Enter a valid amount": "Enter a valid amount",
+  "Enter a date": "Enter a date",
+  "expenseCategory": {
+    "works": "Works",
+    "insurance": "Insurance (landlord)",
+    "property_tax": "Property tax",
+    "condo_charges": "Condo charges",
+    "management_fees": "Management fees",
+    "loan_interest": "Loan interest",
+    "other": "Other"
+  }
 }

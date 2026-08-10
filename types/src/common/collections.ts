@@ -269,4 +269,26 @@ export namespace CollectionTypes {
 
     stepperMode: boolean;
   };
+
+  export type ExpenseCategory =
+    | 'works'
+    | 'insurance'
+    | 'property_tax'
+    | 'condo_charges'
+    | 'management_fees'
+    | 'loan_interest'
+    | 'other';
+
+  export type Expense = {
+    _id: string;
+    realmId: string;
+    propertyId: string;
+    category: ExpenseCategory;
+    amount: number;
+    date: Date;
+    description: string;
+    documentId?: string;
+    createdDate: Date;
+    updatedDate: Date;
+  };
 }
