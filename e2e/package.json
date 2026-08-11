@@ -1,6 +1,6 @@
 {
   "name": "@microrealestate/e2e",
-  "version": "1.0.0",
+  "version": "1.2.1",
   "description": "MicroRealEstate e2e tests",
   "private": true,
   "scripts": {
@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,json,css}'"
   },
-  "author": "Camel Aissani",
+  "author": "Mael Lacour",
   "license": "MIT",
   "devDependencies": {
     "cypress": "14.4.1",

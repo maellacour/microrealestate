@@ -48,10 +48,7 @@ export default function taskBase(
         // Effective exit for this term: the property exit date, brought forward
         // to the early-termination date when the lease is terminated early.
         const exitBound = contract.termination
-          ? moment.min(
-              moment(property.exitDate),
-              moment(contract.termination)
-            )
+          ? moment.min(moment(property.exitDate), moment(contract.termination))
           : moment(property.exitDate);
 
         // Prorate the first/last partial periods (pro rata temporis).

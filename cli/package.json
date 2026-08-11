@@ -1,6 +1,6 @@
 {
   "name": "@microrealestate/cli",
-  "version": "1.0.0",
+  "version": "1.2.1",
   "description": "The MicroRealEstate CLI",
   "main": "src/index.js",
   "private": true,
@@ -20,7 +20,7 @@
       "node20-win-x64"
     ]
   },
-  "author": "Camel Aissani",
+  "author": "Mael Lacour",
   "license": "MIT",
   "dependencies": {
     "chalk": "4.1.2",
