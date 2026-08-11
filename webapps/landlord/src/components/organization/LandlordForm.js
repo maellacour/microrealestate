@@ -16,7 +16,14 @@ import {
   TextField,
   UploadField
 } from '@microrealestate/commonui/components';
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import cc from 'currency-codes';
 import config from '../../config';
@@ -388,7 +395,9 @@ export default function LandlordForm({ organization, firstAccess }) {
                     disabled={signatureUploading || signatureRemoving}
                   />
                   <SignatureFilePreview
-                    file={values.signature instanceof File ? values.signature : null}
+                    file={
+                      values.signature instanceof File ? values.signature : null
+                    }
                   />
                 </>
               ) : null}

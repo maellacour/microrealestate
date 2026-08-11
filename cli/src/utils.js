@@ -146,8 +146,6 @@ async function runCompose(
     process.env.BUILDKIT_PROGRESS = 'plain';
   }
 
-
-
   // set NODE_ENV environment variable according to runMode
   process.env.NODE_ENV = 'development';
   if (composeOptions.runMode === 'prod') {
