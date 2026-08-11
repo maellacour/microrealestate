@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-08-11
+
 ### Fixed
 
 - All the chromium features the pdfgenerator means to turn off are now actually turned off. The launch arguments passed eleven separate `--disable-features` flags, but chromium only honours the last one, so only `site-per-process` was ever disabled. They are now merged into a single flag.

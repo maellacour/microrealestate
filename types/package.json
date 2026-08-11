@@ -1,6 +1,6 @@
 {
   "name": "@microrealestate/types",
-  "version": "1.0.0",
+  "version": "1.2.1",
   "description": "Typescript types for the MicroRealEstate application'",
   "author": "Camel Aissani",
   "license": "MIT",

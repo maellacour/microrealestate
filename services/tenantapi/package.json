@@ -1,6 +1,6 @@
 {
   "name": "@microrealestate/tenantapi",
-  "version": "1.0.0",
+  "version": "1.2.1",
   "description": "Api for tenant user interface",
   "author": "Camel Aissani",
   "license": "MIT",

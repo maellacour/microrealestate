@@ -1,6 +1,6 @@
 {
   "name": "@microrealestate/authenticator",
-  "version": "1.0.0",
+  "version": "1.2.1",
   "description": "Authenticator service",
   "main": "./src/index.js",
   "private": true,
