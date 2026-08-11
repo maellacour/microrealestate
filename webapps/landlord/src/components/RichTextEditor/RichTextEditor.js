@@ -58,7 +58,7 @@ const RichTextEditor = ({
         inline: true,
         allowBase64: true,
         HTMLAttributes: {
-          class: 'editor-image',
+          class: 'editor-image'
         }
       }),
       TemplateNode.configure({

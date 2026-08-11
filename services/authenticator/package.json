@@ -1,6 +1,6 @@
 {
   "name": "@microrealestate/authenticator",
-  "version": "1.0.0",
+  "version": "1.2.1",
   "description": "Authenticator service",
   "main": "./src/index.js",
   "private": true,
@@ -28,7 +28,7 @@
     "refresh token",
     "authentication"
   ],
-  "author": "Camel Aissani",
+  "author": "Mael Lacour",
   "license": "MIT",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "7.15.0",
