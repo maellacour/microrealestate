@@ -33,8 +33,8 @@ export async function start() {
 
 export async function exit() {
   const { TEMPORARY_DIRECTORY } = Service.getInstance().envConfig.getValues();
-  fs.rmSync(TEMPORARY_DIRECTORY);
-  await settings['pdf engine'].exit();
+  fs.rmSync(TEMPORARY_DIRECTORY, { recursive: true, force: true });
+  await settings['pdf engine'].stop();
 }
 
 export async function generate(documentId, params) {
