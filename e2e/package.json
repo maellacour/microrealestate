@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,json,css}'"
   },
-  "author": "Camel Aissani",
+  "author": "Mael Lacour",
   "license": "MIT",
   "devDependencies": {
     "cypress": "14.4.1",

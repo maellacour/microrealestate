@@ -28,7 +28,7 @@
     "gmail",
     "mailgun"
   ],
-  "author": "Camel Aissani",
+  "author": "Mael Lacour",
   "license": "MIT",
   "dependencies": {
     "@microrealestate/common": "*",

@@ -2,7 +2,7 @@
   "name": "@microrealestate/common",
   "version": "1.2.1",
   "description": "Common modules required by the MicroRealEstate services'",
-  "author": "Camel Aissani",
+  "author": "Mael Lacour",
   "license": "MIT",
   "type": "module",
   "private": true,

@@ -20,7 +20,7 @@
       "node20-win-x64"
     ]
   },
-  "author": "Camel Aissani",
+  "author": "Mael Lacour",
   "license": "MIT",
   "dependencies": {
     "chalk": "4.1.2",

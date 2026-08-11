@@ -2,7 +2,7 @@
   "name": "@microrealestate/commonui",
   "version": "1.2.1",
   "description": "Common modules required for the MicroRealEstate application'",
-  "author": "Camel Aissani",
+  "author": "Mael Lacour",
   "license": "MIT",
   "private": true,
   "dependencies": {

@@ -2,7 +2,7 @@
   "name": "@microrealestate/gateway",
   "version": "1.2.1",
   "description": "Microservices gateway",
-  "author": "Camel Aissani",
+  "author": "Mael Lacour",
   "license": "MIT",
   "type": "module",
   "private": true,

@@ -22,7 +22,7 @@
     "lint": "npm-run-all transpile eslint",
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,json,css}'"
   },
-  "author": "Camel Aissani",
+  "author": "Mael Lacour",
   "license": "MIT",
   "dependencies": {
     "@microrealestate/common": "*",

@@ -2,7 +2,7 @@
   "name": "@microrealestate/resetservice",
   "version": "1.2.1",
   "description": "Service which allows to reset the MicroRealEstate databases",
-  "author": "Camel Aissani",
+  "author": "Mael Lacour",
   "license": "MIT",
   "type": "module",
   "private": true,
