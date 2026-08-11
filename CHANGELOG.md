@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- Document generation now recovers on its own when chromium fails to start. Previously, if chromium could not be launched at startup the error was only logged, the service still reported itself as ready, and every document request failed with "chromium has not been started" until the container was restarted by hand. The engine is now retried on the next document request.
 - The landlord and tenant frontends no longer fail with an Internal Error (HTTP 500) on every page. The axios 1.19.0 bump pulled in `get-intrinsic` 1.3.1, whose new `async-function` / `async-generator-function` / `generator-function` dependencies use a `module-sync` conditional export that Next.js standalone file-tracing does not follow, so the file it points at was missing from the built image. `get-intrinsic` is pinned to 1.3.0, which does not have those dependencies.
 
 ## [1.2.0] - 2026-08-10

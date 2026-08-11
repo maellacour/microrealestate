@@ -104,6 +104,11 @@ export async function stop() {
 
 export async function generate(documentId, html, fileName) {
   if (!BROWSER.INSTANCE) {
+    logger.warn('chromium is not running, trying to start it again');
+    await start();
+  }
+
+  if (!BROWSER.INSTANCE) {
     throw new Error('chromium has not been started');
   }
 
