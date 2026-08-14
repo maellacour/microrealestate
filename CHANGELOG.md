@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Security-deposit refund now records how it was paid back, alongside the amount and date. The lease "Termination" section gained a refund method (transfer, cheque, cash, levy), a reference (hidden for cash payments) and a landlord-only note.
+
 ### Fixed
 
 - Tenant phone number in document templates. The template field picker still offered two tenant phone markers (`{{tenant.contacts.[0].phone1}}` / `phone2`) left over from the old two-field form; since the tenant contact now stores a single `phone`, both always rendered empty. Replaced them with a single working `{{tenant.contacts.[0].phone}}` marker. Templates already using the old `phone1`/`phone2` markers must be re-inserted with the new one.
