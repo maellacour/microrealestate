@@ -100,6 +100,7 @@ function Tenants() {
           { id: 'inprogress', label: t('Lease running') },
           { id: 'stopped', label: t('Lease ended') }
         ]}
+        defaultFilterIds={['inprogress']}
         filterFn={_filterData}
         renderActions={() => (
           <Button

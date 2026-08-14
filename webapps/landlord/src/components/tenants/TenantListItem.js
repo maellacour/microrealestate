@@ -16,6 +16,7 @@ import { StoreContext } from '../../store';
 import TenantAvatar from './TenantAvatar';
 import TenantPropertyList from './TenantPropertyList';
 import TenantStatus from './TenantStatus';
+import useFormatNumber from '../../hooks/useFormatNumber';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 
@@ -23,6 +24,7 @@ export default function TenantListItem({ tenant }) {
   const router = useRouter();
   const store = useContext(StoreContext);
   const { t } = useTranslation('common');
+  const formatNumber = useFormatNumber();
 
   const handleClick = useCallback(async () => {
     store.tenant.setSelected(tenant);
@@ -51,6 +53,27 @@ export default function TenantListItem({ tenant }) {
       return Math.round((elapsed / duration) * 100);
     }
     return 0;
+  }, [tenant.beginDate, tenant.endDate, tenant.terminationDate]);
+
+  // elapsed tenancy duration (capped at lease end for terminated leases)
+  const tenancy = useMemo(() => {
+    if (!tenant.beginDate) {
+      return null;
+    }
+    const startDate = moment(tenant.beginDate, 'DD/MM/YYYY');
+    const now = moment();
+    if (startDate.isSame(now, 'day')) {
+      return { today: true };
+    }
+    const endDate = moment(
+      tenant.terminationDate || tenant.endDate,
+      'DD/MM/YYYY'
+    );
+    const until = endDate.isValid() && endDate.isBefore(now) ? endDate : now;
+    return {
+      today: false,
+      duration: moment.duration(until.diff(startDate)).humanize()
+    };
   }, [tenant.beginDate, tenant.endDate, tenant.terminationDate]);
 
   return (
@@ -100,6 +123,22 @@ export default function TenantListItem({ tenant }) {
                 })
               : null}
           </div>
+          {tenant.beginDate ? (
+            <div className="flex justify-between gap-2 text-xs mt-2">
+              <span>
+                {tenancy?.today
+                  ? t('Tenant since today')
+                  : t('Tenant for {{duration}}', {
+                      duration: tenancy?.duration
+                    })}
+              </span>
+              <span>
+                {t('Total paid: {{amount}}', {
+                  amount: formatNumber(tenant.totalPaid || 0)
+                })}
+              </span>
+            </div>
+          ) : null}
         </div>
         <TenantPropertyList tenant={tenant} className="mt-6" />
       </CardContent>

@@ -80,13 +80,18 @@ function FilterBar({ filters, selectedFilterIds, onChange }) {
   );
 }
 
-export default function SearchFilterBar({ filters = [], onSearch, className }) {
+export default function SearchFilterBar({
+  filters = [],
+  defaultFilterIds = [],
+  onSearch,
+  className
+}) {
   const { t } = useTranslation('common');
   const router = useRouter();
   const [, startTransition] = useTransition();
   const [searchText, setSearchText] = useState(router.query.search || '');
   const [selectedFilterIds, setSelectedFilterIds] = useState(
-    router.query.statuses?.split(',') || []
+    router.query.statuses?.split(',') || defaultFilterIds
   );
 
   useEffect(() => {

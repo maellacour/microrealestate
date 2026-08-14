@@ -380,6 +380,16 @@ export function toOccupantData(inputOccupant) {
           rent.discounts.some((discount) => discount.origin === 'settlement')
       )
     : false;
+  occupant.totalPaid = occupant.rents
+    ? occupant.rents.reduce(
+        (total, rent) =>
+          total +
+          (rent.payments
+            ? rent.payments.reduce((sum, { amount }) => sum + (amount || 0), 0)
+            : 0),
+        0
+      )
+    : 0;
   delete occupant.rents;
   return occupant;
 }
