@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-08-14
+
 ### Added
 
 - Security-deposit refund now records how it was paid back, alongside the amount and date. The lease "Termination" section gained a refund method (transfer, cheque, cash, levy), a reference (hidden for cash payments) and a landlord-only note.
