@@ -21,6 +21,7 @@ function _computeChunks(chunkSize, data = []) {
 export default function List({
   data,
   filters,
+  defaultFilterIds,
   filterFn,
   renderActions,
   renderList
@@ -52,6 +53,7 @@ export default function List({
     <div className="flex flex-col gap-8">
       <Header
         filters={filters}
+        defaultFilterIds={defaultFilterIds}
         renderActions={renderActions}
         onSearch={handleSearch}
       />

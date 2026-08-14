@@ -120,13 +120,8 @@
     "type": "string"
   },
   {
-    "_id": "tenant_contacts_phone1",
-    "marker": "{{tenant.contacts.[0].phone1}}",
-    "type": "string"
-  },
-  {
-    "_id": "tenant_contacts_phone2",
-    "marker": "{{tenant.contacts.[0].phone2}}",
+    "_id": "tenant_contacts_phone",
+    "marker": "{{tenant.contacts.[0].phone}}",
     "type": "string"
   },
   {

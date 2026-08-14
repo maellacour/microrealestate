@@ -22,6 +22,8 @@ import { observer } from 'mobx-react-lite';
 import { RangeDateField } from '../../formfields/RangeDateField';
 import { Section } from '../../formfields/Section';
 import { StoreContext } from '../../../store';
+import { TextAreaField } from '../../formfields/TextAreaField';
+import usePaymentTypes from '../../../hooks/usePaymentTypes';
 import useTranslation from 'next-translate/useTranslation';
 
 const validationSchema = Yup.object().shape({
@@ -86,7 +88,10 @@ const validationSchema = Yup.object().shape({
     .min(1),
   guaranty: Yup.number().min(0).required(),
   guarantyPayback: Yup.number().min(0),
-  guarantyPaybackDate: Yup.date().nullable()
+  guarantyPaybackDate: Yup.date().nullable(),
+  guarantyPaybackType: Yup.string(),
+  guarantyPaybackReference: Yup.string(),
+  guarantyPaybackNote: Yup.string()
 });
 
 const emptyExpense = () => ({
@@ -151,7 +156,10 @@ const initValues = (tenant) => {
     guarantyPayback: tenant?.guarantyPayback || 0,
     guarantyPaybackDate: tenant?.guarantyPaybackDate
       ? moment(tenant.guarantyPaybackDate, 'DD/MM/YYYY')
-      : null
+      : null,
+    guarantyPaybackType: tenant?.guarantyPaybackType || '',
+    guarantyPaybackReference: tenant?.guarantyPaybackReference || '',
+    guarantyPaybackNote: tenant?.guarantyPaybackNote || ''
   };
 };
 
@@ -168,6 +176,7 @@ export const validate = (tenant) => {
 function LeaseContractForm({ readOnly, onSubmit }) {
   const { t } = useTranslation('common');
   const store = useContext(StoreContext);
+  const paymentTypes = usePaymentTypes();
   const [contractDuration, setContractDuration] = useState();
 
   useEffect(() => {
@@ -233,6 +242,12 @@ function LeaseContractForm({ readOnly, onSubmit }) {
         guarantyPayback: lease.guarantyPayback || 0,
         guarantyPaybackDate:
           lease.guarantyPaybackDate?.format('DD/MM/YYYY') || '',
+        guarantyPaybackType: lease.guarantyPaybackType || '',
+        guarantyPaybackReference:
+          lease.guarantyPaybackType === 'cash'
+            ? ''
+            : lease.guarantyPaybackReference || '',
+        guarantyPaybackNote: lease.guarantyPaybackNote || '',
         properties: lease.properties
           .filter((property) => !!property._id)
           .map((property) => {
@@ -324,6 +339,24 @@ function LeaseContractForm({ readOnly, onSubmit }) {
                   label={t('Deposit refund date')}
                   name="guarantyPaybackDate"
                   minDate={values.terminationDate}
+                  disabled={readOnly}
+                />
+                <SelectField
+                  label={t('Deposit refund method')}
+                  name="guarantyPaybackType"
+                  values={paymentTypes.itemList}
+                  disabled={readOnly}
+                />
+                {values.guarantyPaybackType !== 'cash' && (
+                  <TextField
+                    label={t('Reference')}
+                    name="guarantyPaybackReference"
+                    disabled={readOnly}
+                  />
+                )}
+                <TextAreaField
+                  label={t('Note (only visible to landlord)')}
+                  name="guarantyPaybackNote"
                   disabled={readOnly}
                 />
               </Section>

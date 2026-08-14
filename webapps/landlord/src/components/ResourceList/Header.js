@@ -1,11 +1,17 @@
 import { Card } from '../ui/card';
 import SearchFilterBar from '../SearchFilterBar';
 
-export default function Header({ filters, renderActions, onSearch }) {
+export default function Header({
+  filters,
+  defaultFilterIds,
+  renderActions,
+  onSearch
+}) {
   return (
     <Card className="flex items-center px-6 py-4">
       <SearchFilterBar
         filters={filters}
+        defaultFilterIds={defaultFilterIds}
         onSearch={onSearch}
         className="flex-grow"
       />
