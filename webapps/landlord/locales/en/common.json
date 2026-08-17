@@ -385,6 +385,7 @@
   "Tenant cannot be deleted because some rents have been paid": "Tenant cannot be deleted because some rents have been paid",
   "Tenant does not exist": "Tenant does not exist",
   "Tenant for {{duration}}": "Tenant for {{duration}}",
+  "Tenant in {{duration}}": "Tenant in {{duration}}",
   "Tenant information": "Tenant information",
   "Tenant name is missing": "Tenant name is missing",
   "Tenant reference": "Tenant reference",

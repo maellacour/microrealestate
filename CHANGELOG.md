@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- The tenant card's tenancy duration no longer reads backwards for a tenant whose lease has not started yet. A future begin date now shows "Tenant in {{duration}}" instead of "Tenant for {{duration}}", which previously dropped the sign and claimed the tenant had already been in place.
+
 ## [1.3.0] - 2026-08-14
 
 ### Added

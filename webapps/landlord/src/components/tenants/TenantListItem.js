@@ -65,13 +65,18 @@ export default function TenantListItem({ tenant }) {
     if (startDate.isSame(now, 'day')) {
       return { today: true };
     }
+    if (startDate.isAfter(now, 'day')) {
+      return {
+        future: true,
+        duration: moment.duration(startDate.diff(now)).humanize()
+      };
+    }
     const endDate = moment(
       tenant.terminationDate || tenant.endDate,
       'DD/MM/YYYY'
     );
     const until = endDate.isValid() && endDate.isBefore(now) ? endDate : now;
     return {
-      today: false,
       duration: moment.duration(until.diff(startDate)).humanize()
     };
   }, [tenant.beginDate, tenant.endDate, tenant.terminationDate]);
@@ -128,9 +133,13 @@ export default function TenantListItem({ tenant }) {
               <span>
                 {tenancy?.today
                   ? t('Tenant since today')
-                  : t('Tenant for {{duration}}', {
-                      duration: tenancy?.duration
-                    })}
+                  : tenancy?.future
+                    ? t('Tenant in {{duration}}', {
+                        duration: tenancy?.duration
+                      })
+                    : t('Tenant for {{duration}}', {
+                        duration: tenancy?.duration
+                      })}
               </span>
               <span>
                 {t('Total paid: {{amount}}', {
