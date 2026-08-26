@@ -91,6 +91,22 @@ export async function get(params) {
     hasDeposit: depositHeld > 0,
     netRemaining: round(remaining - depositHeld)
   };
+
+  // How the security deposit was paid at move-in (shown only when recorded).
+  const depositType = data.tenant.guarantyType || '';
+  const depositDate = data.tenant.guarantyDate
+    ? moment(data.tenant.guarantyDate).format('DD/MM/YYYY')
+    : '';
+  const depositReference = data.tenant.guarantyReference || '';
+  data.deposit = {
+    amount: round(data.tenant.guaranty || 0),
+    type: depositType,
+    date: depositDate,
+    reference: depositReference,
+    hasPaymentInfo:
+      round(data.tenant.guaranty || 0) > 0 &&
+      !!(depositType || depositDate || depositReference)
+  };
   data.today = moment().format('DD/MM/YYYY');
   data.fileName = sanitize(`${data.tenant.name}-releve-paiements`);
 

@@ -33,9 +33,12 @@
   .debt { color: #d00; }
   .credit { color: #080; }
   .empty { font-style: italic; color: #777; padding: 4pt 0; }
+  .deposit-info { font-size: 9pt; color: #444; margin: 0 0 6mm; }
+  .deposit-info .label { font-weight: bold; }
 </style>
 
 <body>
+  <% var methodKeys = { transfer: 'Transfer', cheque: 'Cheque', cash: 'Cash', levy: 'Levy' }; %>
   <div class="sh">
     <div class="landlord">
       <% if (typeof logoUrl !== 'undefined' && logoUrl) { %><img src="<%= logoUrl %>"><% } %>
@@ -109,6 +112,13 @@
     </div>
   <% } %>
 
+  <% if (deposit.hasPaymentInfo) { %>
+    <div class="deposit-info">
+      <span class="label"><%= _.t('Security deposit paid') %>:</span>
+      <%= _.formatNumber(deposit.amount, 'currency') %><% if (deposit.date) { %> — <%= _.t('on {{date}}', { date: deposit.date }) %><% } %><% if (deposit.type) { %> — <%= _.t(methodKeys[deposit.type] || deposit.type) %><% } %><% if (deposit.reference) { %> — <%= _.t('ref. {{reference}}', { reference: deposit.reference }) %><% } %>
+    </div>
+  <% } %>
+
   <h2 class="section"><%= _.t('Payment schedule') %></h2>
   <table class="grid">
     <thead>
@@ -144,7 +154,6 @@
 
   <h2 class="section"><%= _.t('Payments received') %></h2>
   <% if (payments.length) { %>
-    <% var methodKeys = { transfer: 'Transfer', cheque: 'Cheque', cash: 'Cash', levy: 'Levy' }; %>
     <table class="grid">
       <thead>
         <tr>
