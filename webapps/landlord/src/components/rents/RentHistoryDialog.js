@@ -5,9 +5,10 @@ import {
 } from '@material-ui/core';
 import { Card, CardContent, CardHeader } from '../ui/card';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '../ui/drawer';
-import { LuChevronsUpDown, LuPencil } from 'react-icons/lu';
+import { LuChevronsUpDown, LuDownload, LuPencil } from 'react-icons/lu';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Button } from '../ui/button';
+import { downloadDocument } from '../../utils/fetch';
 import { getPeriod } from '../../utils';
 import Loading from '../Loading';
 import moment from 'moment';
@@ -193,15 +194,41 @@ export default function RentHistoryDialog({ open, setOpen, data: tenant }) {
   const { t } = useTranslation('common');
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
+  const handleDownloadStatement = useCallback(async () => {
+    if (!tenant?._id) {
+      return;
+    }
+    try {
+      await downloadDocument({
+        endpoint: `/documents/payment_history/${tenant._id}/all`,
+        documentName: `${tenant.name}-${t('Rent payment statement')}.pdf`
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error(t('Something went wrong'));
+    }
+  }, [tenant, t]);
+
   return (
     <Drawer open={open} onOpenChange={setOpen} dismissible={false}>
       <DrawerContent className="w-full h-full p-4">
-        <DrawerHeader className="flex justify-between p-0">
+        <DrawerHeader className="flex justify-between items-center p-0">
           <DrawerTitle className="hidden">{t('Rent schedule')}</DrawerTitle>
           <span className="text-xl font-semibold">{t('Rent schedule')}</span>
-          <Button variant="secondary" onClick={handleClose}>
-            {t('Close')}
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1"
+              onClick={handleDownloadStatement}
+            >
+              <LuDownload className="size-4" />
+              {t('Rent payment statement')}
+            </Button>
+            <Button variant="secondary" onClick={handleClose}>
+              {t('Close')}
+            </Button>
+          </div>
         </DrawerHeader>
         {tenant ? <RentHistory tenantId={tenant._id} /> : null}
       </DrawerContent>

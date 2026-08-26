@@ -108,6 +108,8 @@ export async function getRentsData(params) {
         return acc;
       }, [])
     },
+    guaranty: dbTenant.guaranty || 0,
+    guarantyPayback: dbTenant.guarantyPayback || 0,
     rents
   };
   if (dbTenant.terminationDate) {
