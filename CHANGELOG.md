@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Security deposit received at move-in now records how it was paid, alongside the amount. The lease "Deposit" section gained a payment method (transfer, cheque, cash, levy), a date and a reference (hidden for cash payments).
+
 ### Fixed
 
 - The tenant card's tenancy duration no longer reads backwards for a tenant whose lease has not started yet. A future begin date now shows "Tenant in {{duration}}" instead of "Tenant for {{duration}}", which previously dropped the sign and claimed the tenant had already been in place.
