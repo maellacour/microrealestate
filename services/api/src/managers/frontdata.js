@@ -271,6 +271,10 @@ export function toOccupantData(inputOccupant) {
     );
   }
 
+  if (occupant.guarantyDate) {
+    occupant.guarantyDate = moment(occupant.guarantyDate).format('DD/MM/YYYY');
+  }
+
   if (occupant.guarantyPaybackDate) {
     occupant.guarantyPaybackDate = moment(occupant.guarantyPaybackDate).format(
       'DD/MM/YYYY'

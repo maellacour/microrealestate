@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<%- include('/partials/htmlhead.ejs') %>
+
+<style>
+  body { padding: 12mm 10mm; font: 10pt 'Tahoma'; color: #222; }
+  .sh { display: flex; justify-content: space-between; align-items: flex-start; }
+  .sh .landlord h1 { font-size: 16pt; color: #330066; margin: 2pt 0; }
+  .sh .landlord img { max-height: 16mm; display: block; margin-bottom: 3pt; }
+  .sh .tenant { text-align: right; max-width: 80mm; }
+  .meta { font-size: 9pt; color: #444; line-height: 1.35; }
+  .doc-title { text-align: center; font-size: 15pt; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5pt; margin: 8mm 0 2mm; }
+  .doc-sub { text-align: center; font-size: 9pt; color: #555; margin-bottom: 6mm; }
+  .info { display: flex; gap: 10mm; font-size: 9pt; margin-bottom: 5mm; }
+  .info > div { flex: 1; }
+  .info .label { font-weight: bold; text-transform: uppercase; font-size: 8pt; color: #555; }
+  .summary { display: flex; gap: 5mm; margin: 4mm 0 7mm; }
+  .summary .box { flex: 1; border: 1pt solid #555; padding: 5pt 7pt; }
+  .summary .box .label { font-size: 8pt; text-transform: uppercase; color: #555; }
+  .summary .box .value { font-size: 14pt; font-weight: bold; white-space: nowrap; }
+  .summary .box.debt .value { color: #d00; }
+  .summary .box.credit .value { color: #080; }
+  .net-offset { display: flex; justify-content: flex-end; align-items: baseline; gap: 3mm; margin: -4mm 0 6mm; font-size: 10pt; }
+  .net-offset .net-label { font-weight: bold; margin-left: 5mm; }
+  .net-offset .net-value { font-weight: bold; font-size: 12.5pt; white-space: nowrap; }
+  h2.section { font-size: 11pt; margin: 7mm 0 2mm; border-bottom: 1pt solid #555; padding-bottom: 2pt; }
+  table.grid { width: 100%; border-collapse: collapse; font-size: 9pt; }
+  table.grid th, table.grid td { border: 1pt solid #999; padding: 3pt 5pt; }
+  table.grid th { background: #eee; text-align: left; }
+  table.grid td.num, table.grid th.num { text-align: right; white-space: nowrap; }
+  table.grid tfoot td { font-weight: bold; background: #f4f4f4; }
+  table.grid tr { page-break-inside: avoid; }
+  .debt { color: #d00; }
+  .credit { color: #080; }
+  .empty { font-style: italic; color: #777; padding: 4pt 0; }
+  .deposit-info { font-size: 9pt; color: #444; margin: 0 0 6mm; }
+  .deposit-info .label { font-weight: bold; }
+</style>
+
+<body>
+  <% var methodKeys = { transfer: 'Transfer', cheque: 'Cheque', cash: 'Cash', levy: 'Levy' }; %>
+  <div class="sh">
+    <div class="landlord">
+      <% if (typeof logoUrl !== 'undefined' && logoUrl) { %><img src="<%= logoUrl %>"><% } %>
+      <h1><%= landlord.name %></h1>
+      <% if (landlord.hasAddress) { %>
+        <div class="meta">
+          <%= landlord.addresses[0].street1 %><% if (landlord.addresses[0].street2) { %><br><%= landlord.addresses[0].street2 %><% } %>
+          <br><%= landlord.addresses[0].zipCode %> <%= landlord.addresses[0].city %>
+        </div>
+      <% } %>
+      <% if (landlord.hasBankInfo && landlord.bankInfo.iban) { %>
+        <div class="meta"><%= landlord.bankInfo.name %><br><%= _.t('IBAN') %> <%= landlord.bankInfo.iban %></div>
+      <% } %>
+    </div>
+    <div class="tenant meta">
+      <div class="label" style="font-weight:bold;text-transform:uppercase;font-size:8pt;color:#555;"><%= _.t('Tenant') %></div>
+      <strong><%= tenant.name %></strong>
+      <% if (tenant.addresses[0].street1) { %>
+        <br><%= tenant.addresses[0].street1 %>
+        <% if (tenant.addresses[0].street2) { %><br><%= tenant.addresses[0].street2 %><% } %>
+        <br><%= tenant.addresses[0].zipCode %> <%= tenant.addresses[0].city %>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="doc-title"><%= _.t('Rent payment statement') %></div>
+  <div class="doc-sub"><%= _.t('Statement issued on {{date}}', { date: today }) %></div>
+
+  <div class="info">
+    <div>
+      <div class="label"><%= _.t('Property') %></div>
+      <% if (tenant.contract.properties && tenant.contract.properties.length) { %>
+        <% tenant.contract.properties.forEach(function(p) { if (!p) { return; } %>
+          <%= p.name %><% if (p.address && p.address.street1) { %> — <%= p.address.street1 %>, <%= p.address.zipCode %> <%= p.address.city %><% } %><br>
+        <% }); %>
+      <% } %>
+    </div>
+    <div>
+      <div class="label"><%= _.t('Lease') %></div>
+      <% if (tenant.contract.lease && tenant.contract.lease.name) { %><%= tenant.contract.lease.name %><br><% } %>
+      <% if (tenant.contract.beginDateFmt) { %>
+        <%= _.t('From {{beginDate}} to {{endDate}}', { beginDate: tenant.contract.beginDateFmt, endDate: tenant.contract.endDateFmt }) %><br>
+      <% } %>
+      <% if (tenant.contract.terminationDateFmt) { %>
+        <strong><%= _.t('Terminated on {{date}}', { date: tenant.contract.terminationDateFmt }) %></strong>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="box">
+      <div class="label"><%= _.t('Total charged') %></div>
+      <div class="value"><%= _.formatNumber(summary.totalCharged, 'currency') %></div>
+    </div>
+    <div class="box">
+      <div class="label"><%= _.t('Total paid') %></div>
+      <div class="value"><%= _.formatNumber(summary.totalPaid, 'currency') %></div>
+    </div>
+    <div class="box <%= summary.remaining > 0 ? 'debt' : (summary.remaining < 0 ? 'credit' : '') %>">
+      <div class="label"><%= _.t('Remaining balance') %></div>
+      <div class="value"><%= _.formatNumber(summary.remaining, 'currency') %></div>
+    </div>
+  </div>
+
+  <% if (summary.hasDeposit) { %>
+    <div class="net-offset">
+      <span><%= _.t('Security deposit retained') %></span>
+      <span class="credit">− <%= _.formatNumber(summary.depositHeld, 'currency') %></span>
+      <span class="net-label"><%= _.t('Net amount still due') %></span>
+      <span class="net-value <%= summary.netRemaining > 0 ? 'debt' : (summary.netRemaining < 0 ? 'credit' : '') %>"><%= _.formatNumber(summary.netRemaining, 'currency') %></span>
+    </div>
+  <% } %>
+
+  <% if (deposit.hasPaymentInfo) { %>
+    <div class="deposit-info">
+      <span class="label"><%= _.t('Security deposit paid') %>:</span>
+      <%= _.formatNumber(deposit.amount, 'currency') %><% if (deposit.date) { %> — <%= _.t('on {{date}}', { date: deposit.date }) %><% } %><% if (deposit.type) { %> — <%= _.t(methodKeys[deposit.type] || deposit.type) %><% } %><% if (deposit.reference) { %> — <%= _.t('ref. {{reference}}', { reference: deposit.reference }) %><% } %>
+    </div>
+  <% } %>
+
+  <h2 class="section"><%= _.t('Payment schedule') %></h2>
+  <table class="grid">
+    <thead>
+      <tr>
+        <th><%= _.t('Period') %></th>
+        <th class="num"><%= _.t('Previous balance') %></th>
+        <th class="num"><%= _.t('Amount due') %></th>
+        <th class="num"><%= _.t('Paid') %></th>
+        <th class="num"><%= _.t('Balance') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% schedule.forEach(function(row) { %>
+        <tr>
+          <td><%= _.formatTerm(row.term, timeRange) %></td>
+          <td class="num"><%= _.formatNumber(row.balance, 'currency') %></td>
+          <td class="num"><%= _.formatNumber(row.termDue, 'currency') %></td>
+          <td class="num"><%= _.formatNumber(row.payment, 'currency') %></td>
+          <td class="num <%= row.newBalance > 0 ? 'debt' : (row.newBalance < 0 ? 'credit' : '') %>"><%= _.formatNumber(row.newBalance, 'currency') %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td><%= _.t('Total') %></td>
+        <td class="num"></td>
+        <td class="num"><%= _.formatNumber(summary.totalCharged, 'currency') %></td>
+        <td class="num"><%= _.formatNumber(summary.totalPaid, 'currency') %></td>
+        <td class="num <%= summary.remaining > 0 ? 'debt' : (summary.remaining < 0 ? 'credit' : '') %>"><%= _.formatNumber(summary.remaining, 'currency') %></td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <h2 class="section"><%= _.t('Payments received') %></h2>
+  <% if (payments.length) { %>
+    <table class="grid">
+      <thead>
+        <tr>
+          <th><%= _.t('Date') %></th>
+          <th><%= _.t('Period') %></th>
+          <th><%= _.t('Method') %></th>
+          <th><%= _.t('Reference') %></th>
+          <th class="num"><%= _.t('Amount') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% payments.forEach(function(p) { %>
+          <tr>
+            <td><%= p.date %></td>
+            <td><%= _.formatTerm(p.term, timeRange) %></td>
+            <td><%= _.t(methodKeys[p.type] || p.type) %></td>
+            <td><%= p.reference || '' %></td>
+            <td class="num"><%= _.formatNumber(p.amount, 'currency') %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4"><%= _.t('Total paid') %></td>
+          <td class="num"><%= _.formatNumber(summary.totalPaid, 'currency') %></td>
+        </tr>
+      </tfoot>
+    </table>
+  <% } else { %>
+    <div class="empty"><%= _.t('No payment recorded') %></div>
+  <% } %>
+</body>
+
+</html>

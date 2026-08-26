@@ -22,6 +22,7 @@ function _formatTenant(tenant) {
     beginDate: _stringToDate(tenant.beginDate),
     endDate: _stringToDate(tenant.endDate),
     terminationDate: _stringToDate(tenant.terminationDate),
+    guarantyDate: _stringToDate(tenant.guarantyDate),
     guarantyPaybackDate: _stringToDate(tenant.guarantyPaybackDate),
     properties: tenant.properties?.map((property) => ({
       ...property,

@@ -380,6 +380,7 @@
   "Tenant cannot be deleted because some rents have been paid": "Mieter kann nicht gelöscht werden, da einige Mieten bezahlt wurden",
   "Tenant does not exist": "Mieter existiert nicht",
   "Tenant for {{duration}}": "Mieter seit {{duration}}",
+  "Tenant in {{duration}}": "Mieter in {{duration}}",
   "Tenant information": "Mieterinformationen",
   "Tenant name is missing": "Name des Mieters fehlt",
   "Tenant reference": "Mieter Referenz",

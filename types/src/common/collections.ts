@@ -264,6 +264,9 @@ export namespace CollectionTypes {
     vatRatio: number;
     discount: number;
     guaranty: number;
+    guarantyType: string;
+    guarantyDate: Date;
+    guarantyReference: string;
     guarantyPayback: number;
     guarantyPaybackDate: Date;
     guarantyPaybackType: string;

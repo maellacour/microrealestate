@@ -87,6 +87,9 @@ const validationSchema = Yup.object().shape({
     )
     .min(1),
   guaranty: Yup.number().min(0).required(),
+  guarantyType: Yup.string(),
+  guarantyDate: Yup.date().nullable(),
+  guarantyReference: Yup.string(),
   guarantyPayback: Yup.number().min(0),
   guarantyPaybackDate: Yup.date().nullable(),
   guarantyPaybackType: Yup.string(),
@@ -153,6 +156,11 @@ const initValues = (tenant) => {
           }
         ],
     guaranty: tenant?.guaranty || 0,
+    guarantyType: tenant?.guarantyType || '',
+    guarantyDate: tenant?.guarantyDate
+      ? moment(tenant.guarantyDate, 'DD/MM/YYYY')
+      : null,
+    guarantyReference: tenant?.guarantyReference || '',
     guarantyPayback: tenant?.guarantyPayback || 0,
     guarantyPaybackDate: tenant?.guarantyPaybackDate
       ? moment(tenant.guarantyPaybackDate, 'DD/MM/YYYY')
@@ -239,6 +247,10 @@ function LeaseContractForm({ readOnly, onSubmit }) {
         endDate: lease.endDate?.format('DD/MM/YYYY') || '',
         terminationDate: lease.terminationDate?.format('DD/MM/YYYY') || '',
         guaranty: lease.guaranty || 0,
+        guarantyType: lease.guarantyType || '',
+        guarantyDate: lease.guarantyDate?.format('DD/MM/YYYY') || '',
+        guarantyReference:
+          lease.guarantyType === 'cash' ? '' : lease.guarantyReference || '',
         guarantyPayback: lease.guarantyPayback || 0,
         guarantyPaybackDate:
           lease.guarantyPaybackDate?.format('DD/MM/YYYY') || '',
@@ -385,6 +397,24 @@ function LeaseContractForm({ readOnly, onSubmit }) {
                 name="guaranty"
                 disabled={!values.leaseId || readOnly}
               />
+              <SelectField
+                label={t('Deposit method')}
+                name="guarantyType"
+                values={paymentTypes.itemList}
+                disabled={!values.leaseId || readOnly}
+              />
+              <DateField
+                label={t('Deposit date')}
+                name="guarantyDate"
+                disabled={!values.leaseId || readOnly}
+              />
+              {values.guarantyType !== 'cash' && (
+                <TextField
+                  label={t('Reference')}
+                  name="guarantyReference"
+                  disabled={!values.leaseId || readOnly}
+                />
+              )}
             </Section>
             <Section label={t('Properties')}>
               <ArrayField
