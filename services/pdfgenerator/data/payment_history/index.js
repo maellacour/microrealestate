@@ -28,9 +28,10 @@ export async function get(params) {
   let totalPaid = 0;
 
   data.tenant.rents.forEach((rent) => {
-    const balance = round(rent.total.balance);
-    const grandTotal = round(rent.total.grandTotal);
-    const payment = round(rent.total.payment);
+    const total = rent.total || {};
+    const balance = round(total.balance);
+    const grandTotal = round(total.grandTotal);
+    const payment = round(total.payment);
     const termDue = round(grandTotal - balance); // this term's own charge
     const newBalance = round(grandTotal - payment); // running balance after term
 

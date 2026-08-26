@@ -71,7 +71,7 @@
     <div>
       <div class="label"><%= _.t('Property') %></div>
       <% if (tenant.contract.properties && tenant.contract.properties.length) { %>
-        <% tenant.contract.properties.forEach(function(p) { %>
+        <% tenant.contract.properties.forEach(function(p) { if (!p) { return; } %>
           <%= p.name %><% if (p.address && p.address.street1) { %> — <%= p.address.street1 %>, <%= p.address.zipCode %> <%= p.address.city %><% } %><br>
         <% }); %>
       <% } %>
