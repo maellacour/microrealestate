@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-08-26
+
 ### Added
 
 - New "Rent payment statement" PDF, downloadable from a tenant's rent schedule (échéancier). It covers the whole lease and is meant for a dossier when a tenant leaves with unpaid rent: landlord/bank details and tenant identity in the header, a recap of total charged / total paid / remaining balance, a month-by-month schedule (previous balance, amount due, paid, running balance) and a chronological list of every payment received (date, period, method, reference, amount). When a security deposit is still held (not paid back), the recap also shows the deposit retained and the net amount still due after offsetting it against the debt. When the deposit's move-in payment details are recorded (amount, method, date, reference), they are printed as well.
