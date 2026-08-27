@@ -82,6 +82,7 @@
   "Contract": "Contrat",
   "Contract from {{beginDate}} to {{endDate}}": "Contrat du {{beginDate}} au {{endDate}}",
   "Contract information": "Renseignements sur le contrat",
+  "Automatically renewable (tacit renewal): the end date rolls forward by one contract duration so the rent schedule keeps running": "Reconduction tacite : la date de fin est repoussée d'une durée de contrat pour que l'échéancier continue automatiquement",
   "Contract is not found": "Contrat n'est pas trouvé",
   "Contract is used by tenants, it cannot be removed": "Contrat utilisé par les locataires, il ne peut pas être supprimé",
   "Contract name is missing": "Nom du contrat manquant",

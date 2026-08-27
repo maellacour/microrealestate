@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Tacit renewal (reconduction tacite) for contracts. A contract (Settings → Contracts) can be flagged "automatically renewable"; a tenant on such a contract has its end date rolled forward by one contract duration as needed, so the rent schedule keeps running past the original end date instead of stopping. The end date advances automatically when the tenant's rents are browsed or a payment is recorded (there is no background scheduler, so the shift happens on those accesses). Terminated leases are never renewed.
+
 ### Fixed
 
 - Dates in the rent payment statement PDF no longer render with their slashes escaped (e.g. `01&#x2F;01&#x2F;2026`). The statement's date fields are interpolated through the i18n layer, which HTML-escapes values by default, and `/` escapes to `&#x2F;`. The four date-bearing strings now use the unescaped form so `DD/MM/YYYY` dates print correctly.

@@ -129,6 +129,7 @@ export namespace CollectionTypes {
     numberOfTerms: number;
     timeRange: LeaseTimeRange;
     active: boolean;
+    renewable: boolean;
     stepperMode: boolean;
   };
 
