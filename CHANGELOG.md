@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-08-27
+
 ### Added
 
 - Tacit renewal (reconduction tacite) for contracts. A contract (Settings → Contracts) can be flagged "automatically renewable"; a tenant on such a contract has its end date rolled forward by one contract duration as needed, so the rent schedule keeps running past the original end date instead of stopping. The end date advances automatically when the tenant's rents are browsed or a payment is recorded (there is no background scheduler, so the shift happens on those accesses). Terminated leases are never renewed.
