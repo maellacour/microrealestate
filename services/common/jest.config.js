@@ -3,12 +3,13 @@
  * https://jestjs.io/docs/configuration
  */
 
-module.exports = {
+export default {
   // Indicates whether the coverage information should be collected while executing the test
   collectCoverage: true,
 
-  // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: ['./models/**/*.js', './utils/**/*.js'],
+  // An array of glob patterns indicating a set of files for which coverage information should be collected.
+  // The suite runs against the compiled output (dist), like the api tests do.
+  collectCoverageFrom: ['./dist/utils/**/*.js'],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: 'coverage',

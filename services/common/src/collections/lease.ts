@@ -9,6 +9,9 @@ const LeaseSchema = new mongoose.Schema<CollectionTypes.Lease>({
   numberOfTerms: Number,
   timeRange: { type: String, enum: ['days', 'weeks', 'months', 'years'] },
   active: Boolean,
+  // tacit renewal (reconduction tacite): when true, a tenant's end date rolls
+  // forward by the contract duration so the rent schedule keeps flowing.
+  renewable: { type: Boolean, default: false },
 
   // ui state
   stepperMode: { type: Boolean, default: false }

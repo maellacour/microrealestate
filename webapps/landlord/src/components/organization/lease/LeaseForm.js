@@ -8,6 +8,7 @@ import {
 } from '@microrealestate/commonui/components';
 import { useContext, useMemo } from 'react';
 
+import { CheckboxField } from '../../formfields/CheckboxField';
 import { observer } from 'mobx-react-lite';
 import { Section } from '../../formfields/Section';
 import { StoreContext } from '../../../store';
@@ -21,7 +22,8 @@ function initValues(lease) {
     description: lease?.description || '',
     numberOfTerms: lease?.numberOfTerms || '',
     timeRange: lease?.timeRange || '',
-    active: lease?.active || true
+    active: lease?.active || true,
+    renewable: lease?.renewable || false
   };
 }
 
@@ -37,7 +39,8 @@ function getValidationSchema(newLease, existingLeases) {
     description: Yup.string(),
     numberOfTerms: Yup.number().integer().min(1).required(),
     timeRange: Yup.string().required(),
-    active: Yup.boolean().required()
+    active: Yup.boolean().required(),
+    renewable: Yup.boolean()
   });
 }
 
@@ -105,6 +108,12 @@ const LeaseForm = ({ onSubmit }) => {
                     disabled={values.usedByTenants}
                   />
                 </div>
+                <CheckboxField
+                  name="renewable"
+                  label={t(
+                    'Automatically renewable (tacit renewal): the end date rolls forward by one contract duration so the rent schedule keeps running'
+                  )}
+                />
               </Section>
               <SubmitButton
                 label={!isSubmitting ? t('Save') : t('Submitting')}

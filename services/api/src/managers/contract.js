@@ -126,6 +126,34 @@ export function renew(contract) {
   };
 }
 
+// Tacit renewal (reconduction tacite): roll the contract end forward by whole
+// contract durations until it covers `untilDate`, regenerating the rents while
+// preserving existing payments. Returns the contract unchanged when it is not
+// renewable in practice (no valid span, already terminated, or already covers
+// the target date).
+export function renewUntil(inputContract, untilDate) {
+  if (inputContract.termination) {
+    return inputContract;
+  }
+
+  const momentBegin = toContractMoment(inputContract.begin);
+  let momentEnd = toContractMoment(inputContract.end);
+  const momentUntil = toContractMoment(untilDate);
+
+  const spanTerms = Math.round(
+    momentEnd.diff(momentBegin, inputContract.frequency, true)
+  );
+  if (spanTerms < 1 || !momentEnd.isBefore(momentUntil)) {
+    return inputContract;
+  }
+
+  while (momentEnd.isBefore(momentUntil)) {
+    momentEnd = moment(momentEnd).add(spanTerms, inputContract.frequency);
+  }
+
+  return update(inputContract, { end: momentEnd.toDate() });
+}
+
 export function terminate(inputContract, termination) {
   return update(inputContract, { termination });
 }

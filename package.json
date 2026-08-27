@@ -1,6 +1,6 @@
 {
   "name": "microrealestate",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "The application which helps the landlords to manage their property rents.",
   "private": true,
   "repository": {

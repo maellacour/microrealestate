@@ -529,6 +529,95 @@ describe('contract functionalities', () => {
     expect(newContract.rents.length).toEqual(108 * 2); // incorrect number of rents
   });
 
+  it('renewUntil extends the schedule when the end date has lapsed', () => {
+    const contract = Contract.create({
+      begin: Date.parse('2017-01-01T00:00:00'),
+      end: Date.parse('2025-12-31T23:59:59'),
+      frequency: 'months',
+      properties: [{}, {}]
+    });
+    const renewed = Contract.renewUntil(
+      contract,
+      Date.parse('2027-06-15T00:00:00')
+    );
+
+    // one full duration (108 months) rolled forward to cover the horizon
+    expect(renewed.rents.length).toEqual(108 * 2);
+  });
+
+  it('renewUntil rolls several durations to cover a far horizon', () => {
+    const contract = Contract.create({
+      begin: Date.parse('2017-01-01T00:00:00'),
+      end: Date.parse('2025-12-31T23:59:59'),
+      frequency: 'months',
+      properties: [{}, {}]
+    });
+    const renewed = Contract.renewUntil(
+      contract,
+      Date.parse('2040-01-01T00:00:00')
+    );
+
+    expect(renewed.rents.length).toEqual(108 * 3);
+  });
+
+  it('renewUntil is a no-op when the end still covers the horizon', () => {
+    const contract = Contract.create({
+      begin: Date.parse('2017-01-01T00:00:00'),
+      end: Date.parse('2025-12-31T23:59:59'),
+      frequency: 'months',
+      properties: [{}, {}]
+    });
+    const renewed = Contract.renewUntil(
+      contract,
+      Date.parse('2020-01-01T00:00:00')
+    );
+
+    expect(renewed).toBe(contract);
+    expect(renewed.rents.length).toEqual(108);
+  });
+
+  it('renewUntil never renews a terminated contract', () => {
+    const contract = Contract.create({
+      begin: Date.parse('2017-01-01T00:00:00'),
+      end: Date.parse('2025-12-31T23:59:59'),
+      frequency: 'months',
+      properties: [{}, {}]
+    });
+    const terminated = Contract.terminate(
+      contract,
+      Date.parse('2018-12-31T23:59:59')
+    );
+    const renewed = Contract.renewUntil(
+      terminated,
+      Date.parse('2030-01-01T00:00:00')
+    );
+
+    expect(renewed).toBe(terminated);
+    expect(renewed.rents.length).toEqual(24);
+  });
+
+  it('renewUntil preserves payments when extending', () => {
+    const contract = Contract.create({
+      begin: Date.parse('2017-01-01T00:00:00'),
+      end: Date.parse('2025-12-31T23:59:59'),
+      frequency: 'months',
+      properties: [{}, {}]
+    });
+    Contract.payTerm(contract, '202512010000', {
+      payments: [{ amount: 200 }],
+      discounts: ['discount']
+    });
+    const renewed = Contract.renewUntil(
+      contract,
+      Date.parse('2027-06-15T00:00:00')
+    );
+
+    expect(renewed.rents.length).toEqual(108 * 2);
+    expect(
+      renewed.rents.find((rent) => rent.term === 2025120100).payments[0].amount
+    ).toEqual(200);
+  });
+
   it('compute terms', () => {
     const property = {
       entryDate: Date.parse('2020-01-01T00:00:00'),

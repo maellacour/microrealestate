@@ -44,6 +44,56 @@ async function _findOccupants(realm, tenantId, startTerm, endTerm) {
   });
 }
 
+// Tacit renewal: for tenants whose lease is flagged renewable, roll their end
+// date forward (and regenerate the rents) so the schedule covers `untilMoment`.
+// Persists only when new terms were actually generated. This is what makes the
+// renewal happen automatically when the rents are browsed or paid, since there
+// is no background scheduler.
+async function _renewLapsedContracts(realm, untilMoment, tenantId) {
+  const query = { realmId: realm._id };
+  if (tenantId) {
+    query._id = tenantId;
+  }
+
+  const dbTenants = await Collections.Tenant.find(query)
+    .populate('leaseId')
+    .lean();
+
+  for (const tenant of dbTenants) {
+    if (
+      !tenant.leaseId?.renewable ||
+      tenant.terminationDate ||
+      !tenant.beginDate ||
+      !tenant.endDate ||
+      moment(tenant.endDate).isSameOrAfter(untilMoment)
+    ) {
+      continue;
+    }
+
+    try {
+      const contract = {
+        begin: tenant.beginDate,
+        end: tenant.endDate,
+        frequency: tenant.frequency || 'months',
+        properties: tenant.properties,
+        vatRate: tenant.vatRatio,
+        discount: tenant.discount,
+        rents: tenant.rents
+      };
+
+      const renewed = Contract.renewUntil(contract, untilMoment);
+      if (renewed.rents.length > tenant.rents.length) {
+        await Collections.Tenant.updateOne(
+          { _id: tenant._id, realmId: realm._id },
+          { $set: { endDate: renewed.end, rents: renewed.rents } }
+        );
+      }
+    } catch (error) {
+      logger.error(error);
+    }
+  }
+}
+
 async function _getEmailStatus(
   authorizationHeader,
   locale,
@@ -198,6 +248,12 @@ async function _updateByTerm(
     paymentData.noteextracharge = null;
   }
 
+  await _renewLapsedContracts(
+    realm,
+    moment(String(term), 'YYYYMMDDHH'),
+    paymentData._id
+  );
+
   const occupant = await Collections.Tenant.findOne({
     _id: paymentData._id,
     realmId: realm._id
@@ -300,6 +356,8 @@ export async function rentsOfOccupant(req, res) {
   const { id } = req.params;
   const term = Number(moment().format('YYYYMMDDHH'));
 
+  await _renewLapsedContracts(realm, moment(), id);
+
   const dbOccupants = await _findOccupants(realm, id);
   if (!dbOccupants.length) {
     return res.sendStatus(404);
@@ -343,6 +401,12 @@ async function _rentOfOccupant(
   tenantId,
   term
 ) {
+  await _renewLapsedContracts(
+    realm,
+    moment(String(term), 'YYYYMMDDHH'),
+    tenantId
+  );
+
   const [dbOccupants = [], emailStatus = {}] = await Promise.all([
     _findOccupants(realm, tenantId, Number(term)).catch(logger.error),
     _getEmailStatus(authorizationHeader, locale, realm, Number(term)).catch(
@@ -378,6 +442,8 @@ export async function all(req, res) {
   if (req.params.year && req.params.month) {
     currentDate = moment(`${req.params.month}/${req.params.year}`, 'MM/YYYY');
   }
+
+  await _renewLapsedContracts(realm, moment(currentDate).endOf('month'));
 
   res.json(
     await _getRentsDataByTerm(

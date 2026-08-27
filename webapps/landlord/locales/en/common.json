@@ -82,6 +82,7 @@
   "Contract": "Contract",
   "Contract from {{beginDate}} to {{endDate}}": "Contract from {{beginDate}} to {{endDate}}",
   "Contract information": "Contract information",
+  "Automatically renewable (tacit renewal): the end date rolls forward by one contract duration so the rent schedule keeps running": "Automatically renewable (tacit renewal): the end date rolls forward by one contract duration so the rent schedule keeps running",
   "Contract is not found": "Contract is not found",
   "Contract is used by tenants, it cannot be removed": "Contract is used by tenants, it cannot be removed",
   "Contract name is missing": "Contract name is missing",
