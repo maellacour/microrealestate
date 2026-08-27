@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Dates in the rent payment statement PDF no longer render with their slashes escaped (e.g. `01&#x2F;01&#x2F;2026`). The statement's date fields are interpolated through the i18n layer, which HTML-escapes values by default, and `/` escapes to `&#x2F;`. The four date-bearing strings now use the unescaped form so `DD/MM/YYYY` dates print correctly.
+
 ## [1.4.0] - 2026-08-26
 
 ### Added
