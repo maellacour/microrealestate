@@ -1,4 +1,6 @@
-import URL from '../utils/url';
+// Test the compiled output (the source is TypeScript with no Jest transform
+// configured); url exposes named exports, imported here as a namespace.
+import * as URL from '../../../dist/utils/url.js';
 
 describe('utils', () => {
   it('can build an url', () => {

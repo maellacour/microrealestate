@@ -45,6 +45,9 @@ jobs:
       - name: Build shared libraries
         run: yarn workspace @microrealestate/common run build
 
+      - name: Test common
+        run: yarn workspace @microrealestate/common run test
+
       - name: Test api
         run: yarn workspace @microrealestate/api run test
 
