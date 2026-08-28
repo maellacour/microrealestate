@@ -4,6 +4,13 @@ import {
   AccordionSummary
 } from '@material-ui/core';
 import { Card, CardContent, CardHeader } from '../ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from '../ui/dialog';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '../ui/drawer';
 import { LuChevronsUpDown, LuDownload, LuPencil } from 'react-icons/lu';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -15,6 +22,7 @@ import moment from 'moment';
 import NewPaymentDialog from '../payment/NewPaymentDialog';
 import RentDetails from './RentDetails';
 import { StoreContext } from '../../store';
+import { Textarea } from '../ui/textarea';
 import { toast } from 'sonner';
 import useTranslation from 'next-translate/useTranslation';
 
@@ -193,21 +201,28 @@ function RentHistory({ tenantId }) {
 export default function RentHistoryDialog({ open, setOpen, data: tenant }) {
   const { t } = useTranslation('common');
   const handleClose = useCallback(() => setOpen(false), [setOpen]);
+  const [noteOpen, setNoteOpen] = useState(false);
+  const [note, setNote] = useState('');
 
   const handleDownloadStatement = useCallback(async () => {
     if (!tenant?._id) {
       return;
     }
+    const trimmedNote = note.trim();
     try {
       await downloadDocument({
-        endpoint: `/documents/payment_history/${tenant._id}/all`,
+        endpoint: `/documents/payment_history/${tenant._id}/all${
+          trimmedNote ? `?note=${encodeURIComponent(trimmedNote)}` : ''
+        }`,
         documentName: `${tenant.name}-${t('Rent payment statement')}.pdf`
       });
+      setNoteOpen(false);
+      setNote('');
     } catch (error) {
       console.error(error);
       toast.error(t('Something went wrong'));
     }
-  }, [tenant, t]);
+  }, [tenant, t, note]);
 
   return (
     <Drawer open={open} onOpenChange={setOpen} dismissible={false}>
@@ -220,7 +235,7 @@ export default function RentHistoryDialog({ open, setOpen, data: tenant }) {
               variant="outline"
               size="sm"
               className="gap-1"
-              onClick={handleDownloadStatement}
+              onClick={() => setNoteOpen(true)}
             >
               <LuDownload className="size-4" />
               {t('Rent payment statement')}
@@ -232,6 +247,33 @@ export default function RentHistoryDialog({ open, setOpen, data: tenant }) {
         </DrawerHeader>
         {tenant ? <RentHistory tenantId={tenant._id} /> : null}
       </DrawerContent>
+      <Dialog open={noteOpen} onOpenChange={setNoteOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t('Rent payment statement')}</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-2">
+            <span className="text-sm text-muted-foreground">
+              {t('Add an optional note to print at the end of the statement.')}
+            </span>
+            <Textarea
+              rows={4}
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder={t('Note (optional)')}
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="secondary" onClick={() => setNoteOpen(false)}>
+              {t('Cancel')}
+            </Button>
+            <Button className="gap-1" onClick={handleDownloadStatement}>
+              <LuDownload className="size-4" />
+              {t('Download')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Drawer>
   );
 }

@@ -67,5 +67,6 @@
   "Cheque": "Chèque",
   "Cash": "Espèces",
   "Levy": "Prélèvement",
-  "No payment recorded": "Aucun paiement enregistré"
+  "No payment recorded": "Aucun paiement enregistré",
+  "Note": "Note"
 }

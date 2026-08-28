@@ -35,6 +35,7 @@
   .empty { font-style: italic; color: #777; padding: 4pt 0; }
   .deposit-info { font-size: 9pt; color: #444; margin: 0 0 6mm; }
   .deposit-info .label { font-weight: bold; }
+  .note-block { font-size: 9pt; color: #222; margin: 7mm 0 0; white-space: pre-wrap; }
 </style>
 
 <body>
@@ -184,6 +185,11 @@
     </table>
   <% } else { %>
     <div class="empty"><%= _.t('No payment recorded') %></div>
+  <% } %>
+
+  <% if (typeof note !== 'undefined' && note) { %>
+    <h2 class="section"><%= _.t('Note') %></h2>
+    <div class="note-block"><%= note %></div>
   <% } %>
 </body>
 
