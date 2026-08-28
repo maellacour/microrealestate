@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- The tenant's postal code is now shown next to the city in the rent payment statement PDF header. The statement builder omitted the tenant's `zipCode`, so the address line printed only the city.
+
 ## [1.5.0] - 2026-08-27
 
 ### Added

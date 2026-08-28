@@ -93,6 +93,7 @@ export async function getRentsData(params) {
       {
         street1: dbTenant.street1,
         street2: dbTenant.street2,
+        zipCode: dbTenant.zipCode,
         city: dbTenant.city,
         state: dbTenant.state,
         country: dbTenant.country
