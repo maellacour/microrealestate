@@ -108,6 +108,9 @@ export async function get(params) {
       round(data.tenant.guaranty || 0) > 0 &&
       !!(depositType || depositDate || depositReference)
   };
+  // Optional free-text note typed by the landlord at download time. Rendered
+  // as-is (EJS escapes it), so it is safe against injection.
+  data.note = (params.note || '').trim();
   data.today = moment().format('DD/MM/YYYY');
   data.fileName = sanitize(`${data.tenant.name}-releve-paiements`);
 

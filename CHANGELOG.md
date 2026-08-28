@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-08-28
+
+### Added
+
+- Optional note on the rent payment statement PDF. Downloading the statement (tenant's rent schedule) now opens a small dialog where you can type a free-text note; it is printed in a "Note" section at the end of the statement. Leave it empty to get the statement as before. The note is per-download — it is not stored.
+
+### Fixed
+
+- The tenant's postal code is now shown next to the city in the rent payment statement PDF header. The statement builder omitted the tenant's `zipCode`, so the address line printed only the city.
+
 ## [1.5.0] - 2026-08-27
 
 ### Added

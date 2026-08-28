@@ -291,7 +291,10 @@ export default function () {
     Middlewares.asyncWrapper(async (req, res) => {
       try {
         logger.debug(`generate pdf file for ${JSON.stringify(req.params)}`);
-        const pdfFile = await pdf.generate(req.params.document, req.params);
+        const pdfFile = await pdf.generate(req.params.document, {
+          ...req.params,
+          note: req.query.note
+        });
         return res.download(pdfFile);
       } catch (error) {
         logger.error(
