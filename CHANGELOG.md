@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-08-31
+
 ### Added
 
 - New "Deposit retention" (_Retenue sur dépôt de garantie_) payment type when settling a rent. Use it to mark a rent as paid when you kept the amount out of the tenant's security deposit rather than receiving a bank transfer — no reference is required, and it prints as its own method on the rent payment statement PDF. It is not offered as a deposit payment/refund method (where it would make no sense). The statement's "deposit retained / net still due" offset excludes amounts already recorded as a retention payment, so a rent settled this way is never double-counted as a phantom credit to the tenant.
