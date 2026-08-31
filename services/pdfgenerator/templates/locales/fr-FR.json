@@ -67,6 +67,7 @@
   "Cheque": "Chèque",
   "Cash": "Espèces",
   "Levy": "Prélèvement",
+  "Deposit retention": "Retenue sur dépôt de garantie",
   "No payment recorded": "Aucun paiement enregistré",
   "Note": "Note"
 }

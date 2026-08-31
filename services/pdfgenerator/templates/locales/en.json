@@ -67,6 +67,7 @@
   "Cheque": "Cheque",
   "Cash": "Cash",
   "Levy": "Levy",
+  "Deposit retention": "Deposit retention",
   "No payment recorded": "No payment recorded",
   "Note": "Note"
 }

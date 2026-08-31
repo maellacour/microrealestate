@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- New "Deposit retention" (_Retenue sur dépôt de garantie_) payment type when settling a rent. Use it to mark a rent as paid when you kept the amount out of the tenant's security deposit rather than receiving a bank transfer — no reference is required, and it prints as its own method on the rent payment statement PDF. It is not offered as a deposit payment/refund method (where it would make no sense).
+
 ## [1.6.0] - 2026-08-28
 
 ### Added
