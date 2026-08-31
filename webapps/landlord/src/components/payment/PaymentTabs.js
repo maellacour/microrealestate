@@ -36,10 +36,11 @@ const validationSchema = Yup.object().shape({
           then: Yup.date().required()
         }),
         type: Yup.mixed()
-          .oneOf(['cash', 'transfer', 'levy', 'cheque'])
+          .oneOf(['cash', 'transfer', 'levy', 'cheque', 'deposit'])
           .required(),
         reference: Yup.mixed().when(['type', 'amount'], {
-          is: (type, amount) => type !== 'cash' && amount > 0,
+          is: (type, amount) =>
+            type !== 'cash' && type !== 'deposit' && amount > 0,
           then: Yup.string().required()
         })
       })

@@ -25,6 +25,11 @@ export default function usePaymentTypes() {
         id: 'transfer',
         label: t('Transfer'),
         value: 'transfer'
+      },
+      {
+        id: 'deposit',
+        label: t('Deposit retention'),
+        value: 'deposit'
       }
     ];
 

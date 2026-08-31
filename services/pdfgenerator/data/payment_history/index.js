@@ -76,9 +76,26 @@ export async function get(params) {
     : '';
 
   const remaining = round(totalCharged - totalPaid);
-  // Deposit still held (not yet paid back) can be offset against the debt.
-  const depositHeld = round(
-    (data.tenant.guaranty || 0) - (data.tenant.guarantyPayback || 0)
+  // Part of the security deposit already recorded as a rent settlement (payment
+  // of type `deposit`). It is already in totalPaid, so it must NOT be offset a
+  // second time below — otherwise a retention settling a rent would show up as a
+  // phantom credit to the tenant.
+  const depositPaidAsPayments = round(
+    payments
+      .filter((p) => p.type === 'deposit')
+      .reduce((sum, p) => sum + (p.amount || 0), 0)
+  );
+  // Deposit still held that has NOT been passed as a settlement yet: the part
+  // neither paid back nor already applied to a rent. It can be offset against a
+  // remaining debt (old workflow) or, if it exceeds the debt, it is what remains
+  // to refund to the tenant. Clamped to 0: retentions can't push it negative.
+  const depositHeld = Math.max(
+    0,
+    round(
+      (data.tenant.guaranty || 0) -
+        (data.tenant.guarantyPayback || 0) -
+        depositPaidAsPayments
+    )
   );
 
   data.timeRange = timeRange;

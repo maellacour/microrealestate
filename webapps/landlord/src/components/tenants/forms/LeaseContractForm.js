@@ -185,6 +185,11 @@ function LeaseContractForm({ readOnly, onSubmit }) {
   const { t } = useTranslation('common');
   const store = useContext(StoreContext);
   const paymentTypes = usePaymentTypes();
+  // 'deposit' (deposit retention) is only meaningful when settling a rent, not
+  // as a way of paying/refunding the deposit itself.
+  const guarantyTypes = paymentTypes.itemList.filter(
+    ({ value }) => value !== 'deposit'
+  );
   const [contractDuration, setContractDuration] = useState();
 
   useEffect(() => {
@@ -356,7 +361,7 @@ function LeaseContractForm({ readOnly, onSubmit }) {
                 <SelectField
                   label={t('Deposit refund method')}
                   name="guarantyPaybackType"
-                  values={paymentTypes.itemList}
+                  values={guarantyTypes}
                   disabled={readOnly}
                 />
                 {values.guarantyPaybackType !== 'cash' && (
@@ -400,7 +405,7 @@ function LeaseContractForm({ readOnly, onSubmit }) {
               <SelectField
                 label={t('Deposit method')}
                 name="guarantyType"
-                values={paymentTypes.itemList}
+                values={guarantyTypes}
                 disabled={!values.leaseId || readOnly}
               />
               <DateField
