@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- Tacit renewal no longer extends a contract with free rent. Renewing rolled the contract's end date forward but left each rented property's exit date behind, and a property is only billed on the terms falling inside its own entry/exit window — so every term added by the renewal charged nothing and showed only the balance carried over. The exit date now follows the contract end, while an exit date deliberately set earlier (a property handed back before the others in a multi-property lease) stays where it is. As a side effect, a final period that the old end date cut short is now billed in full once the contract is renewed over it, since the tenant occupies the whole of it.
 - Contracts with a non-monthly term length (days, weeks, years) no longer have their rent schedule silently rebuilt on a monthly grid. The term length was read everywhere in the rent code but was missing from the tenant schema, so it was dropped on every save and every read fell back to "months" — recording a single payment on, say, a 10-day contract regenerated the whole schedule as monthly terms and destroyed it. The term length is now stored on the tenant, taken from the contract's time range when it is not supplied, and existing tenants are backfilled from their contract on startup. The rent schedule and the payment statement also now label the periods correctly for those contracts (days and weeks instead of months).
 
 ## [1.7.0] - 2026-08-31

@@ -232,6 +232,24 @@ describe('rentmanager tacit renewal', () => {
     expect($set.rents.some(({ term }) => term === 2026011500)).toBe(true);
   });
 
+  it('persists the property exit date it moved, without rewriting the whole array', async () => {
+    const tenant = buildTenant(WEEKLY);
+
+    const { $set } = await renewFor(tenant, '2026021600');
+
+    // the occupancy end follows the contract end...
+    expect(moment($set['properties.0.exitDate']).format('YYYY-MM-DD')).toBe(
+      '2026-03-02'
+    );
+    // ...as a single field: re-casting the whole properties array would take
+    // the embedded property snapshot with it and throw on a lean document
+    expect($set.properties).toBeUndefined();
+    // and the renewed terms are billed rather than free
+    expect(
+      $set.rents.slice(5).every((rent) => rent.preTaxAmounts.length > 0)
+    ).toBe(true);
+  });
+
   it('characterizes the bug: a contract with no stored frequency is never renewed', async () => {
     // Legacy documents written before `frequency` existed on the schema. The
     // renewal reads 'months', so a 4-week contract is regenerated as 3 monthly

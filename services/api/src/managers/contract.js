@@ -126,6 +126,24 @@ export function renew(contract) {
   };
 }
 
+// A rented property's exitDate duplicates the contract end: the tenant form
+// fills it with that date and forbids going beyond it. A renewal has to carry
+// it forward, otherwise every renewed term falls outside the property's
+// occupancy window, tasks/1_base.js filters the property out, and the renewed
+// rents bill nothing. An exitDate deliberately set before the contract end - a
+// property handed back ahead of the others - is left where it is.
+function _extendOccupancy(properties, previousEnd, newEnd) {
+  return (properties || []).map((property) => {
+    if (!property.exitDate) {
+      return property;
+    }
+
+    return toContractMoment(property.exitDate).isSame(previousEnd, 'day')
+      ? { ...property, exitDate: newEnd.toDate() }
+      : property;
+  });
+}
+
 // Tacit renewal (reconduction tacite): roll the contract end forward by whole
 // contract durations until it covers `untilDate`, regenerating the rents while
 // preserving existing payments. Returns the contract unchanged when it is not
@@ -147,11 +165,19 @@ export function renewUntil(inputContract, untilDate) {
     return inputContract;
   }
 
+  const momentPreviousEnd = moment(momentEnd);
   while (momentEnd.isBefore(momentUntil)) {
     momentEnd = moment(momentEnd).add(spanTerms, inputContract.frequency);
   }
 
-  return update(inputContract, { end: momentEnd.toDate() });
+  return update(inputContract, {
+    end: momentEnd.toDate(),
+    properties: _extendOccupancy(
+      inputContract.properties,
+      momentPreviousEnd,
+      momentEnd
+    )
+  });
 }
 
 export function terminate(inputContract, termination) {

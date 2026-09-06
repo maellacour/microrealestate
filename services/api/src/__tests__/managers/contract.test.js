@@ -1,5 +1,6 @@
 /* eslint-env node, mocha */
 import * as Contract from '../../managers/contract.js';
+import moment from 'moment';
 
 describe('contract functionalities', () => {
   it('create contract', () => {
@@ -594,6 +595,128 @@ describe('contract functionalities', () => {
 
     expect(renewed).toBe(terminated);
     expect(renewed.rents.length).toEqual(24);
+  });
+
+  // Renewing rolls the contract end forward. A rented property's exitDate is a
+  // duplicate of that end (the tenant form fills it in and forbids going past
+  // it), so it has to travel with it - otherwise every renewed term falls
+  // outside the occupancy window and bills nothing.
+  const rentCharged = (rent) =>
+    rent.preTaxAmounts.reduce((total, { amount }) => total + amount, 0);
+
+  const monthlyLease = () =>
+    Contract.create({
+      begin: Date.parse('2025-01-01T00:00:00'),
+      end: Date.parse('2025-12-31T23:59:59'),
+      frequency: 'months',
+      properties: [
+        {
+          propertyId: 'p1',
+          rent: 1000,
+          entryDate: Date.parse('2025-01-01T00:00:00'),
+          exitDate: Date.parse('2025-12-31T23:59:59'),
+          expenses: [],
+          property: { _id: 'p1', name: 'Flat' }
+        }
+      ]
+    });
+
+  it('renewUntil bills the terms it adds', () => {
+    const contract = monthlyLease();
+    expect(contract.rents).toHaveLength(12);
+
+    const renewed = Contract.renewUntil(
+      contract,
+      Date.parse('2026-06-15T00:00:00')
+    );
+
+    expect(renewed.rents).toHaveLength(24);
+    // the twelve renewed terms each charge the rent instead of nothing
+    renewed.rents.slice(12).forEach((rent) => {
+      expect(rentCharged(rent)).toBe(1000);
+    });
+  });
+
+  it('renewUntil carries the property exit date forward with the contract end', () => {
+    const renewed = Contract.renewUntil(
+      monthlyLease(),
+      Date.parse('2026-06-15T00:00:00')
+    );
+
+    expect(moment(renewed.properties[0].exitDate).format('YYYY-MM-DD')).toBe(
+      '2026-12-31'
+    );
+  });
+
+  it('renewUntil leaves a property handed back before the end where it is', () => {
+    const contract = Contract.create({
+      begin: Date.parse('2025-01-01T00:00:00'),
+      end: Date.parse('2025-12-31T23:59:59'),
+      frequency: 'months',
+      properties: [
+        {
+          propertyId: 'p1',
+          rent: 1000,
+          entryDate: Date.parse('2025-01-01T00:00:00'),
+          exitDate: Date.parse('2025-12-31T23:59:59'),
+          expenses: [],
+          property: { _id: 'p1', name: 'Flat' }
+        },
+        {
+          // garage given back in june, on purpose
+          propertyId: 'p2',
+          rent: 100,
+          entryDate: Date.parse('2025-01-01T00:00:00'),
+          exitDate: Date.parse('2025-06-30T23:59:59'),
+          expenses: [],
+          property: { _id: 'p2', name: 'Garage' }
+        }
+      ]
+    });
+
+    const renewed = Contract.renewUntil(
+      contract,
+      Date.parse('2026-06-15T00:00:00')
+    );
+
+    expect(moment(renewed.properties[0].exitDate).format('YYYY-MM-DD')).toBe(
+      '2026-12-31'
+    );
+    expect(moment(renewed.properties[1].exitDate).format('YYYY-MM-DD')).toBe(
+      '2025-06-30'
+    );
+    // only the flat is billed on the renewed terms
+    renewed.rents.slice(12).forEach((rent) => {
+      expect(rentCharged(rent)).toBe(1000);
+    });
+  });
+
+  it('renewUntil completes the final period that the old end cut short', () => {
+    // a 4-week contract ending mid-week: the last term was prorated at 2/7
+    const contract = Contract.create({
+      begin: Date.parse('2026-01-05T00:00:00'),
+      end: Date.parse('2026-02-02T23:59:59'),
+      frequency: 'weeks',
+      properties: [
+        {
+          propertyId: 'p1',
+          rent: 100,
+          entryDate: Date.parse('2026-01-05T00:00:00'),
+          exitDate: Date.parse('2026-02-02T23:59:59'),
+          expenses: [],
+          property: { _id: 'p1', name: 'Studio' }
+        }
+      ]
+    });
+    expect(rentCharged(contract.rents[4])).toBe(28.57);
+
+    const renewed = Contract.renewUntil(
+      contract,
+      Date.parse('2026-02-16T00:00:00')
+    );
+
+    // the tenant now occupies that whole week, so it is billed in full
+    expect(rentCharged(renewed.rents[4])).toBe(100);
   });
 
   it('renewUntil preserves payments when extending', () => {
