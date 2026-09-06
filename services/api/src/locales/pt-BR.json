@@ -14,5 +14,20 @@
   "Reference": "Referência",
   "Refunded deposit": "Devolução de caução",
   "Tenant": "Inquilino",
-  "transfer": "Transferência"
+  "transfer": "Transferência",
+  "Property": "Imóvel",
+  "Collected revenue": "Receitas recebidas",
+  "Charged rent": "Aluguel cobrado",
+  "Still due": "Ainda devido",
+  "Total expenses": "Total das despesas",
+  "Net result": "Resultado líquido",
+  "Days rented": "Dias alugados",
+  "Occupancy rate": "Taxa de ocupação",
+  "works": "Obras",
+  "insurance": "Seguro (proprietário)",
+  "property_tax": "Imposto predial",
+  "condo_charges": "Taxa de condomínio",
+  "management_fees": "Taxas de gestão",
+  "loan_interest": "Juros do empréstimo",
+  "other": "Outro"
 }

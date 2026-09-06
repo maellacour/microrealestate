@@ -4,6 +4,7 @@ import * as emailManager from './managers/emailmanager.js';
 import * as expenseManager from './managers/expensemanager.js';
 import * as leaseManager from './managers/leasemanager.js';
 import * as occupantManager from './managers/occupantmanager.js';
+import * as propertyAccountingManager from './managers/propertyaccountingmanager.js';
 import * as propertyManager from './managers/propertymanager.js';
 import * as realmManager from './managers/realmmanager.js';
 import * as rentManager from './managers/rentmanager.js';
@@ -96,6 +97,12 @@ export default function routes() {
   );
   router.use('/expenses', expensesRouter);
 
+  // registered before /accounting/:year so the per-property report stays the
+  // obvious owner of that path segment
+  router.get(
+    '/accounting/properties/:year',
+    Middlewares.asyncWrapper(propertyAccountingManager.all)
+  );
   router.get(
     '/accounting/:year',
     Middlewares.asyncWrapper(accountingManager.all)
@@ -111,6 +118,10 @@ export default function routes() {
   router.get(
     '/csv/settlements/:year',
     Middlewares.asyncWrapper(accountingManager.csv.settlements)
+  );
+  router.get(
+    '/csv/properties/:year',
+    Middlewares.asyncWrapper(propertyAccountingManager.csv.results)
   );
 
   const emailRouter = express.Router();

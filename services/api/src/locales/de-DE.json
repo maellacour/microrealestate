@@ -14,5 +14,20 @@
   "Reference": "Referenz",
   "Refunded deposit": "Zurückerstattete Kaution",
   "Tenant": "Mieter",
-  "transfer": "Transfer"
+  "transfer": "Transfer",
+  "Property": "Immobilie",
+  "Collected revenue": "Vereinnahmte Einnahmen",
+  "Charged rent": "Berechnete Miete",
+  "Still due": "Noch offen",
+  "Total expenses": "Ausgaben gesamt",
+  "Net result": "Nettoergebnis",
+  "Days rented": "Vermietete Tage",
+  "Occupancy rate": "Belegungsrate",
+  "works": "Arbeiten",
+  "insurance": "Versicherung (Vermieter)",
+  "property_tax": "Grundsteuer",
+  "condo_charges": "Hausgeld",
+  "management_fees": "Verwaltungskosten",
+  "loan_interest": "Darlehenszinsen",
+  "other": "Sonstiges"
 }

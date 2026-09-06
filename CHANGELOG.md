@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Per-property annual results. A property now has a **Results** tab (Properties → a property → Results) showing, for a chosen year, the revenue collected, the expenses recorded against it, the resulting net result, the occupancy rate, and a breakdown of the expenses by category plus a month-by-month revenue chart. Accounting gained a matching **Properties** tab listing every property side by side for the year, with a CSV export.
+  Revenue is counted on a **cash basis**: a payment belongs to the year it was received in, not to the year of the rent term it settles — so a December rent paid in January counts for the following year. The rent charged for the year's terms and the amount still due on them are shown separately, as information.
+  When a lease covers several properties, the amounts are split between them in proportion to their configured rent, and the affected rows say so. Deposit retentions are included in the collected revenue and called out, since that money was received earlier as a deposit.
+
 ## [1.7.0] - 2026-08-31
 
 ### Added
