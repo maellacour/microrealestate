@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   Revenue is counted on a **cash basis**: a payment belongs to the year it was received in, not to the year of the rent term it settles — so a December rent paid in January counts for the following year. The rent charged for the year's terms and the amount still due on them are shown separately, as information.
   When a lease covers several properties, the amounts are split between them in proportion to their configured rent, and the affected rows say so. Deposit retentions are included in the collected revenue and called out, since that money was received earlier as a deposit.
 
+### Fixed
+
+- Contracts with a non-monthly term length (days, weeks, years) no longer have their rent schedule silently rebuilt on a monthly grid. The term length was read everywhere in the rent code but was missing from the tenant schema, so it was dropped on every save and every read fell back to "months" — recording a single payment on, say, a 10-day contract regenerated the whole schedule as monthly terms and destroyed it. The term length is now stored on the tenant, taken from the contract's time range when it is not supplied, and existing tenants are backfilled from their contract on startup. The rent schedule and the payment statement also now label the periods correctly for those contracts (days and weeks instead of months).
+
 ## [1.7.0] - 2026-08-31
 
 ### Added
