@@ -2,6 +2,7 @@ import * as pdf from '../pdf.js';
 import * as s3 from '../utils/s3.js';
 import {
   Collections,
+  Deposit,
   Format,
   logger,
   Middlewares,
@@ -82,6 +83,13 @@ async function _getTemplateValues(organization, tenantId, leaseId) {
 
   moment.locale(organization.locale);
   const today = moment();
+  const deposit = Deposit.depositInfo({
+    guaranty: tenant.guaranty,
+    guarantyPayback: tenant.guarantyPayback,
+    guarantyPaybackDate: tenant.guarantyPaybackDate,
+    retained: Deposit.retainedAmount(tenant.rents),
+    leaseEnd: tenant.terminationDate || tenant.endDate
+  });
   const signatureKey = organization.signature || '';
   const signatureUrl = signatureKey
     ? `/documents/signature/${encodeURIComponent(signatureKey)}`
@@ -208,30 +216,24 @@ async function _getTemplateValues(organization, tenantId, leaseId) {
       deposit: Format.formatCurrency(
         organization.locale,
         organization.currency,
-        tenant.guaranty || 0
+        deposit.due
       ),
       depositRefund: Format.formatCurrency(
         organization.locale,
         organization.currency,
-        tenant.guarantyPayback || 0
+        deposit.refunded
       ),
       depositToRefund: Format.formatCurrency(
         organization.locale,
         organization.currency,
-        Math.round(
-          ((tenant.guaranty || 0) - (tenant.guarantyPayback || 0)) * 100
-        ) / 100
+        deposit.remaining
       ),
       depositRefundDate: tenant.guarantyPaybackDate
         ? moment(tenant.guarantyPaybackDate).format('LL')
         : '',
-      // Legal maximum: deposit returned within 2 months of the lease end.
-      depositRefundDueDate:
-        tenant.terminationDate || tenant.endDate
-          ? moment(tenant.terminationDate || tenant.endDate)
-              .add(2, 'months')
-              .format('LL')
-          : ''
+      depositRefundDueDate: deposit.dueDate
+        ? moment(deposit.dueDate).format('LL')
+        : ''
     }
   };
   return templateValues;

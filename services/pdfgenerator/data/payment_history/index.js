@@ -1,9 +1,9 @@
 import * as utils from '../index.js';
+import { Deposit, Service } from '@microrealestate/common';
 import fileUrl from 'file-url';
 import moment from 'moment';
 import path from 'path';
 import { sanitize } from '../../src/utils/index.js';
-import { Service } from '@microrealestate/common';
 
 const round = (value) => Math.round((value || 0) * 100) / 100;
 
@@ -76,27 +76,16 @@ export async function get(params) {
     : '';
 
   const remaining = round(totalCharged - totalPaid);
-  // Part of the security deposit already recorded as a rent settlement (payment
-  // of type `deposit`). It is already in totalPaid, so it must NOT be offset a
-  // second time below — otherwise a retention settling a rent would show up as a
-  // phantom credit to the tenant.
-  const depositPaidAsPayments = round(
-    payments
-      .filter((p) => p.type === 'deposit')
-      .reduce((sum, p) => sum + (p.amount || 0), 0)
-  );
-  // Deposit still held that has NOT been passed as a settlement yet: the part
-  // neither paid back nor already applied to a rent. It can be offset against a
-  // remaining debt (old workflow) or, if it exceeds the debt, it is what remains
-  // to refund to the tenant. Clamped to 0: retentions can't push it negative.
-  const depositHeld = Math.max(
-    0,
-    round(
-      (data.tenant.guaranty || 0) -
-        (data.tenant.guarantyPayback || 0) -
-        depositPaidAsPayments
-    )
-  );
+  // Deposit still held: the part neither paid back nor already applied to a
+  // rent as a retention. It can be offset against a remaining debt (old
+  // workflow) or, if it exceeds the debt, it is what remains to refund to the
+  // tenant. Retentions are excluded because they are already in totalPaid —
+  // otherwise a rent settled that way would show up as a phantom credit.
+  const { remaining: depositHeld } = Deposit.depositInfo({
+    guaranty: data.tenant.guaranty,
+    guarantyPayback: data.tenant.guarantyPayback,
+    retained: Deposit.retainedAmount(data.tenant.rents)
+  });
 
   data.timeRange = timeRange;
   data.schedule = schedule;

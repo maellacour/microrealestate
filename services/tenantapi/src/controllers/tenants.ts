@@ -1,5 +1,10 @@
 import * as Express from 'express';
-import { Collections, logger, ServiceError } from '@microrealestate/common';
+import {
+  Collections,
+  Deposit,
+  logger,
+  ServiceError
+} from '@microrealestate/common';
 import {
   CollectionTypes,
   MongooseDocument,
@@ -175,7 +180,13 @@ function _toTenantResponse(
           };
         }),
       balance: _computeBalance(tenant.rents, lastTerm),
-      deposit: tenant.guaranty - tenant.guarantyPayback
+      // What the landlord still holds: rents settled out of the deposit have
+      // already left it, just like the part paid back.
+      deposit: Deposit.depositInfo({
+        guaranty: tenant.guaranty,
+        guarantyPayback: tenant.guarantyPayback,
+        retained: Deposit.retainedAmount(tenant.rents)
+      }).remaining
     }
   };
 }
