@@ -1,5 +1,5 @@
 {
-  "cash": "Espèce",
+  "cash": "Espèces",
   "cheque": "Chèque",
   "Contract begin date": "Date de début de contrat",
   "Contract end date": "Date de fin de contract",
@@ -17,6 +17,7 @@
   "Deposit still to refund": "Dépôt restant à restituer",
   "Tenant": "Locataire",
   "transfer": "Virement",
+  "deposit": "Retenue sur dépôt de garantie",
   "Property": "Bien",
   "Collected revenue": "Recettes encaissées",
   "Charged rent": "Loyers appelés",
