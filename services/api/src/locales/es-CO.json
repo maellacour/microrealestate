@@ -29,5 +29,6 @@
   "condo_charges": "Gastos de copropiedad",
   "management_fees": "Gastos de gestión",
   "loan_interest": "Intereses del préstamo",
-  "other": "Otro"
+  "other": "Otro",
+  "Retained on rents": "Retenido sobre los arriendos"
 }

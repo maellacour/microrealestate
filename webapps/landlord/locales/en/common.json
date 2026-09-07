@@ -512,5 +512,6 @@
     "management_fees": "Management fees",
     "loan_interest": "Loan interest",
     "other": "Other"
-  }
+  },
+  "Retained on rents": "Retained on rents"
 }

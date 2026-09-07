@@ -29,5 +29,6 @@
   "condo_charges": "Hausgeld",
   "management_fees": "Verwaltungskosten",
   "loan_interest": "Darlehenszinsen",
-  "other": "Sonstiges"
+  "other": "Sonstiges",
+  "Retained on rents": "Auf Mieten einbehalten"
 }

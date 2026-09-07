@@ -240,6 +240,7 @@ function _outgoingTenants(tenants, locale, currency, rawData = true) {
           : tenant.guarantyPaybackDate
             ? moment(tenant.guarantyPaybackDate).locale(locale).format('L')
             : '',
+        depositRetained: NumberFormat.format(deposit.retained),
         depositToRefund: NumberFormat.format(deposit.remaining),
         depositRefundStatus: deposit.status,
         depositRefundDueDate: rawData
@@ -439,6 +440,10 @@ async function outgoingTenantsAsCsv(req, res) {
     {
       label: i18n.__('Refunded deposit'),
       value: 'guarantyPayback'
+    },
+    {
+      label: i18n.__('Retained on rents'),
+      value: 'depositRetained'
     },
     {
       label: i18n.__('Deposit refund due date'),

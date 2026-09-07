@@ -118,6 +118,8 @@ describe('accountingmanager outgoing tenants', () => {
 
     const [tenant] = await outgoingTenantsPayload();
     expect(tenant.depositToRefund).toEqual(500);
+    // Reported on its own so the view can explain where the other 500 went.
+    expect(tenant.depositRetained).toEqual(500);
   });
 
   it('does not count a deposit retention twice in the final balance', async () => {
