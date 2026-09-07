@@ -8,7 +8,7 @@ export type ConnectionRole = 'administrator' | 'renter' | 'tenant';
 export type UserRole = Exclude<ConnectionRole, 'tenant'>;
 export type ConnectionType = 'service' | 'user' | 'application'; // 'service' is for internal services, 'user' is for users, 'application' is for external applications
 
-export type PaymentMethod = 'transfer' | 'credit-card' | 'cash' | 'check';
+export type PaymentMethod = 'transfer' | 'cheque' | 'cash' | 'levy' | 'deposit';
 export type PaymentStatus = 'paid' | 'partially-paid' | 'unpaid';
 export type LeaseStatus = 'active' | 'ended' | 'terminated';
 export type LeaseTimeRange = 'days' | 'weeks' | 'months' | 'years';

@@ -85,7 +85,7 @@ export const getAllTenants: {
           const isAfterNow = momentTerm.isSameOrAfter(moment(), 'month');
           const countAfterNow = momentTerm.diff(moment(), 'month');
           const term = Number(momentTerm.format('YYYYMMDDHH'));
-          const methods = ['transfer', 'credit-card', 'cash', 'check'];
+          const methods = ['transfer', 'cheque', 'cash', 'levy'];
           return {
             id: String(term),
             term,
@@ -106,7 +106,7 @@ export const getAllTenants: {
             status: (isAfterNow ? 'unpaid' : 'paid') as PaymentStatus,
             methods: isAfterNow
               ? []
-              : (['transfer', 'credit-card', 'cash'] as PaymentMethod[])
+              : (['transfer', 'cheque', 'cash'] as PaymentMethod[])
           };
         }).sort((a, b) => b.term - a.term),
         // loop to build an array of 12 scanned documents
