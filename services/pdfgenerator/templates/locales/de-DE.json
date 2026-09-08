@@ -69,5 +69,13 @@
   "Levy": "Lastschrift",
   "Deposit retention": "Kautionseinbehalt",
   "No payment recorded": "Keine Zahlung erfasst",
-  "Note": "Notiz"
+  "Note": "Notiz",
+  "Charge regularization": "Nebenkostenabrechnung",
+  "Regularization issued on {{date}}": "Abrechnung erstellt am {{date}}",
+  "Period from {{startDate}} to {{endDate}}": "Zeitraum vom {{startDate}} bis {{endDate}}",
+  "Recoverable charges": "Umlagefähige Nebenkosten",
+  "No recoverable charge recorded": "Keine umlagefähigen Nebenkosten erfasst",
+  "Provisions called": "Angeforderte Vorauszahlungen",
+  "Overpaid (credit to tenant)": "Guthaben (an den Mieter zu erstatten)",
+  "Complement due by tenant": "Nachzahlung durch den Mieter"
 }

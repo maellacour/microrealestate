@@ -69,5 +69,13 @@
   "Levy": "Prélèvement",
   "Deposit retention": "Retenue sur dépôt de garantie",
   "No payment recorded": "Aucun paiement enregistré",
-  "Note": "Note"
+  "Note": "Note",
+  "Charge regularization": "Régularisation des charges",
+  "Regularization issued on {{date}}": "Décompte édité le {{date}}",
+  "Period from {{startDate}} to {{endDate}}": "Période du {{startDate}} au {{endDate}}",
+  "Recoverable charges": "Charges récupérables",
+  "No recoverable charge recorded": "Aucune charge récupérable enregistrée",
+  "Provisions called": "Provisions appelées",
+  "Overpaid (credit to tenant)": "Trop-perçu (à restituer au locataire)",
+  "Complement due by tenant": "Complément dû par le locataire"
 }

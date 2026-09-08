@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<%- include('/partials/htmlhead.ejs') %>
+
+<style>
+  body { padding: 12mm 10mm; font: 10pt 'Tahoma'; color: #222; }
+  .sh { display: flex; justify-content: space-between; align-items: flex-start; }
+  .sh .landlord h1 { font-size: 16pt; color: #330066; margin: 2pt 0; }
+  .sh .landlord img { max-height: 16mm; display: block; margin-bottom: 3pt; }
+  .sh .tenant { text-align: right; max-width: 80mm; }
+  .meta { font-size: 9pt; color: #444; line-height: 1.35; }
+  .doc-title { text-align: center; font-size: 15pt; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5pt; margin: 8mm 0 2mm; }
+  .doc-sub { text-align: center; font-size: 9pt; color: #555; margin-bottom: 6mm; }
+  h2.section { font-size: 11pt; margin: 7mm 0 2mm; border-bottom: 1pt solid #555; padding-bottom: 2pt; }
+  table.grid { width: 100%; border-collapse: collapse; font-size: 9pt; }
+  table.grid th, table.grid td { border: 1pt solid #999; padding: 3pt 5pt; }
+  table.grid th { background: #eee; text-align: left; }
+  table.grid td.num, table.grid th.num { text-align: right; white-space: nowrap; }
+  table.grid tfoot td { font-weight: bold; background: #f4f4f4; }
+  table.grid tr { page-break-inside: avoid; }
+  .summary { display: flex; gap: 5mm; margin: 6mm 0 7mm; }
+  .summary .box { flex: 1; border: 1pt solid #555; padding: 5pt 7pt; }
+  .summary .box .label { font-size: 8pt; text-transform: uppercase; color: #555; }
+  .summary .box .value { font-size: 14pt; font-weight: bold; white-space: nowrap; }
+  .summary .box.debt .value { color: #d00; }
+  .summary .box.credit .value { color: #080; }
+  .empty { font-style: italic; color: #777; padding: 4pt 0; }
+  .note-block { font-size: 9pt; color: #222; margin: 7mm 0 0; white-space: pre-wrap; }
+</style>
+
+<body>
+  <div class="sh">
+    <div class="landlord">
+      <% if (typeof logoUrl !== 'undefined' && logoUrl) { %><img src="<%= logoUrl %>"><% } %>
+      <h1><%= landlord.name %></h1>
+      <% if (landlord.hasAddress) { %>
+        <div class="meta">
+          <%= landlord.addresses[0].street1 %><% if (landlord.addresses[0].street2) { %><br><%= landlord.addresses[0].street2 %><% } %>
+          <br><%= landlord.addresses[0].zipCode %> <%= landlord.addresses[0].city %>
+        </div>
+      <% } %>
+    </div>
+    <div class="tenant meta">
+      <div class="label" style="font-weight:bold;text-transform:uppercase;font-size:8pt;color:#555;"><%= _.t('Tenant') %></div>
+      <strong><%= tenant.name %></strong>
+      <% if (tenant.addresses[0].street1) { %>
+        <br><%= tenant.addresses[0].street1 %>
+        <% if (tenant.addresses[0].street2) { %><br><%= tenant.addresses[0].street2 %><% } %>
+        <br><%= tenant.addresses[0].zipCode %> <%= tenant.addresses[0].city %>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="doc-title"><%= _.t('Charge regularization') %></div>
+  <div class="doc-sub"><%= _.t('Regularization issued on {{date}}', { date: today }) %></div>
+  <div class="doc-sub"><%= _.t('Period from {{startDate}} to {{endDate}}', { startDate: regularization.periodStart, endDate: regularization.periodEnd }) %></div>
+
+  <h2 class="section"><%= _.t('Recoverable charges') %></h2>
+  <% if (regularization.lines.length) { %>
+    <table class="grid">
+      <thead>
+        <tr>
+          <th><%= _.t('Description') %></th>
+          <th class="num"><%= _.t('Amount') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% regularization.lines.forEach(function(line) { %>
+          <tr>
+            <td><%= line.label %></td>
+            <td class="num"><%= _.formatNumber(line.amount, 'currency') %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td><%= _.t('Total') %></td>
+          <td class="num"><%= _.formatNumber(regularization.recoverableTotal, 'currency') %></td>
+        </tr>
+      </tfoot>
+    </table>
+  <% } else { %>
+    <div class="empty"><%= _.t('No recoverable charge recorded') %></div>
+  <% } %>
+
+  <div class="summary">
+    <div class="box">
+      <div class="label"><%= _.t('Provisions called') %></div>
+      <div class="value"><%= _.formatNumber(regularization.provisionsCalled, 'currency') %></div>
+    </div>
+    <div class="box">
+      <div class="label"><%= _.t('Recoverable charges') %></div>
+      <div class="value"><%= _.formatNumber(regularization.recoverableTotal, 'currency') %></div>
+    </div>
+    <div class="box <%= regularization.isCredit ? 'credit' : 'debt' %>">
+      <div class="label"><%= regularization.isCredit ? _.t('Overpaid (credit to tenant)') : _.t('Complement due by tenant') %></div>
+      <div class="value"><%= _.formatNumber(regularization.absBalance, 'currency') %></div>
+    </div>
+  </div>
+
+  <% if (regularization.note) { %>
+    <h2 class="section"><%= _.t('Note') %></h2>
+    <div class="note-block"><%= regularization.note %></div>
+  <% } %>
+</body>
+
+</html>

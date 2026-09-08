@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Charge regularization (_régularisation des charges_). A tenancy now has a charges regime — _provisions_ (reconciled once a year) or _forfait_ (flat fee, informative) — set in the Billing tab. For a provisions tenancy, a new **Charges** tab records the period's real recoverable charges as free lines (each flagged recoverable or not, so a charge outside the syndic statement such as electricity can be added by hand), over a freely chosen period pre-filled to the calendar year. It compares the provisions called over that period with the recoverable charges and shows the balance — a credit to the tenant (over-paid) or a complement due — and produces a **charge regularization statement** PDF that lists only the recoverable charges. This first version is informative: it does not post the balance onto a rent term (a later, opt-in step). Forfait tenancies keep their current behaviour and simply have the regularization disabled. See `docs/charge-regularization.md`.
+
 ### Fixed
 
 - Expense category labels showed the raw key (`expenseCategory.works`, `expenseCategory.other`, …) instead of a readable name — in the category dropdown of the expense form, in the property expenses table and in the per-property results breakdown, in every language. The landlord app runs `next-translate` with `keySeparator: false`, so `t('expenseCategory.works')` looks up a flat key of that exact name, but the categories were stored as a nested `expenseCategory` object. The keys are now flat (`"expenseCategory.works"`), so they resolve, and they were added to `scripts/.keptkeys.json` so `generateStrings` no longer prunes them (they are referenced through a template literal the harvester cannot see).
