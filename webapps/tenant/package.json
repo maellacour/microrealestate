@@ -2,6 +2,7 @@
   "name": "@microrealestate/tenant",
   "version": "1.8.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "clean:types": "rimraf ../../types/dist",
     "transpile:types": "tsc --build ../../types/tsconfig.json",
