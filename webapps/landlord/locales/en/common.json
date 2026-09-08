@@ -485,6 +485,25 @@
   "Delete this expense?": "Delete this expense?",
   "Enter a valid amount": "Enter a valid amount",
   "Enter a date": "Enter a date",
+  "Results": "Results",
+  "Collected revenue": "Collected revenue",
+  "Net result": "Net result",
+  "Collected revenue minus expenses": "Collected revenue minus expenses",
+  "{{days}} days rented": "{{days}} days rented",
+  "Charged rent": "Charged rent",
+  "Rent raised by the terms of the year": "Rent raised by the terms of the year",
+  "Still due": "Still due",
+  "Charged for the year and not settled yet": "Charged for the year and not settled yet",
+  "Includes {{amount}} retained from the security deposit rather than received": "Includes {{amount}} retained from the security deposit rather than received",
+  "This property is rented within a lease covering several properties. Amounts are split between them in proportion to their rent.": "This property is rented within a lease covering several properties. Amounts are split between them in proportion to their rent.",
+  "Several leases overlap on this property during the year. The occupancy rate is capped at 100%.": "Several leases overlap on this property during the year. The occupancy rate is capped at 100%.",
+  "Expenses by category": "Expenses by category",
+  "Collected revenue of {{year}}": "Collected revenue of {{year}}",
+  "Results by property": "Results by property",
+  "Amounts are split between the properties of a shared lease": "Amounts are split between the properties of a shared lease",
+  "Several leases overlap on this property": "Several leases overlap on this property",
+  "No property found": "No property found",
+  "Results by property - {{year}}.csv": "Results by property - {{year}}.csv",
   "expenseCategory": {
     "works": "Works",
     "insurance": "Insurance (landlord)",
@@ -493,5 +512,6 @@
     "management_fees": "Management fees",
     "loan_interest": "Loan interest",
     "other": "Other"
-  }
+  },
+  "Retained on rents": "Retained on rents"
 }

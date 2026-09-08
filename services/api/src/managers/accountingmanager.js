@@ -1,5 +1,4 @@
-import { Collections } from '@microrealestate/common';
-import { depositRefundInfo } from '../businesslogic/deposit.js';
+import { Collections, Deposit } from '@microrealestate/common';
 import i18n from 'i18n';
 import moment from 'moment';
 import { Parser } from 'json2csv';
@@ -92,6 +91,39 @@ async function _fetchData(realmId, year) {
         terminationDate: 1,
         guaranty: 1,
         guarantyPayback: 1,
+        guarantyPaybackDate: 1,
+        // Summed over the whole lease, unlike `rents` below which is filtered
+        // on the requested year: a rent settled out of the deposit in a
+        // previous year has left it just the same.
+        depositRetained: {
+          $reduce: {
+            input: {
+              $reduce: {
+                input: { $ifNull: ['$rents', []] },
+                initialValue: [],
+                in: {
+                  $concatArrays: [
+                    '$$value',
+                    { $ifNull: ['$$this.payments', []] }
+                  ]
+                }
+              }
+            },
+            initialValue: 0,
+            in: {
+              $add: [
+                '$$value',
+                {
+                  $cond: [
+                    { $eq: ['$$this.type', 'deposit'] },
+                    { $ifNull: ['$$this.amount', 0] },
+                    0
+                  ]
+                }
+              ]
+            }
+          }
+        },
         properties: 1,
         rents: {
           $filter: {
@@ -185,10 +217,11 @@ function _outgoingTenants(tenants, locale, currency, rawData = true) {
             total: { grandTotal: 0 }
           };
 
-      const refund = depositRefundInfo({
+      const deposit = Deposit.depositInfo({
         guaranty: tenant.guaranty,
         guarantyPayback: tenant.guarantyPayback,
         guarantyPaybackDate: tenant.guarantyPaybackDate,
+        retained: tenant.depositRetained,
         leaseEnd: tenant.terminationDate || tenant.endDate
       });
 
@@ -207,21 +240,24 @@ function _outgoingTenants(tenants, locale, currency, rawData = true) {
           : tenant.guarantyPaybackDate
             ? moment(tenant.guarantyPaybackDate).locale(locale).format('L')
             : '',
-        depositToRefund: NumberFormat.format(refund.remaining),
-        depositRefundStatus: refund.status,
+        depositRetained: NumberFormat.format(deposit.retained),
+        depositToRefund: NumberFormat.format(deposit.remaining),
+        depositRefundStatus: deposit.status,
         depositRefundDueDate: rawData
-          ? refund.dueDate
-          : refund.dueDate
-            ? moment(refund.dueDate).locale(locale).format('L')
+          ? deposit.dueDate
+          : deposit.dueDate
+            ? moment(deposit.dueDate).locale(locale).format('L')
             : '',
         balance: NumberFormat.format(
           (lastRent.total.payment ? lastRent.total.payment : 0) -
             lastRent.total.grandTotal
         ),
+        // `deposit.remaining` and not the whole deposit: a rent settled out
+        // of the deposit is already counted in `total.payment`, so adding the
+        // deposit in full would credit the tenant twice.
         finalBalance: NumberFormat.format(
           (lastRent.total.payment ? lastRent.total.payment : 0) +
-            (tenant.guaranty ? tenant.guaranty : 0) -
-            (tenant.guarantyPayback ? tenant.guarantyPayback : 0) -
+            deposit.remaining -
             lastRent.total.grandTotal
         )
       };
@@ -404,6 +440,10 @@ async function outgoingTenantsAsCsv(req, res) {
     {
       label: i18n.__('Refunded deposit'),
       value: 'guarantyPayback'
+    },
+    {
+      label: i18n.__('Retained on rents'),
+      value: 'depositRetained'
     },
     {
       label: i18n.__('Deposit refund due date'),

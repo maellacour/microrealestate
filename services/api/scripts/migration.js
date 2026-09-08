@@ -143,6 +143,35 @@ async function renameTenantContactName() {
   );
 }
 
+async function backfillTenantFrequency() {
+  // The rent term length (`frequency`) was read by the rent code but missing
+  // from the Tenant schema, so mongoose silently dropped it on every write and
+  // every read fell back to 'months' - recomputing a daily or weekly schedule
+  // on a monthly grid. Tenants written before the field was added carry no
+  // value: rebuild it from the lease they are attached to.
+  const leases = await Collections.Lease.find({}, { timeRange: 1 }).lean();
+  const leaseIdsByTimeRange = leases.reduce((acc, lease) => {
+    if (!lease.timeRange) {
+      return acc;
+    }
+    if (!acc[lease.timeRange]) {
+      acc[lease.timeRange] = [];
+    }
+    acc[lease.timeRange].push(String(lease._id));
+    return acc;
+  }, {});
+
+  let modifiedCount = 0;
+  for (const [timeRange, leaseIds] of Object.entries(leaseIdsByTimeRange)) {
+    const result = await Collections.Tenant.collection.updateMany(
+      { leaseId: { $in: leaseIds }, frequency: { $exists: false } },
+      { $set: { frequency: timeRange } }
+    );
+    modifiedCount += result.modifiedCount;
+  }
+  logger.info(`backfilled frequency on ${modifiedCount} tenant records`);
+}
+
 export default async function migratedb() {
   let failure = false;
   let db;
@@ -160,6 +189,7 @@ export default async function migratedb() {
     await cleanupUnusedAttributes();
     await updateThirdPartyConfiguration();
     await renameTenantContactName();
+    await backfillTenantFrequency();
     logger.info('Migration done');
   } catch (error) {
     logger.error(String(error));

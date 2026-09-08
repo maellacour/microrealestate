@@ -40,6 +40,14 @@ const TenantSchema = new mongoose.Schema<CollectionTypes.Tenant>({
   reference: String,
   contract: String,
   leaseId: { type: String, ref: Lease },
+  // Rent term length, copied from the lease's timeRange when the contract is
+  // set. It has to be persisted: the rent schedule is generated from it, so
+  // reading it back is what keeps a non-monthly contract from being recomputed
+  // on a monthly grid.
+  frequency: {
+    type: String,
+    enum: ['days', 'weeks', 'months', 'years']
+  },
   beginDate: Date,
   endDate: Date,
   terminationDate: Date,

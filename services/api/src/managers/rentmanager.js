@@ -83,9 +83,23 @@ async function _renewLapsedContracts(realm, untilMoment, tenantId) {
 
       const renewed = Contract.renewUntil(contract, untilMoment);
       if (renewed.rents.length > tenant.rents.length) {
+        // The occupancy end of each rented property moves with the contract
+        // end. Persist those fields one by one: re-casting the whole properties
+        // array would re-cast the embedded property snapshot with it, which
+        // throws a CastError on lean documents.
+        const fieldsToUpdate = {
+          endDate: renewed.end,
+          rents: renewed.rents
+        };
+        renewed.properties?.forEach(({ exitDate }, index) => {
+          if (exitDate) {
+            fieldsToUpdate[`properties.${index}.exitDate`] = exitDate;
+          }
+        });
+
         await Collections.Tenant.updateOne(
           { _id: tenant._id, realmId: realm._id },
-          { $set: { endDate: renewed.end, rents: renewed.rents } }
+          { $set: fieldsToUpdate }
         );
       }
     } catch (error) {

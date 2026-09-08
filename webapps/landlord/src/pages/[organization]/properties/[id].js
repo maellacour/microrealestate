@@ -16,6 +16,7 @@ import { observer } from 'mobx-react-lite';
 import Page from '../../../components/Page';
 import PropertyExpenses from '../../../components/properties/PropertyExpenses';
 import PropertyForm from '../../../components/properties/PropertyForm';
+import PropertyResults from '../../../components/properties/PropertyResults';
 import ShortcutButton from '../../../components/ShortcutButton';
 import { StoreContext } from '../../../store';
 import { toast } from 'sonner';
@@ -197,12 +198,17 @@ function Property() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Tabs defaultValue="property" className="md:col-span-2">
             <TabsList className="flex justify-start overflow-x-auto overflow-y-hidden">
-              <TabsTrigger value="property" className="w-1/2">
+              <TabsTrigger value="property" className="w-1/3">
                 {t('Property')}
               </TabsTrigger>
               {store.property.selected._id ? (
-                <TabsTrigger value="expenses" className="w-1/2">
+                <TabsTrigger value="expenses" className="w-1/3">
                   {t('Expenses')}
+                </TabsTrigger>
+              ) : null}
+              {store.property.selected._id ? (
+                <TabsTrigger value="results" className="w-1/3">
+                  {t('Results')}
                 </TabsTrigger>
               ) : null}
             </TabsList>
@@ -215,6 +221,13 @@ function Property() {
               <TabsContent value="expenses">
                 <Card className="p-6">
                   <PropertyExpenses propertyId={store.property.selected._id} />
+                </Card>
+              </TabsContent>
+            ) : null}
+            {store.property.selected._id ? (
+              <TabsContent value="results">
+                <Card className="p-6">
+                  <PropertyResults propertyId={store.property.selected._id} />
                 </Card>
               </TabsContent>
             ) : null}

@@ -245,6 +245,7 @@ export namespace CollectionTypes {
     reference: string;
     contract: string;
     leaseId: string | Lease;
+    frequency: LeaseTimeRange;
     beginDate: Date;
     endDate: Date;
     terminationDate: Date;

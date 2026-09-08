@@ -67,6 +67,16 @@ export default function OutgoingTenants({ onCSVClick }) {
                   <NumberFormat value={tenant.guaranty} />
                 </div>
               </div>
+              {tenant.depositRetained > 0 ? (
+                <div>
+                  <div className="text-muted-foreground text-xs">
+                    {t('Retained on rents')}
+                  </div>
+                  <div>
+                    <NumberFormat value={tenant.depositRetained} />
+                  </div>
+                </div>
+              ) : null}
               <div>
                 <div className="text-muted-foreground text-xs">
                   {t('Deposit reimbursement')}

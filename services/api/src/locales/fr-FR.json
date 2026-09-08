@@ -1,5 +1,5 @@
 {
-  "cash": "Espèce",
+  "cash": "Espèces",
   "cheque": "Chèque",
   "Contract begin date": "Date de début de contrat",
   "Contract end date": "Date de fin de contract",
@@ -16,5 +16,22 @@
   "Deposit refund due date": "Date limite de restitution du dépôt",
   "Deposit still to refund": "Dépôt restant à restituer",
   "Tenant": "Locataire",
-  "transfer": "Virement"
+  "transfer": "Virement",
+  "deposit": "Retenue sur dépôt de garantie",
+  "Property": "Bien",
+  "Collected revenue": "Recettes encaissées",
+  "Charged rent": "Loyers appelés",
+  "Still due": "Reste dû",
+  "Total expenses": "Total des charges",
+  "Net result": "Résultat net",
+  "Days rented": "Jours loués",
+  "Occupancy rate": "Taux d'occupation",
+  "works": "Travaux",
+  "insurance": "Assurance (PNO)",
+  "property_tax": "Taxe foncière",
+  "condo_charges": "Charges de copropriété",
+  "management_fees": "Frais de gestion",
+  "loan_interest": "Intérêts d'emprunt",
+  "other": "Autre",
+  "Retained on rents": "Retenu sur les loyers"
 }

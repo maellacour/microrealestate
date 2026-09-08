@@ -13,6 +13,7 @@ import { observer } from 'mobx-react-lite';
 import OutgoingTenants from '../../../components/accounting/OutgoingTenants';
 import Page from '../../../components/Page';
 import PeriodPicker from '../../../components/PeriodPicker';
+import PropertyResults from '../../../components/accounting/PropertyResults';
 import SearchFilterBar from '../../../components/SearchFilterBar';
 import { StoreContext } from '../../../store';
 import TenantSettlements from '../../../components/accounting/TenantSettlements';
@@ -53,7 +54,11 @@ function TopBar({ onSearch }) {
 }
 
 async function fetchData(store, router) {
-  return await store.accounting.fetch(router.query.year);
+  const [accounting] = await Promise.all([
+    store.accounting.fetch(router.query.year),
+    store.propertyAccounting.fetch(router.query.year)
+  ]);
+  return accounting;
 }
 
 function Accounting() {
@@ -69,6 +74,24 @@ function Accounting() {
         await downloadDocument({
           endpoint: `/csv/settlements/${router.query.year}`,
           documentName: t('Settlements - {{year}}.csv', {
+            year: router.query.year
+          })
+        });
+      } catch (error) {
+        console.error(error);
+        toast.error(t('Something went wrong'));
+      }
+    },
+    [t, router.query.year]
+  );
+
+  const getPropertyResultsAsCsv = useCallback(
+    async (e) => {
+      e.stopPropagation();
+      try {
+        await downloadDocument({
+          endpoint: `/csv/properties/${router.query.year}`,
+          documentName: t('Results by property - {{year}}.csv', {
             year: router.query.year
           })
         });
@@ -160,6 +183,11 @@ function Accounting() {
           )} (${
             store.accounting.filteredData.settlements?.length || 0
           })`}</TabsTrigger>
+          <TabsTrigger value="properties" className="min-w-48 sm:w-full">{`${t(
+            'Properties'
+          )} (${
+            store.propertyAccounting.data.properties?.length || 0
+          })`}</TabsTrigger>
         </TabsList>
         <TabsContent value="incoming">
           <IncomingTenants onCSVClick={getIncomingTenantsAsCsv} />
@@ -172,6 +200,9 @@ function Accounting() {
             onCSVClick={getSettlementsAsCsv}
             onDownloadYearInvoices={getYearInvoices}
           />
+        </TabsContent>
+        <TabsContent value="properties">
+          <PropertyResults onCSVClick={getPropertyResultsAsCsv} />
         </TabsContent>
       </Tabs>
     </Page>

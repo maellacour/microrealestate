@@ -16,5 +16,22 @@
   "Deposit refund due date": "Deposit refund due date",
   "Deposit still to refund": "Deposit still to refund",
   "Tenant": "Tenant",
-  "transfer": "Transfer"
+  "transfer": "Transfer",
+  "deposit": "Deposit retention",
+  "Property": "Property",
+  "Collected revenue": "Collected revenue",
+  "Charged rent": "Charged rent",
+  "Still due": "Still due",
+  "Total expenses": "Total expenses",
+  "Net result": "Net result",
+  "Days rented": "Days rented",
+  "Occupancy rate": "Occupancy rate",
+  "works": "Works",
+  "insurance": "Insurance (landlord)",
+  "property_tax": "Property tax",
+  "condo_charges": "Condo charges",
+  "management_fees": "Management fees",
+  "loan_interest": "Loan interest",
+  "other": "Other",
+  "Retained on rents": "Retained on rents"
 }

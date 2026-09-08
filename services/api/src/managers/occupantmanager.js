@@ -169,6 +169,41 @@ async function _fetchTenants(realmId, tenantId) {
   return tenants;
 }
 
+// The term lengths a lease can define, and therefore the only ones a tenant can
+// carry. The rent engine also knows 'hours', but no lease can produce it.
+const SUPPORTED_FREQUENCIES = ['days', 'weeks', 'months', 'years'];
+
+// The rent term length lives on the lease (`timeRange`) and is copied onto the
+// tenant when the contract is set. Prefer what the request sends, then what is
+// already stored, then the lease itself, so a caller that omits the field never
+// silently turns a daily or weekly schedule into a monthly one.
+async function _resolveFrequency(realm, tenant, originalTenant) {
+  if (tenant.frequency) {
+    if (!SUPPORTED_FREQUENCIES.includes(tenant.frequency)) {
+      logger.error(`unsupported frequency ${tenant.frequency}`);
+      throw new ServiceError('unsupported frequency', 422);
+    }
+    return tenant.frequency;
+  }
+
+  if (originalTenant?.frequency) {
+    return originalTenant.frequency;
+  }
+
+  const leaseId = tenant.leaseId || originalTenant?.leaseId;
+  if (leaseId) {
+    const lease = await Collections.Lease.findOne({
+      _id: leaseId,
+      realmId: realm._id
+    }).lean();
+    if (lease?.timeRange) {
+      return lease.timeRange;
+    }
+  }
+
+  return 'months';
+}
+
 function _propertiesHaveRentData(properties) {
   return (
     properties?.length &&
@@ -204,6 +239,8 @@ export async function add(req, res) {
       [];
   });
 
+  occupant.frequency = await _resolveFrequency(realm, occupant);
+
   // Build rents from contract
   try {
     occupant.rents = [];
@@ -215,7 +252,7 @@ export async function add(req, res) {
       const contract = Contract.create({
         begin: occupant.beginDate,
         end: occupant.endDate,
-        frequency: occupant.frequency || 'months',
+        frequency: occupant.frequency,
         properties: occupant.properties
       });
 
@@ -257,6 +294,12 @@ export async function update(req, res) {
     newOccupant.documents = originalOccupant.documents;
   }
 
+  newOccupant.frequency = await _resolveFrequency(
+    realm,
+    newOccupant,
+    originalOccupant
+  );
+
   const propertyMap = await _buildPropertyMap(realm);
 
   newOccupant.properties = newOccupant.properties.map((rentedProperty) => {
@@ -281,7 +324,7 @@ export async function update(req, res) {
     _propertiesHaveRentData(newOccupant.properties)
   ) {
     try {
-      const termFrequency = newOccupant.frequency || 'months';
+      const termFrequency = newOccupant.frequency;
 
       const contract = {
         begin: originalOccupant.beginDate,
