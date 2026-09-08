@@ -1,6 +1,6 @@
 /* eslint-env node, jest */
 import * as Contract from '../managers/contract.js';
-import * as CR from '../businesslogic/chargeregularization.js';
+import * as CR from '@microrealestate/common/dist/utils/charges.js';
 import moment from 'moment';
 
 // A plain monthly contract: rent 300 + 50 charges per term, no VAT, no

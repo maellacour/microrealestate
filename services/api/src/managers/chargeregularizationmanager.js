@@ -1,9 +1,5 @@
 import * as Contract from './contract.js';
-import { Collections, ServiceError } from '@microrealestate/common';
-import {
-  computeRegularization,
-  regularizationAdjustment
-} from '../businesslogic/chargeregularization.js';
+import { Charges, Collections, ServiceError } from '@microrealestate/common';
 import i18n from 'i18n';
 import moment from 'moment';
 
@@ -32,7 +28,7 @@ function pickEditableFields(body) {
 function enrich(regularization, tenant) {
   return {
     ...regularization,
-    computed: computeRegularization(
+    computed: Charges.computeRegularization(
       tenant?.rents,
       regularization.lines,
       regularization.periodStart,
@@ -200,13 +196,16 @@ export async function apply(req, res) {
     throw new ServiceError('the target term does not exist', 400);
   }
 
-  const { balance } = computeRegularization(
+  const { balance } = Charges.computeRegularization(
     occupant.rents,
     regularization.lines,
     regularization.periodStart,
     regularization.periodEnd
   );
-  const adjustment = regularizationAdjustment(balance, occupant.vatRatio);
+  const adjustment = Charges.regularizationAdjustment(
+    balance,
+    occupant.vatRatio
+  );
   if (!adjustment) {
     throw new ServiceError('nothing to post: the balance is zero', 400);
   }

@@ -1,29 +1,13 @@
 import * as Express from 'express';
-import { Collections, logger, ServiceError } from '@microrealestate/common';
-import { CollectionTypes, UserServicePrincipal } from '@microrealestate/types';
-import moment from 'moment';
+import {
+  Charges,
+  Collections,
+  logger,
+  ServiceError
+} from '@microrealestate/common';
+import { UserServicePrincipal } from '@microrealestate/types';
 
 const round = (value: number) => Math.round((value || 0) * 100) / 100;
-
-// Provisions called over the period: sum of each rent term's charges when the
-// term (a YYYYMMDDHH number) falls within [periodStart, periodEnd].
-function provisionsCalledInPeriod(
-  rents: CollectionTypes.PartRent[] = [],
-  periodStart: Date,
-  periodEnd: Date
-) {
-  const start = moment(periodStart).startOf('day');
-  const end = moment(periodEnd).endOf('day');
-  return round(
-    rents.reduce((sum, rent) => {
-      const termMoment = moment(String(rent.term), 'YYYYMMDDHH');
-      if (termMoment.isBetween(start, end, undefined, '[]')) {
-        return sum + ((rent.total && rent.total.charges) || 0);
-      }
-      return sum;
-    }, 0)
-  );
-}
 
 // Returns the charge regularizations the landlord has shared with this tenant.
 // Only recoverable lines are exposed, matching the tenant statement.
@@ -59,14 +43,13 @@ export async function getSharedChargeRegularizations(
     const lines = (regularization.lines || [])
       .filter((line) => line.recoverable)
       .map((line) => ({ label: line.label, amount: round(line.amount) }));
-    const recoverableTotal = round(
-      lines.reduce((sum, line) => sum + line.amount, 0)
-    );
-    const provisionsCalled = provisionsCalledInPeriod(
-      tenant.rents,
-      regularization.periodStart,
-      regularization.periodEnd
-    );
+    const { provisionsCalled, recoverableTotal, balance } =
+      Charges.computeRegularization(
+        tenant.rents,
+        regularization.lines,
+        regularization.periodStart,
+        regularization.periodEnd
+      );
     return {
       id: regularization._id,
       periodStart: regularization.periodStart,
@@ -74,7 +57,7 @@ export async function getSharedChargeRegularizations(
       lines,
       provisionsCalled,
       recoverableTotal,
-      balance: round(provisionsCalled - recoverableTotal),
+      balance,
       note: regularization.note || ''
     };
   });

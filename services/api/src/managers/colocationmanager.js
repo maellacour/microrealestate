@@ -1,9 +1,4 @@
-import { Collections, ServiceError } from '@microrealestate/common';
-import {
-  equalShares,
-  sharesAreComplete,
-  splitCommonCharges
-} from '../businesslogic/colocation.js';
+import { Charges, Collections, ServiceError } from '@microrealestate/common';
 
 // Only these fields are ever settable from the request body - protects
 // realmId/createdDate from being spoofed by a client.
@@ -31,7 +26,7 @@ function withDefaultShares(members = []) {
   if (!missing) {
     return members;
   }
-  const shares = equalShares(members.length);
+  const shares = Charges.equalShares(members.length);
   return members.map((member, index) => ({
     tenantId: member.tenantId,
     sharePercent:
@@ -86,7 +81,9 @@ async function enrich(colocation, realmId) {
     ...colocation,
     members,
     property: property ? { _id: property._id, name: property.name } : null,
-    sharesComplete: sharesAreComplete(members.map((m) => m.sharePercent)),
+    sharesComplete: Charges.sharesAreComplete(
+      members.map((m) => m.sharePercent)
+    ),
     totalRentAmount:
       Math.round(
         members.reduce((sum, m) => sum + (m.tenant?.rentAmount || 0), 0) * 100
@@ -193,7 +190,7 @@ export async function regularize(req, res) {
     return res.sendStatus(404);
   }
 
-  const split = splitCommonCharges(lines, colocation.members);
+  const split = Charges.splitCommonCharges(lines, colocation.members);
   const created = [];
   for (const member of colocation.members) {
     const regularization = new Collections.ChargeRegularization({
