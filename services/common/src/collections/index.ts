@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 export { default as Account } from './account.js';
 export { default as ChargeRegularization } from './chargeregularization.js';
+export { default as Colocation } from './colocation.js';
 export { default as Document } from './document.js';
 export { default as Email } from './email.js';
 export { default as Expense } from './expense.js';

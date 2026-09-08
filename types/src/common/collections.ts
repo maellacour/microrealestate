@@ -336,4 +336,22 @@ export namespace CollectionTypes {
     createdDate: Date;
     updatedDate: Date;
   };
+
+  // A colocation (shared rental): one dwelling (property) rented under several
+  // individual leases (one Tenant per roommate), grouped together with a manual
+  // quote-part per roommate (percent, defaults to equal shares).
+  export type ColocationMember = {
+    tenantId: string;
+    sharePercent: number;
+  };
+
+  export type Colocation = {
+    _id: string;
+    realmId: string;
+    propertyId: string;
+    name?: string;
+    members: ColocationMember[];
+    createdDate: Date;
+    updatedDate: Date;
+  };
 }
