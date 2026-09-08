@@ -110,25 +110,55 @@ Quel que soit le choix, prévoir un **chemin de bascule** (ex. fusionner N
 baux-chambres en un bail unique, ou l'inverse) pour éviter la ressaisie
 destructive que tu subis aujourd'hui.
 
-## Recommandation provisoire
+## Décisions verrouillées
 
-- Si ta colocation est un **bail unique solidaire** → **Option 1** tout de suite
-  (documenter + basculer sur le modèle A), puis **Option 2** si tu veux le suivi
-  par colocataire.
-- Si tu tiens aux **baux individuels par chambre** → **Option 3** (groupe) +
-  éventuellement **Option 4** (répartition des charges communes).
+- **Régime** : baux **individuels par colocataire** (chacun son Tenant/loyer/
+  paiements), **regroupés** → **Option 3**.
+- **Bien** : **un seul bien = le logement**. Les chambres ne sont plus des biens
+  séparés (au plus une info).
+- **Quote-part** : **pourcentages saisis à la main** par colocataire, **défaut =
+  parts égales (1/N)**.
+- **Suivi par colocataire** : oui (loyer, paiements, relances, quittances) — déjà
+  natif puisque baux séparés.
+- **Charges communes** : saisies **une fois** au niveau logement/groupe, réparties
+  à la quote-part dans la **régularisation de chaque colocataire**.
+- **Conversion** : outil souhaité (voir plus bas) — non pour sauver l'historique
+  (déjà sûr), mais pour éviter la ressaisie et créer le groupe + les %.
 
-À trancher ensemble avant dev (cf. questions ci-dessous).
+## Modèle cible
 
-## Questions ouvertes (à décider)
+- **1 Property** = le logement. **N Tenants** (un par colocataire) rattachés au
+  même logement. Une **collection `Colocation`** relie le logement et les membres
+  `{ tenantId, sharePercent }`.
+- Le **loyer reste calculé par Tenant** — le pipeline `1_base`→`7_total` n'est
+  **pas** modifié.
+- On rend « colocation-aware » les **agrégations au niveau bien** : occupation /
+  statut (aujourd'hui basés sur `tenants[0]`) et le rapport « Résultats par bien »
+  (N baux concurrents sur un même bien).
 
-1. **Quel régime** pour ta colocation : bail unique solidaire, ou baux
-   individuels par chambre ? (Ça oriente A/2 vs C/3/4.)
-2. As-tu besoin d'un **suivi par colocataire** (part de loyer, qui a payé, relance
-   individuelle, quittance individuelle) — ou un **seul loyer global** suffit ?
-3. Les colocataires doivent-ils voir dans l'app locataire **leur part** ou **tout
-   le logement** ?
-4. Répartition des charges communes : **quote-part** (surface / nombre / parts
-   définies) ? Fixe ou paramétrable par colocataire ?
-5. La **bascule** entre montages doit-elle être outillée (migration), ou on choisit
-   un modèle cible unique et on s'y tient ?
+## Coût & risque
+
+| Lot | Contenu | Effort | Risque |
+|---|---|---|---|
+| **A. Groupe + bien-logement unique** | collection `Colocation`, API CRUD, UI bailleur (créer/rattacher/%, vue agrégée), occupation + résultats par bien colocation-aware | **M–L** | **Moyen** (accounting/occupation par bien supposent un occupant unique) |
+| **B. Charges communes à la quote-part** | saisie unique au niveau groupe → réparties par % dans la régularisation de chaque colocataire (réutilise la feature charges) | **M** | **Faible–Moyen** |
+| **C. Outil de conversion** | repointe les baux chambre→logement, crée le groupe + %, préserve paiements/loyers ; idempotent + dump préalable | **S–M** | **Moyen** (migration de données) |
+
+**Dé-risqueur clé** : le calcul du loyer n'est pas touché (chaque bail est
+indépendant). On ne modifie que les agrégations au niveau bien et on **ajoute** le
+groupe + la répartition des charges. **Vigilance** : plusieurs baux actifs sur un
+même bien simultanément (occupation, « Résultats par bien ») → à rendre
+colocation-aware **avec tests**. Ordre conseillé : **A → C → B**.
+
+### Variante allégée du lot A
+Sans collection dédiée : un **tag coloc + quote-part stockés sur chaque bail**
+partageant le bien ; répartition calculée au moment de la régularisation. Effort A
+réduit (**S–M**), risque moindre, mais pas de vraie vue agrégée.
+
+## Conversion & historique
+
+L'historique (loyers + **paiements**) est porté par le **Tenant**, pas par le bien.
+Tant qu'on conserve les baux des colocataires, il est **préservé** — la conversion
+ne fait que **repointer** chaque bail de sa chambre-bien vers le bien-logement et
+créer le groupe. Recommandé quand même : `mre dumpdb` avant, conversion
+idempotente, et vérification post-conversion des soldes/paiements par colocataire.
