@@ -31,5 +31,7 @@
   "management_fees": "Verwaltungskosten",
   "loan_interest": "Darlehenszinsen",
   "other": "Sonstiges",
-  "Retained on rents": "Auf Mieten einbehalten"
+  "Retained on rents": "Auf Mieten einbehalten",
+  "Deposit refund due date": "Fälligkeitsdatum der Kautionsrückzahlung",
+  "Deposit still to refund": "Noch zu erstattende Kaution"
 }

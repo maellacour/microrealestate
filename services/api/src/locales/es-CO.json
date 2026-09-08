@@ -1,12 +1,12 @@
 {
   "cash": "Efectivo",
   "cheque": "Cheque",
-  "Contract begin date": "Fecha incial del contrato",
+  "Contract begin date": "Fecha inicial del contrato",
   "Contract end date": "Fecha final del contrato",
   "Contract termination date": "Fecha de finalización del contrato",
   "Deposit": "Depósito",
   "Deposit: {{deposit}}": "Depósito: {{deposit}}",
-  "Final balance": "Balance final",
+  "Final balance": "Saldo final",
   "Last rent balance": "Saldo de alquileres",
   "levy": "Débito automático",
   "Name": "Nombre",
@@ -31,5 +31,7 @@
   "management_fees": "Gastos de gestión",
   "loan_interest": "Intereses del préstamo",
   "other": "Otro",
-  "Retained on rents": "Retenido sobre los arriendos"
+  "Retained on rents": "Retenido sobre los arriendos",
+  "Deposit refund due date": "Fecha límite de reembolso del depósito",
+  "Deposit still to refund": "Depósito pendiente de reembolso"
 }
