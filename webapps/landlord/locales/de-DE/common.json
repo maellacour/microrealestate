@@ -535,5 +535,14 @@
   "Post the balance on a rent term": "Saldo auf einen Mietzeitraum buchen",
   "Rent term": "Mietzeitraum",
   "Select a term": "Zeitraum auswählen",
-  "Apply": "Anwenden"
+  "Apply": "Anwenden",
+  "Colocation": "Wohngemeinschaft",
+  "Group the leases renting this property as a colocation to manage shares and shared charges together.": "Fassen Sie die Mietverträge dieser Immobilie zu einer WG zusammen, um Anteile und gemeinsame Nebenkosten zusammen zu verwalten.",
+  "Create a colocation": "WG erstellen",
+  "Create leases on this property first": "Legen Sie zuerst Mietverträge für diese Immobilie an",
+  "Share (%)": "Anteil (%)",
+  "Total share": "Anteile gesamt",
+  "Total rent": "Gesamtmiete",
+  "Delete the colocation": "WG löschen",
+  "Delete this colocation?": "Diese WG löschen?"
 }

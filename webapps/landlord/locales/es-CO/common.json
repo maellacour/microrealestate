@@ -535,5 +535,14 @@
   "Post the balance on a rent term": "Registrar el saldo en un período de alquiler",
   "Rent term": "Período de alquiler",
   "Select a term": "Selecciona un período",
-  "Apply": "Aplicar"
+  "Apply": "Aplicar",
+  "Colocation": "Vivienda compartida",
+  "Group the leases renting this property as a colocation to manage shares and shared charges together.": "Agrupa los contratos de este inmueble como vivienda compartida para gestionar las cuotas y los cargos comunes juntos.",
+  "Create a colocation": "Crear vivienda compartida",
+  "Create leases on this property first": "Primero crea contratos en este inmueble",
+  "Share (%)": "Cuota (%)",
+  "Total share": "Total de cuotas",
+  "Total rent": "Alquiler total",
+  "Delete the colocation": "Eliminar la vivienda compartida",
+  "Delete this colocation?": "¿Eliminar esta vivienda compartida?"
 }

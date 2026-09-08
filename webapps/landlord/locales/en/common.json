@@ -535,5 +535,14 @@
   "Post the balance on a rent term": "Post the balance on a rent term",
   "Rent term": "Rent term",
   "Select a term": "Select a term",
-  "Apply": "Apply"
+  "Apply": "Apply",
+  "Colocation": "Colocation",
+  "Group the leases renting this property as a colocation to manage shares and shared charges together.": "Group the leases renting this property as a colocation to manage shares and shared charges together.",
+  "Create a colocation": "Create a colocation",
+  "Create leases on this property first": "Create leases on this property first",
+  "Share (%)": "Share (%)",
+  "Total share": "Total share",
+  "Total rent": "Total rent",
+  "Delete the colocation": "Delete the colocation",
+  "Delete this colocation?": "Delete this colocation?"
 }

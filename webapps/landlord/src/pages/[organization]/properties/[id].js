@@ -14,6 +14,7 @@ import moment from 'moment';
 import NumberFormat from '../../../components/NumberFormat';
 import { observer } from 'mobx-react-lite';
 import Page from '../../../components/Page';
+import PropertyColocation from '../../../components/properties/PropertyColocation';
 import PropertyExpenses from '../../../components/properties/PropertyExpenses';
 import PropertyForm from '../../../components/properties/PropertyForm';
 import PropertyResults from '../../../components/properties/PropertyResults';
@@ -198,16 +199,21 @@ function Property() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Tabs defaultValue="property" className="md:col-span-2">
             <TabsList className="flex justify-start overflow-x-auto overflow-y-hidden">
-              <TabsTrigger value="property" className="w-1/3">
+              <TabsTrigger value="property" className="w-1/4">
                 {t('Property')}
               </TabsTrigger>
               {store.property.selected._id ? (
-                <TabsTrigger value="expenses" className="w-1/3">
+                <TabsTrigger value="expenses" className="w-1/4">
                   {t('Expenses')}
                 </TabsTrigger>
               ) : null}
               {store.property.selected._id ? (
-                <TabsTrigger value="results" className="w-1/3">
+                <TabsTrigger value="colocation" className="w-1/4">
+                  {t('Colocation')}
+                </TabsTrigger>
+              ) : null}
+              {store.property.selected._id ? (
+                <TabsTrigger value="results" className="w-1/4">
                   {t('Results')}
                 </TabsTrigger>
               ) : null}
@@ -221,6 +227,15 @@ function Property() {
               <TabsContent value="expenses">
                 <Card className="p-6">
                   <PropertyExpenses propertyId={store.property.selected._id} />
+                </Card>
+              </TabsContent>
+            ) : null}
+            {store.property.selected._id ? (
+              <TabsContent value="colocation">
+                <Card className="p-6">
+                  <PropertyColocation
+                    propertyId={store.property.selected._id}
+                  />
                 </Card>
               </TabsContent>
             ) : null}

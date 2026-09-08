@@ -535,5 +535,14 @@
   "Post the balance on a rent term": "Reporter le solde sur un terme de loyer",
   "Rent term": "Terme de loyer",
   "Select a term": "Sélectionnez un terme",
-  "Apply": "Appliquer"
+  "Apply": "Appliquer",
+  "Colocation": "Colocation",
+  "Group the leases renting this property as a colocation to manage shares and shared charges together.": "Regroupez les baux de ce bien en colocation pour gérer les quote-parts et les charges communes ensemble.",
+  "Create a colocation": "Créer une colocation",
+  "Create leases on this property first": "Créez d'abord des baux sur ce bien",
+  "Share (%)": "Quote-part (%)",
+  "Total share": "Total des quote-parts",
+  "Total rent": "Loyer total",
+  "Delete the colocation": "Supprimer la colocation",
+  "Delete this colocation?": "Supprimer cette colocation ?"
 }

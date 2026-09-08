@@ -535,5 +535,14 @@
   "Post the balance on a rent term": "Lançar o saldo em um período de aluguel",
   "Rent term": "Período de aluguel",
   "Select a term": "Selecione um período",
-  "Apply": "Aplicar"
+  "Apply": "Aplicar",
+  "Colocation": "Moradia compartilhada",
+  "Group the leases renting this property as a colocation to manage shares and shared charges together.": "Agrupe os contratos deste imóvel como moradia compartilhada para gerir as cotas e os encargos comuns juntos.",
+  "Create a colocation": "Criar moradia compartilhada",
+  "Create leases on this property first": "Primeiro crie contratos neste imóvel",
+  "Share (%)": "Cota (%)",
+  "Total share": "Total das cotas",
+  "Total rent": "Aluguel total",
+  "Delete the colocation": "Excluir a moradia compartilhada",
+  "Delete this colocation?": "Excluir esta moradia compartilhada?"
 }
