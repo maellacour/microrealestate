@@ -511,5 +511,22 @@
   "No expenses recorded yet": "Aún no hay gastos registrados",
   "Delete this expense?": "¿Eliminar este gasto?",
   "Enter a valid amount": "Ingresa un monto válido",
-  "Enter a date": "Ingresa una fecha"
+  "Enter a date": "Ingresa una fecha",
+  "Charges": "Cargos",
+  "Flat-rate charges (no yearly regularization)": "Cargos a tarifa fija (sin liquidación anual)",
+  "New charge regularization": "Nueva liquidación de cargos",
+  "Edit charge regularization": "Editar liquidación de cargos",
+  "Period start": "Inicio del período",
+  "Period end": "Fin del período",
+  "Real charges": "Cargos reales",
+  "Recoverable": "Recuperable",
+  "Add a line": "Agregar una línea",
+  "Provisions called": "Provisiones cobradas",
+  "Recoverable charges": "Cargos recuperables",
+  "Overpaid (credit to tenant)": "Excedente (a favor del arrendatario)",
+  "Complement due by tenant": "Complemento a cargo del arrendatario",
+  "The end date must be after the start date": "La fecha de fin debe ser posterior a la de inicio",
+  "This tenancy uses flat-rate charges, so there is no charge regularization. Switch the charges regime in the Billing tab to enable it.": "Este contrato usa cargos a tarifa fija, por lo que no hay liquidación. Cambia el régimen de cargos en la pestaña Facturación para habilitarla.",
+  "No charge regularization recorded yet": "Aún no hay liquidaciones de cargos registradas",
+  "Delete this charge regularization?": "¿Eliminar esta liquidación de cargos?"
 }

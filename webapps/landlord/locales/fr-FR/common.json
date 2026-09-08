@@ -511,5 +511,22 @@
   "expenseCategory.management_fees": "Frais de gestion",
   "expenseCategory.loan_interest": "Intérêts d'emprunt",
   "expenseCategory.other": "Autre",
-  "Retained on rents": "Retenu sur les loyers"
+  "Retained on rents": "Retenu sur les loyers",
+  "Charges": "Charges",
+  "Flat-rate charges (no yearly regularization)": "Charges au forfait (sans régularisation annuelle)",
+  "New charge regularization": "Nouvelle régularisation de charges",
+  "Edit charge regularization": "Modifier la régularisation de charges",
+  "Period start": "Début de période",
+  "Period end": "Fin de période",
+  "Real charges": "Charges réelles",
+  "Recoverable": "Récupérable",
+  "Add a line": "Ajouter une ligne",
+  "Provisions called": "Provisions appelées",
+  "Recoverable charges": "Charges récupérables",
+  "Overpaid (credit to tenant)": "Trop-perçu (à restituer au locataire)",
+  "Complement due by tenant": "Complément dû par le locataire",
+  "The end date must be after the start date": "La date de fin doit être postérieure à la date de début",
+  "This tenancy uses flat-rate charges, so there is no charge regularization. Switch the charges regime in the Billing tab to enable it.": "Ce bail est au forfait de charges : il n'y a pas de régularisation. Changez le régime de charges dans l'onglet Facturation pour l'activer.",
+  "No charge regularization recorded yet": "Aucune régularisation de charges enregistrée",
+  "Delete this charge regularization?": "Supprimer cette régularisation de charges ?"
 }

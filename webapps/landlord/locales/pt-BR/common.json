@@ -511,5 +511,22 @@
   "No expenses recorded yet": "Nenhuma despesa registrada ainda",
   "Delete this expense?": "Excluir esta despesa?",
   "Enter a valid amount": "Insira um valor válido",
-  "Enter a date": "Insira uma data"
+  "Enter a date": "Insira uma data",
+  "Charges": "Encargos",
+  "Flat-rate charges (no yearly regularization)": "Encargos com valor fixo (sem acerto anual)",
+  "New charge regularization": "Novo acerto de encargos",
+  "Edit charge regularization": "Editar acerto de encargos",
+  "Period start": "Início do período",
+  "Period end": "Fim do período",
+  "Real charges": "Encargos reais",
+  "Recoverable": "Recuperável",
+  "Add a line": "Adicionar uma linha",
+  "Provisions called": "Provisões cobradas",
+  "Recoverable charges": "Encargos recuperáveis",
+  "Overpaid (credit to tenant)": "Excedente (a favor do inquilino)",
+  "Complement due by tenant": "Complemento devido pelo inquilino",
+  "The end date must be after the start date": "A data de término deve ser posterior à data de início",
+  "This tenancy uses flat-rate charges, so there is no charge regularization. Switch the charges regime in the Billing tab to enable it.": "Esta locação usa encargos com valor fixo, portanto não há acerto. Altere o regime de encargos na aba Faturamento para habilitá-lo.",
+  "No charge regularization recorded yet": "Nenhum acerto de encargos registrado ainda",
+  "Delete this charge regularization?": "Excluir este acerto de encargos?"
 }

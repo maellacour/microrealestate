@@ -20,7 +20,8 @@ const validationSchema = Yup.object().shape({
     is: true,
     then: Yup.number().moreThan(0).max(100)
   }),
-  discount: Yup.number().min(0)
+  discount: Yup.number().min(0),
+  forfaitCharges: Yup.boolean()
 });
 
 const initValues = (tenant) => {
@@ -28,7 +29,8 @@ const initValues = (tenant) => {
     reference: tenant?.reference || '',
     isVat: !!tenant?.isVat,
     vatRatio: tenant?.vatRatio * 100 || 0,
-    discount: tenant?.discount || 0
+    discount: tenant?.discount || 0,
+    forfaitCharges: tenant?.chargesMode === 'forfait'
   };
 };
 
@@ -50,7 +52,8 @@ const Billing = observer(({ readOnly, onSubmit }) => {
       reference: billing.reference,
       isVat: billing.isVat,
       vatRatio: billing.isVat ? billing.vatRatio / 100 : 0,
-      discount: billing.discount
+      discount: billing.discount,
+      chargesMode: billing.forfaitCharges ? 'forfait' : 'provisions'
     });
   };
 
@@ -96,6 +99,12 @@ const Billing = observer(({ readOnly, onSubmit }) => {
                   disabled={readOnly}
                 />
               ) : null}
+              <SwitchField
+                name="forfaitCharges"
+                label={t('Flat-rate charges (no yearly regularization)')}
+                aria-label={t('Flat-rate charges (no yearly regularization)')}
+                disabled={readOnly}
+              />
             </Section>
             {!readOnly && (
               <SubmitButton

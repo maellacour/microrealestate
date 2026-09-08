@@ -511,5 +511,22 @@
   "No expenses recorded yet": "Noch keine Kosten erfasst",
   "Delete this expense?": "Diese Kosten löschen?",
   "Enter a valid amount": "Geben Sie einen gültigen Betrag ein",
-  "Enter a date": "Geben Sie ein Datum ein"
+  "Enter a date": "Geben Sie ein Datum ein",
+  "Charges": "Nebenkosten",
+  "Flat-rate charges (no yearly regularization)": "Nebenkostenpauschale (keine jährliche Abrechnung)",
+  "New charge regularization": "Neue Nebenkostenabrechnung",
+  "Edit charge regularization": "Nebenkostenabrechnung bearbeiten",
+  "Period start": "Beginn des Zeitraums",
+  "Period end": "Ende des Zeitraums",
+  "Real charges": "Tatsächliche Nebenkosten",
+  "Recoverable": "Umlagefähig",
+  "Add a line": "Zeile hinzufügen",
+  "Provisions called": "Angeforderte Vorauszahlungen",
+  "Recoverable charges": "Umlagefähige Nebenkosten",
+  "Overpaid (credit to tenant)": "Guthaben (an den Mieter zu erstatten)",
+  "Complement due by tenant": "Nachzahlung durch den Mieter",
+  "The end date must be after the start date": "Das Enddatum muss nach dem Startdatum liegen",
+  "This tenancy uses flat-rate charges, so there is no charge regularization. Switch the charges regime in the Billing tab to enable it.": "Dieses Mietverhältnis nutzt eine Nebenkostenpauschale, daher gibt es keine Abrechnung. Ändern Sie das Nebenkostenmodell im Reiter Abrechnung, um sie zu aktivieren.",
+  "No charge regularization recorded yet": "Noch keine Nebenkostenabrechnung erfasst",
+  "Delete this charge regularization?": "Diese Nebenkostenabrechnung löschen?"
 }

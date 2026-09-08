@@ -511,5 +511,22 @@
   "expenseCategory.management_fees": "Management fees",
   "expenseCategory.loan_interest": "Loan interest",
   "expenseCategory.other": "Other",
-  "Retained on rents": "Retained on rents"
+  "Retained on rents": "Retained on rents",
+  "Charges": "Charges",
+  "Flat-rate charges (no yearly regularization)": "Flat-rate charges (no yearly regularization)",
+  "New charge regularization": "New charge regularization",
+  "Edit charge regularization": "Edit charge regularization",
+  "Period start": "Period start",
+  "Period end": "Period end",
+  "Real charges": "Real charges",
+  "Recoverable": "Recoverable",
+  "Add a line": "Add a line",
+  "Provisions called": "Provisions called",
+  "Recoverable charges": "Recoverable charges",
+  "Overpaid (credit to tenant)": "Overpaid (credit to tenant)",
+  "Complement due by tenant": "Complement due by tenant",
+  "The end date must be after the start date": "The end date must be after the start date",
+  "This tenancy uses flat-rate charges, so there is no charge regularization. Switch the charges regime in the Billing tab to enable it.": "This tenancy uses flat-rate charges, so there is no charge regularization. Switch the charges regime in the Billing tab to enable it.",
+  "No charge regularization recorded yet": "No charge regularization recorded yet",
+  "Delete this charge regularization?": "Delete this charge regularization?"
 }

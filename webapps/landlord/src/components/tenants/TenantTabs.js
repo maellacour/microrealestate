@@ -6,6 +6,7 @@ import LeaseContractForm from './forms/LeaseContractForm';
 import { LuAlertTriangle } from 'react-icons/lu';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../store';
+import TenantChargeRegularization from './TenantChargeRegularization';
 import TenantForm from './forms/TenantForm';
 import { useContext } from 'react';
 import useTranslation from 'next-translate/useTranslation';
@@ -28,6 +29,9 @@ function TenantTabs({ onSubmit /*, setError*/, readOnly }) {
         </TabsTrigger>
         <TabsTrigger value="billing" className="min-w-48 sm:w-full">
           {t('Billing')}
+        </TabsTrigger>
+        <TabsTrigger value="charges" className="min-w-48 sm:w-full">
+          {t('Charges')}
         </TabsTrigger>
         <TabsTrigger value="documents" className="min-w-48 sm:w-full">
           <div className="flex justify-center items-center gap-1">
@@ -63,6 +67,15 @@ function TenantTabs({ onSubmit /*, setError*/, readOnly }) {
       >
         <Card className="p-6">
           <BillingForm onSubmit={onSubmit} readOnly={readOnly} />
+        </Card>
+      </TabsContent>
+      <TabsContent
+        forceMount
+        value="charges"
+        className="data-[state=inactive]:hidden"
+      >
+        <Card className="p-6">
+          <TenantChargeRegularization />
         </Card>
       </TabsContent>
       <TabsContent
