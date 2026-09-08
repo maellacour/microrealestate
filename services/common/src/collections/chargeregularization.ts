@@ -21,6 +21,15 @@ const ChargeRegularizationSchema =
 
     note: String,
 
+    // Phase 2 — balance posted onto a rent term
+    appliedToTerm: Number,
+    appliedType: { type: String, enum: ['debt', 'discount'] },
+    appliedAmount: Number,
+    appliedDescription: String,
+
+    // Phase 3 — statement shared with the tenant
+    shared: { type: Boolean, default: false },
+
     createdDate: Date,
     updatedDate: Date
   });

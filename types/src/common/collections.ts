@@ -326,6 +326,13 @@ export namespace CollectionTypes {
     periodEnd: Date;
     lines: ChargeRegularizationLine[];
     note?: string;
+    // Phase 2 — when the balance has been posted onto a rent term.
+    appliedToTerm?: number;
+    appliedType?: 'debt' | 'discount';
+    appliedAmount?: number;
+    appliedDescription?: string;
+    // Phase 3 — whether the statement is shared with the tenant.
+    shared?: boolean;
     createdDate: Date;
     updatedDate: Date;
   };

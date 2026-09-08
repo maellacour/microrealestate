@@ -1,7 +1,7 @@
 import * as accountingManager from './managers/accountingmanager.js';
+import * as chargeRegularizationManager from './managers/chargeregularizationmanager.js';
 import * as dashboardManager from './managers/dashboardmanager.js';
 import * as emailManager from './managers/emailmanager.js';
-import * as chargeRegularizationManager from './managers/chargeregularizationmanager.js';
 import * as expenseManager from './managers/expensemanager.js';
 import * as leaseManager from './managers/leasemanager.js';
 import * as occupantManager from './managers/occupantmanager.js';
@@ -118,6 +118,14 @@ export default function routes() {
   chargeRegularizationsRouter.delete(
     '/:ids',
     Middlewares.asyncWrapper(chargeRegularizationManager.remove)
+  );
+  chargeRegularizationsRouter.post(
+    '/:id/apply',
+    Middlewares.asyncWrapper(chargeRegularizationManager.apply)
+  );
+  chargeRegularizationsRouter.post(
+    '/:id/unapply',
+    Middlewares.asyncWrapper(chargeRegularizationManager.unapply)
   );
   router.use('/chargeregularizations', chargeRegularizationsRouter);
 

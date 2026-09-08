@@ -1,4 +1,9 @@
-import { Collections } from '@microrealestate/common';
+import * as Contract from './contract.js';
+import { Collections, ServiceError } from '@microrealestate/common';
+import {
+  computeRegularization,
+  regularizationAdjustment
+} from '../businesslogic/chargeregularization.js';
 import moment from 'moment';
 
 // Only these fields are ever settable from the request body - protects
@@ -8,7 +13,8 @@ const EDITABLE_FIELDS = [
   'periodStart',
   'periodEnd',
   'lines',
-  'note'
+  'note',
+  'shared'
 ];
 
 function pickEditableFields(body) {
@@ -20,49 +26,17 @@ function pickEditableFields(body) {
   }, {});
 }
 
-const round = (value) => Math.round((value || 0) * 100) / 100;
-
-// Provisions "appelées" (called, not paid) over the period: sum of each rent
-// term's charges when the term falls within [periodStart, periodEnd]. A rent
-// term is a YYYYMMDDHH number.
-function provisionsCalledInPeriod(tenant, periodStart, periodEnd) {
-  if (!periodStart || !periodEnd) {
-    return 0;
-  }
-  const start = moment(periodStart).startOf('day');
-  const end = moment(periodEnd).endOf('day');
-  return round(
-    (tenant?.rents || []).reduce((sum, rent) => {
-      const termMoment = moment(String(rent.term), 'YYYYMMDDHH');
-      if (termMoment.isBetween(start, end, undefined, '[]')) {
-        return sum + ((rent.total && rent.total.charges) || 0);
-      }
-      return sum;
-    }, 0)
-  );
-}
-
 // Attach the computed provisions/recoverable/balance to a stored
-// regularization. balance > 0 means a credit to the tenant (they over-paid),
-// balance < 0 means the tenant owes a complement.
+// regularization.
 function enrich(regularization, tenant) {
-  const provisionsCalled = provisionsCalledInPeriod(
-    tenant,
-    regularization.periodStart,
-    regularization.periodEnd
-  );
-  const recoverableTotal = round(
-    (regularization.lines || [])
-      .filter((line) => line.recoverable)
-      .reduce((sum, line) => sum + (line.amount || 0), 0)
-  );
   return {
     ...regularization,
-    computed: {
-      provisionsCalled,
-      recoverableTotal,
-      balance: round(provisionsCalled - recoverableTotal)
-    }
+    computed: computeRegularization(
+      tenant?.rents,
+      regularization.lines,
+      regularization.periodStart,
+      regularization.periodEnd
+    )
   };
 }
 
@@ -158,4 +132,180 @@ export async function one(req, res) {
 
   const tenant = await loadTenant(realm._id, dbRegularization.tenantId);
   return res.json(enrich(dbRegularization, tenant));
+}
+
+function buildContract(occupant) {
+  return {
+    frequency: occupant.frequency || 'months',
+    begin: occupant.beginDate,
+    end: occupant.endDate,
+    termination: occupant.terminationDate,
+    discount: occupant.discount || 0,
+    vatRate: occupant.vatRatio,
+    properties: occupant.properties,
+    rents: occupant.rents
+  };
+}
+
+// Rebuild a term's current settlements from the stored rent so payTerm keeps
+// its existing payments/debts/discounts when we add ours. Only settlement
+// discounts are passed back; contract discounts are re-added by the pipeline.
+function termSettlements(rent) {
+  return {
+    payments: rent.payments || [],
+    debts: [...(rent.debts || [])],
+    discounts: (rent.discounts || []).filter((d) => d.origin === 'settlement'),
+    description: rent.description || ''
+  };
+}
+
+function regularizationDescription(regularization) {
+  return `Régularisation des charges ${moment(regularization.periodStart).format('DD/MM/YYYY')} - ${moment(regularization.periodEnd).format('DD/MM/YYYY')}`;
+}
+
+// Post the regularization balance onto a rent term as a debt (complement due)
+// or a settlement discount (credit), then recompute the schedule.
+export async function apply(req, res) {
+  const realm = req.realm;
+  const term = Number(req.body.term);
+
+  const regularization = await Collections.ChargeRegularization.findOne({
+    _id: req.params.id,
+    realmId: realm._id
+  }).lean();
+  if (!regularization) {
+    return res.sendStatus(404);
+  }
+  if (regularization.appliedToTerm) {
+    throw new ServiceError(
+      'this regularization is already applied to a term',
+      409
+    );
+  }
+
+  const occupant = await loadTenant(realm._id, regularization.tenantId);
+  if (!occupant) {
+    return res.sendStatus(404);
+  }
+  const rent = (occupant.rents || []).find((r) => r.term === term);
+  if (!rent) {
+    throw new ServiceError('the target term does not exist', 400);
+  }
+
+  const { balance } = computeRegularization(
+    occupant.rents,
+    regularization.lines,
+    regularization.periodStart,
+    regularization.periodEnd
+  );
+  const adjustment = regularizationAdjustment(balance, occupant.vatRatio);
+  if (!adjustment) {
+    throw new ServiceError('nothing to post: the balance is zero', 400);
+  }
+
+  const description = regularizationDescription(regularization);
+  const settlements = termSettlements(rent);
+  if (adjustment.type === 'debt') {
+    settlements.debts.push({ description, amount: adjustment.amount });
+  } else {
+    settlements.discounts.push({
+      origin: 'settlement',
+      description,
+      amount: adjustment.amount
+    });
+  }
+
+  const rents = Contract.payTerm(
+    buildContract(occupant),
+    term,
+    settlements
+  ).rents;
+  await Collections.Tenant.updateOne(
+    { _id: occupant._id, realmId: realm._id },
+    { $set: { rents } }
+  );
+
+  const updated = await Collections.ChargeRegularization.findOneAndUpdate(
+    { _id: regularization._id, realmId: realm._id },
+    {
+      $set: {
+        appliedToTerm: term,
+        appliedType: adjustment.type,
+        appliedAmount: adjustment.amount,
+        appliedDescription: description,
+        updatedDate: new Date()
+      }
+    },
+    { new: true }
+  ).lean();
+
+  const freshTenant = await loadTenant(realm._id, regularization.tenantId);
+  return res.json(enrich(updated, freshTenant));
+}
+
+// Remove the previously posted adjustment from its term and recompute.
+export async function unapply(req, res) {
+  const realm = req.realm;
+
+  const regularization = await Collections.ChargeRegularization.findOne({
+    _id: req.params.id,
+    realmId: realm._id
+  }).lean();
+  if (!regularization) {
+    return res.sendStatus(404);
+  }
+  if (!regularization.appliedToTerm) {
+    throw new ServiceError('this regularization is not applied', 400);
+  }
+
+  const occupant = await loadTenant(realm._id, regularization.tenantId);
+  if (!occupant) {
+    return res.sendStatus(404);
+  }
+  const rent = (occupant.rents || []).find(
+    (r) => r.term === regularization.appliedToTerm
+  );
+  if (rent) {
+    const settlements = termSettlements(rent);
+    const bucket =
+      regularization.appliedType === 'debt' ? 'debts' : 'discounts';
+    let removed = false;
+    settlements[bucket] = settlements[bucket].filter((line) => {
+      if (
+        !removed &&
+        line.description === regularization.appliedDescription &&
+        Math.abs((line.amount || 0) - regularization.appliedAmount) < 0.005
+      ) {
+        removed = true;
+        return false;
+      }
+      return true;
+    });
+    const rents = Contract.payTerm(
+      buildContract(occupant),
+      regularization.appliedToTerm,
+      settlements
+    ).rents;
+    await Collections.Tenant.updateOne(
+      { _id: occupant._id, realmId: realm._id },
+      { $set: { rents } }
+    );
+  }
+
+  const updated = await Collections.ChargeRegularization.findOneAndUpdate(
+    { _id: regularization._id, realmId: realm._id },
+    {
+      $set: { updatedDate: new Date() },
+      $unset: {
+        appliedToTerm: '',
+        appliedType: '',
+        appliedAmount: '',
+        appliedDescription: ''
+      }
+    },
+    { new: true }
+  ).lean();
+
+  const freshTenant = await loadTenant(realm._id, regularization.tenantId);
+  return res.json(enrich(updated, freshTenant));
 }
