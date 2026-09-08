@@ -1,6 +1,6 @@
 {
   "name": "@microrealestate/emailer",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Generates and sends emails",
   "main": "./src/index.js",
   "private": true,
