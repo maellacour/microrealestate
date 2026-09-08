@@ -12,7 +12,8 @@ export default class Colocation {
       fetch: flow,
       create: flow,
       update: flow,
-      delete: flow
+      delete: flow,
+      regularize: flow
     });
   }
 
@@ -56,6 +57,18 @@ export default class Colocation {
       yield apiFetcher().delete(`/colocations/${ids.join(',')}`);
       this.items = this.items.filter((item) => !ids.includes(item._id));
       return { status: 200 };
+    } catch (error) {
+      return { status: error?.response?.status };
+    }
+  }
+
+  *regularize(id, payload) {
+    try {
+      const response = yield apiFetcher().post(
+        `/colocations/${id}/regularize`,
+        payload
+      );
+      return { status: 200, data: response.data };
     } catch (error) {
       return { status: error?.response?.status };
     }

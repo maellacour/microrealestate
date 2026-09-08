@@ -52,3 +52,27 @@ export function sharesAreComplete(sharePercents) {
   );
   return Math.abs(total - 100) < 0.01;
 }
+
+// Split common charge lines across colocation members by their quote-part.
+// Returns a map tenantId -> lines, each member getting its share of every line
+// (label and recoverable flag preserved). Shares of a single line always add
+// back up to that line's amount.
+export function splitCommonCharges(lines, members) {
+  const list = members || [];
+  const shares = list.map((member) => member.sharePercent);
+  const byTenant = {};
+  list.forEach((member) => {
+    byTenant[member.tenantId] = [];
+  });
+  (lines || []).forEach((line) => {
+    const parts = splitByShares(line.amount, shares);
+    list.forEach((member, index) => {
+      byTenant[member.tenantId].push({
+        label: line.label,
+        amount: parts[index],
+        recoverable: line.recoverable !== false
+      });
+    });
+  });
+  return byTenant;
+}

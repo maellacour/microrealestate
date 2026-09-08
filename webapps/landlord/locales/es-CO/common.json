@@ -544,5 +544,10 @@
   "Total share": "Total de cuotas",
   "Total rent": "Alquiler total",
   "Delete the colocation": "Eliminar la vivienda compartida",
-  "Delete this colocation?": "¿Eliminar esta vivienda compartida?"
+  "Delete this colocation?": "¿Eliminar esta vivienda compartida?",
+  "Common charges regularization": "Liquidación de cargos comunes",
+  "Common charges": "Cargos comunes",
+  "Generate": "Generar",
+  "Regularizations created for each roommate": "Liquidaciones creadas para cada compañero",
+  "Each charge is split by quote-part and a regularization is created for each roommate.": "Cada cargo se reparte por cuota y se crea una liquidación para cada compañero."
 }

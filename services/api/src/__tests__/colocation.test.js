@@ -2,7 +2,8 @@
 import {
   equalShares,
   sharesAreComplete,
-  splitByShares
+  splitByShares,
+  splitCommonCharges
 } from '../businesslogic/colocation.js';
 
 const sum = (arr) => Math.round(arr.reduce((s, v) => s + v, 0) * 100) / 100;
@@ -41,6 +42,45 @@ describe('colocation — split an amount by shares', () => {
 
   it('returns nothing without shares', () => {
     expect(splitByShares(100, [])).toEqual([]);
+  });
+});
+
+describe('colocation — split common charges', () => {
+  const members = [
+    { tenantId: 'A', sharePercent: 50 },
+    { tenantId: 'B', sharePercent: 50 }
+  ];
+
+  it('splits each line by member share, preserving label and flag', () => {
+    const split = splitCommonCharges(
+      [
+        { label: 'condo', amount: 800, recoverable: true },
+        { label: 'insurance', amount: 200, recoverable: false }
+      ],
+      members
+    );
+    expect(split.A).toEqual([
+      { label: 'condo', amount: 400, recoverable: true },
+      { label: 'insurance', amount: 100, recoverable: false }
+    ]);
+    expect(split.B).toEqual([
+      { label: 'condo', amount: 400, recoverable: true },
+      { label: 'insurance', amount: 100, recoverable: false }
+    ]);
+  });
+
+  it('keeps each line summing to its amount with uneven shares', () => {
+    const split = splitCommonCharges(
+      [{ label: 'water', amount: 100 }],
+      [
+        { tenantId: 'A', sharePercent: 33.33 },
+        { tenantId: 'B', sharePercent: 33.33 },
+        { tenantId: 'C', sharePercent: 33.34 }
+      ]
+    );
+    const total = split.A[0].amount + split.B[0].amount + split.C[0].amount;
+    expect(Math.round(total * 100) / 100).toEqual(100);
+    expect(split.A[0].recoverable).toBe(true); // defaults to recoverable
   });
 });
 

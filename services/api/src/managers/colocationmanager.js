@@ -1,5 +1,9 @@
-import { equalShares, sharesAreComplete } from '../businesslogic/colocation.js';
-import { Collections } from '@microrealestate/common';
+import { Collections, ServiceError } from '@microrealestate/common';
+import {
+  equalShares,
+  sharesAreComplete,
+  splitCommonCharges
+} from '../businesslogic/colocation.js';
 
 // Only these fields are ever settable from the request body - protects
 // realmId/createdDate from being spoofed by a client.
@@ -169,4 +173,40 @@ export async function one(req, res) {
   }
 
   return res.json(await enrich(dbColocation, realm._id));
+}
+
+// Split the common charges by quote-part and create one charge regularization
+// per colocation member for the period. Each member's regularization then
+// behaves like any other (apply to a term, share, PDF).
+export async function regularize(req, res) {
+  const realm = req.realm;
+  const { periodStart, periodEnd, lines } = req.body;
+  if (!periodStart || !periodEnd) {
+    throw new ServiceError('the period is required', 400);
+  }
+
+  const colocation = await Collections.Colocation.findOne({
+    _id: req.params.id,
+    realmId: realm._id
+  }).lean();
+  if (!colocation) {
+    return res.sendStatus(404);
+  }
+
+  const split = splitCommonCharges(lines, colocation.members);
+  const created = [];
+  for (const member of colocation.members) {
+    const regularization = new Collections.ChargeRegularization({
+      realmId: realm._id,
+      tenantId: member.tenantId,
+      periodStart,
+      periodEnd,
+      lines: split[member.tenantId] || [],
+      note: ''
+    });
+    await regularization.save();
+    created.push(regularization.toObject());
+  }
+
+  return res.json(created);
 }

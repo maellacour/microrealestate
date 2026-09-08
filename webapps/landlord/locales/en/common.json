@@ -544,5 +544,10 @@
   "Total share": "Total share",
   "Total rent": "Total rent",
   "Delete the colocation": "Delete the colocation",
-  "Delete this colocation?": "Delete this colocation?"
+  "Delete this colocation?": "Delete this colocation?",
+  "Common charges regularization": "Common charges regularization",
+  "Common charges": "Common charges",
+  "Generate": "Generate",
+  "Regularizations created for each roommate": "Regularizations created for each roommate",
+  "Each charge is split by quote-part and a regularization is created for each roommate.": "Each charge is split by quote-part and a regularization is created for each roommate."
 }

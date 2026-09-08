@@ -544,5 +544,10 @@
   "Total share": "Anteile gesamt",
   "Total rent": "Gesamtmiete",
   "Delete the colocation": "WG löschen",
-  "Delete this colocation?": "Diese WG löschen?"
+  "Delete this colocation?": "Diese WG löschen?",
+  "Common charges regularization": "Abrechnung der gemeinsamen Nebenkosten",
+  "Common charges": "Gemeinsame Nebenkosten",
+  "Generate": "Erzeugen",
+  "Regularizations created for each roommate": "Abrechnungen für jeden Mitbewohner erstellt",
+  "Each charge is split by quote-part and a regularization is created for each roommate.": "Jede Nebenkostenposition wird anteilig aufgeteilt und für jeden Mitbewohner wird eine Abrechnung erstellt."
 }

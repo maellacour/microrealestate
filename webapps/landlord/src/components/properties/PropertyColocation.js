@@ -15,6 +15,7 @@ import {
 } from '../ui/table';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Button } from '../ui/button';
+import ColocationRegularizeDialog from './ColocationRegularizeDialog';
 import ConfirmDialog from '../ConfirmDialog';
 import { EmptyIllustration } from '../Illustrations';
 import { Input } from '../ui/input';
@@ -34,6 +35,7 @@ function PropertyColocation({ propertyId }) {
   const [members, setMembers] = useState([]);
   const [toAdd, setToAdd] = useState('');
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [openRegularize, setOpenRegularize] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -254,13 +256,24 @@ function PropertyColocation({ propertyId }) {
         </div>
       ) : null}
 
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center gap-2">
         <Button variant="destructive" onClick={() => setConfirmDelete(true)}>
           {t('Delete the colocation')}
         </Button>
-        <Button onClick={handleSave}>{t('Save')}</Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={() => setOpenRegularize(true)}>
+            {t('Common charges regularization')}
+          </Button>
+          <Button onClick={handleSave}>{t('Save')}</Button>
+        </div>
       </div>
 
+      <ColocationRegularizeDialog
+        open={openRegularize}
+        setOpen={setOpenRegularize}
+        colocationId={colocation._id}
+        store={store}
+      />
       <ConfirmDialog
         title={t('Delete this colocation?')}
         open={confirmDelete}

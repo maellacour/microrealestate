@@ -145,6 +145,10 @@ export default function routes() {
     '/:ids',
     Middlewares.asyncWrapper(colocationManager.remove)
   );
+  colocationsRouter.post(
+    '/:id/regularize',
+    Middlewares.asyncWrapper(colocationManager.regularize)
+  );
   router.use('/colocations', colocationsRouter);
 
   // registered before /accounting/:year so the per-property report stays the
