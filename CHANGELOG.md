@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- Rebranded to **Bayle** with a distinct visual identity, to differentiate the fork. New palette — pine green primary with a stone ground and a brass accent, replacing the default blue — applied through the shadcn design tokens (`globals.css`, landlord + tenant, light and dark) and the legacy MUI theme, so every screen picks it up (dashboard, rents, tenants, properties, sign-in). New seal favicon (roof + key), a serif wordmark, and a reworked sign-in screen. The name is the `APP_NAME` env var (default is now `Bayle`), so it stays a one-line change. The original MIT copyright (Camel Aissani) is unchanged.
 - The two front-end workspaces (`landlord`, `tenant`) now declare `"license": "MIT"` in their `package.json`, like every other workspace, and the `LICENSE` file carries the fork's copyright line (`Copyright (c) 2025-2026 Mael Lacour`) alongside the original author's.
 
 ## [1.8.0] - 2026-09-08

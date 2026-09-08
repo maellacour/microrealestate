@@ -1,11 +1,12 @@
 import { createTheme } from '@material-ui/core/styles';
 
-const backgroundColor = '#f3f7fd';
-const whiteColor = '#FFFFFF';
-const primaryColor = '#2563eb';
-const successColor = '#16a34a';
-const warningColor = '#f97316';
-const defaultColor = '#020817';
+// Bayle — align the legacy MUI palette with the shadcn tokens (globals.css)
+const backgroundColor = '#edece6'; // pierre
+const whiteColor = '#FBFAF6'; // warm white
+const primaryColor = '#2d5c4a'; // pine
+const successColor = '#2f7d55';
+const warningColor = '#a9803a'; // brass
+const defaultColor = '#1c201c'; // ink
 
 // Create a theme instance.
 const theme = createTheme({

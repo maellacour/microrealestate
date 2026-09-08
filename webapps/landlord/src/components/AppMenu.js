@@ -172,7 +172,9 @@ export function HamburgerMenu({ className, onChange }) {
         <SheetContent side="left" className="flex flex-col px-0">
           <SheetHeader className="px-4">
             <SheetTitle> {store.organization.selected?.name}</SheetTitle>
-            <SheetDescription>{config.APP_NAME}</SheetDescription>
+            <SheetDescription className="font-serif text-base text-primary">
+              {config.APP_NAME}
+            </SheetDescription>
           </SheetHeader>
           <Separator className="bg-secondary-foreground/25 flex-col" />
           <div className="flex-grow overflow-auto">
@@ -254,7 +256,9 @@ export function SideMenu({ className }) {
       <div className="whitespace-nowrap text-2xl font-semibold px-4 -mt-10">
         {store.organization.selected.name}
       </div>
-      <div className="text-muted-foreground px-4 mt-2">{config.APP_NAME}</div>
+      <div className="font-serif text-lg text-primary px-4 mt-2">
+        {config.APP_NAME}
+      </div>
       <Separator className="bg-secondary-foreground/25 my-4" />
       <div className="flex-grow overflow-auto">
         {menuItems

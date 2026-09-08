@@ -11,7 +11,7 @@ createRuntimeEnvFile();
  */
 function createRuntimeEnvFile() {
   const browserEnvVars = {
-    NEXT_PUBLIC_APP_NAME: process.env.APP_NAME || 'MicroRealEstate',
+    NEXT_PUBLIC_APP_NAME: process.env.APP_NAME || 'Bayle',
     NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_CORS_ENABLED: process.env.CORS_ENABLED,
     NEXT_PUBLIC_SIGNUP: process.env.SIGNUP,

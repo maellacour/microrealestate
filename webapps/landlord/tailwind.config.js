@@ -20,7 +20,16 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans]
+        sans: ['var(--font-sans)', ...fontFamily.sans],
+        // Bayle wordmark & display — the one characterful serif touch
+        serif: [
+          'Iowan Old Style',
+          'Palatino Linotype',
+          'Palatino',
+          'Book Antiqua',
+          'Georgia',
+          ...fontFamily.serif
+        ]
       },
       colors: {
         border: 'hsl(var(--border))',
