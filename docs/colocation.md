@@ -158,7 +158,33 @@ réduit (**S–M**), risque moindre, mais pas de vraie vue agrégée.
 ## Conversion & historique
 
 L'historique (loyers + **paiements**) est porté par le **Tenant**, pas par le bien.
-Tant qu'on conserve les baux des colocataires, il est **préservé** — la conversion
-ne fait que **repointer** chaque bail de sa chambre-bien vers le bien-logement et
-créer le groupe. Recommandé quand même : `mre dumpdb` avant, conversion
-idempotente, et vérification post-conversion des soldes/paiements par colocataire.
+Tant qu'on conserve les baux des colocataires, il est **préservé**.
+
+**Décision de mise en œuvre** : plutôt qu'un script de migration bespoke (mutation
+de données non testable en unitaire → risque), la conversion se fait par une
+**procédure sûre réutilisant l'UI existante**, déjà éprouvée :
+
+1. `mre dumpdb` (sauvegarde préalable).
+2. Créer **le bien-logement** (Biens → nouveau bien = l'appartement).
+3. Pour **chaque** bail-chambre : l'ouvrir → onglet **Bail** → remplacer le bien
+   « chambre » par le bien « logement » → Enregistrer. Le loyer (sa part), les
+   dates et les **paiements** restent sur le bail → historique **intact**.
+4. Sur le bien-logement → onglet **Colocation** → **Créer une colocation** (elle
+   agrège automatiquement les baux du logement) → ajuster les quote-parts.
+5. (Optionnel) supprimer les anciens biens-chambres devenus vacants.
+6. Vérifier soldes/paiements par colocataire.
+
+Un endpoint de conversion automatique reste possible plus tard, mais il exige un
+dump préalable et des tests d'intégration (mutation de `tenant.properties`).
+
+## État d'implémentation
+
+- **Lot A** (groupe + bien-logement + UI) : **fait**. Modèle pur (parts,
+  répartition) testé ; le rapport « Résultats par bien » somme déjà correctement
+  les revenus d'une colocation (chaque bail ne référence que le logement → poids
+  1,0), donc **aucune refonte de l'accounting** n'a été nécessaire.
+- **Lot B** (charges communes à la quote-part) : **fait** (endpoint
+  `/colocations/:id/regularize` + UI ; réutilise la régularisation par
+  colocataire).
+- **Lot C** (conversion) : **procédure documentée** ci-dessus (pas de script
+  risqué).
