@@ -138,7 +138,9 @@ function PropertyColocation({ propertyId }) {
                 'Group the leases renting this property as a colocation to manage shares and shared charges together.'
               )}
             </div>
-            <Button onClick={handleCreate}>{t('Create a colocation')}</Button>
+            <Button onClick={handleCreate} data-cy="createColocation">
+              {t('Create a colocation')}
+            </Button>
           </>
         ) : (
           <EmptyIllustration
@@ -174,6 +176,7 @@ function PropertyColocation({ propertyId }) {
                   max="100"
                   step="0.01"
                   className="text-right"
+                  data-cy={`colocationShare${index}`}
                   value={member.sharePercent}
                   onChange={(event) =>
                     setMembers((current) =>
@@ -264,7 +267,9 @@ function PropertyColocation({ propertyId }) {
           <Button variant="outline" onClick={() => setOpenRegularize(true)}>
             {t('Common charges regularization')}
           </Button>
-          <Button onClick={handleSave}>{t('Save')}</Button>
+          <Button onClick={handleSave} data-cy="saveColocation">
+            {t('Save')}
+          </Button>
         </div>
       </div>
 

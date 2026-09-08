@@ -1,0 +1,17 @@
+{
+  "name": "Colocation Lyon",
+  "type": "apartment",
+  "description": "Appartement loué en colocation",
+  "surface": 80,
+  "phone": "0400000000",
+  "digiCode": "1234",
+  "address": {
+    "street1": "10 rue de la République",
+    "street2": "",
+    "zipCode": "69002",
+    "city": "Lyon",
+    "state": "Auvergne-Rhône-Alpes",
+    "country": "France"
+  },
+  "rent": 400
+}

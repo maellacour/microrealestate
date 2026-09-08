@@ -208,7 +208,11 @@ function Property() {
                 </TabsTrigger>
               ) : null}
               {store.property.selected._id ? (
-                <TabsTrigger value="colocation" className="w-1/4">
+                <TabsTrigger
+                  value="colocation"
+                  className="w-1/4"
+                  data-cy="tabColocation"
+                >
                   {t('Colocation')}
                 </TabsTrigger>
               ) : null}
