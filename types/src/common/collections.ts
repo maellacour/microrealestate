@@ -275,6 +275,11 @@ export namespace CollectionTypes {
     guarantyPaybackReference: string;
     guarantyPaybackNote: string;
 
+    // Charges regime: 'provisions' (monthly provisions reconciled once a year)
+    // or 'forfait' (flat fee, no reconciliation). Drives whether a charge
+    // regularization can be run for this tenancy.
+    chargesMode: 'provisions' | 'forfait';
+
     stepperMode: boolean;
   };
 
@@ -296,6 +301,31 @@ export namespace CollectionTypes {
     date: Date;
     description: string;
     documentId?: string;
+    createdDate: Date;
+    updatedDate: Date;
+  };
+
+  // One line of a charge regularization: a real charge taken from the syndic
+  // statement (or an external one, e.g. electricity). Only lines flagged
+  // recoverable count toward what is settled with the tenant.
+  export type ChargeRegularizationLine = {
+    label: string;
+    amount: number;
+    recoverable: boolean;
+  };
+
+  // Annual reconciliation of the charge provisions called over a period against
+  // the real recoverable charges. Only relevant for tenancies in 'provisions'
+  // mode. The provisions called and the balance are computed on read, not
+  // stored.
+  export type ChargeRegularization = {
+    _id: string;
+    realmId: string;
+    tenantId: string;
+    periodStart: Date;
+    periodEnd: Date;
+    lines: ChargeRegularizationLine[];
+    note?: string;
     createdDate: Date;
     updatedDate: Date;
   };

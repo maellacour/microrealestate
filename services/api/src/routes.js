@@ -1,6 +1,7 @@
 import * as accountingManager from './managers/accountingmanager.js';
 import * as dashboardManager from './managers/dashboardmanager.js';
 import * as emailManager from './managers/emailmanager.js';
+import * as chargeRegularizationManager from './managers/chargeregularizationmanager.js';
 import * as expenseManager from './managers/expensemanager.js';
 import * as leaseManager from './managers/leasemanager.js';
 import * as occupantManager from './managers/occupantmanager.js';
@@ -96,6 +97,29 @@ export default function routes() {
     Middlewares.asyncWrapper(expenseManager.remove)
   );
   router.use('/expenses', expensesRouter);
+
+  const chargeRegularizationsRouter = express.Router();
+  chargeRegularizationsRouter.get(
+    '/',
+    Middlewares.asyncWrapper(chargeRegularizationManager.all)
+  );
+  chargeRegularizationsRouter.get(
+    '/:id',
+    Middlewares.asyncWrapper(chargeRegularizationManager.one)
+  );
+  chargeRegularizationsRouter.post(
+    '/',
+    Middlewares.asyncWrapper(chargeRegularizationManager.add)
+  );
+  chargeRegularizationsRouter.patch(
+    '/:id',
+    Middlewares.asyncWrapper(chargeRegularizationManager.update)
+  );
+  chargeRegularizationsRouter.delete(
+    '/:ids',
+    Middlewares.asyncWrapper(chargeRegularizationManager.remove)
+  );
+  router.use('/chargeregularizations', chargeRegularizationsRouter);
 
   // registered before /accounting/:year so the per-property report stays the
   // obvious owner of that path segment
