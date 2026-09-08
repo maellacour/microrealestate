@@ -528,5 +528,12 @@
   "The end date must be after the start date": "La fecha de fin debe ser posterior a la de inicio",
   "This tenancy uses flat-rate charges, so there is no charge regularization. Switch the charges regime in the Billing tab to enable it.": "Este contrato usa cargos a tarifa fija, por lo que no hay liquidación. Cambia el régimen de cargos en la pestaña Facturación para habilitarla.",
   "No charge regularization recorded yet": "Aún no hay liquidaciones de cargos registradas",
-  "Delete this charge regularization?": "¿Eliminar esta liquidación de cargos?"
+  "Delete this charge regularization?": "¿Eliminar esta liquidación de cargos?",
+  "Apply to a term": "Aplicar a un período",
+  "Applied to {{term}}": "Aplicado a {{term}}",
+  "Unapply": "Quitar",
+  "Post the balance on a rent term": "Registrar el saldo en un período de alquiler",
+  "Rent term": "Período de alquiler",
+  "Select a term": "Selecciona un período",
+  "Apply": "Aplicar"
 }

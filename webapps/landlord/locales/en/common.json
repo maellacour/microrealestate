@@ -528,5 +528,12 @@
   "The end date must be after the start date": "The end date must be after the start date",
   "This tenancy uses flat-rate charges, so there is no charge regularization. Switch the charges regime in the Billing tab to enable it.": "This tenancy uses flat-rate charges, so there is no charge regularization. Switch the charges regime in the Billing tab to enable it.",
   "No charge regularization recorded yet": "No charge regularization recorded yet",
-  "Delete this charge regularization?": "Delete this charge regularization?"
+  "Delete this charge regularization?": "Delete this charge regularization?",
+  "Apply to a term": "Apply to a term",
+  "Applied to {{term}}": "Applied to {{term}}",
+  "Unapply": "Unapply",
+  "Post the balance on a rent term": "Post the balance on a rent term",
+  "Rent term": "Rent term",
+  "Select a term": "Select a term",
+  "Apply": "Apply"
 }

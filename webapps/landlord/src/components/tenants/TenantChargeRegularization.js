@@ -9,6 +9,7 @@ import {
 } from '../ui/table';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { Button } from '../ui/button';
+import ChargeRegularizationApplyDialog from './ChargeRegularizationApplyDialog';
 import ChargeRegularizationFormDialog from './ChargeRegularizationFormDialog';
 import ConfirmDialog from '../ConfirmDialog';
 import { downloadDocument } from '../../utils/fetch';
@@ -28,6 +29,7 @@ function TenantChargeRegularization() {
   const [openForm, setOpenForm] = useState(false);
   const [editing, setEditing] = useState(null);
   const [deleting, setDeleting] = useState(null);
+  const [applying, setApplying] = useState(null);
 
   const isForfait = tenant?.chargesMode === 'forfait';
 
@@ -62,6 +64,18 @@ function TenantChargeRegularization() {
       toast.error(t('Something went wrong'));
     }
   }, [deleting, store, t]);
+
+  const handleUnapply = useCallback(
+    async (regularization) => {
+      const { status } = await store.chargeRegularization.unapply(
+        regularization._id
+      );
+      if (status !== 200) {
+        toast.error(t('Something went wrong'));
+      }
+    },
+    [store, t]
+  );
 
   const handleDownload = useCallback(
     async (regularization) => {
@@ -142,7 +156,34 @@ function TenantChargeRegularization() {
                         : t('Complement due by tenant')}
                     </div>
                   </TableCell>
-                  <TableCell className="flex justify-end gap-1">
+                  <TableCell className="flex items-center justify-end gap-1">
+                    {regularization.appliedToTerm ? (
+                      <>
+                        <span className="text-xs text-muted-foreground whitespace-nowrap">
+                          {t('Applied to {{term}}', {
+                            term: moment(
+                              String(regularization.appliedToTerm),
+                              'YYYYMMDDHH'
+                            ).format('MMM YYYY')
+                          })}
+                        </span>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleUnapply(regularization)}
+                        >
+                          {t('Unapply')}
+                        </Button>
+                      </>
+                    ) : balance ? (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setApplying(regularization)}
+                      >
+                        {t('Apply to a term')}
+                      </Button>
+                    ) : null}
                     <Button
                       variant="ghost"
                       size="icon"
@@ -154,6 +195,7 @@ function TenantChargeRegularization() {
                     <Button
                       variant="ghost"
                       size="icon"
+                      disabled={!!regularization.appliedToTerm}
                       onClick={() => openEditDialog(regularization)}
                     >
                       <LuPencil className="size-4" />
@@ -161,6 +203,7 @@ function TenantChargeRegularization() {
                     <Button
                       variant="ghost"
                       size="icon"
+                      disabled={!!regularization.appliedToTerm}
                       onClick={() => setDeleting(regularization)}
                     >
                       <LuTrash className="size-4" />
@@ -181,6 +224,13 @@ function TenantChargeRegularization() {
         tenantId={tenant?._id}
         rents={tenant?.rents}
         regularization={editing}
+        store={store}
+      />
+      <ChargeRegularizationApplyDialog
+        open={!!applying}
+        setOpen={(open) => !open && setApplying(null)}
+        regularization={applying}
+        rents={tenant?.rents}
         store={store}
       />
       <ConfirmDialog

@@ -12,7 +12,9 @@ export default class ChargeRegularization {
       fetch: flow,
       create: flow,
       update: flow,
-      delete: flow
+      delete: flow,
+      apply: flow,
+      unapply: flow
     });
   }
 
@@ -59,6 +61,31 @@ export default class ChargeRegularization {
       yield apiFetcher().delete(`/chargeregularizations/${ids.join(',')}`);
       this.items = this.items.filter((item) => !ids.includes(item._id));
       return { status: 200 };
+    } catch (error) {
+      return { status: error?.response?.status };
+    }
+  }
+
+  *apply(id, term) {
+    try {
+      const response = yield apiFetcher().post(
+        `/chargeregularizations/${id}/apply`,
+        { term }
+      );
+      this.items = updateItems(response.data, this.items);
+      return { status: 200, data: response.data };
+    } catch (error) {
+      return { status: error?.response?.status };
+    }
+  }
+
+  *unapply(id) {
+    try {
+      const response = yield apiFetcher().post(
+        `/chargeregularizations/${id}/unapply`
+      );
+      this.items = updateItems(response.data, this.items);
+      return { status: 200, data: response.data };
     } catch (error) {
       return { status: error?.response?.status };
     }
