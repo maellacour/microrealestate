@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Expense category labels showed the raw key (`expenseCategory.works`, `expenseCategory.other`, …) instead of a readable name — in the category dropdown of the expense form, in the property expenses table and in the per-property results breakdown, in every language. The landlord app runs `next-translate` with `keySeparator: false`, so `t('expenseCategory.works')` looks up a flat key of that exact name, but the categories were stored as a nested `expenseCategory` object. The keys are now flat (`"expenseCategory.works"`), so they resolve, and they were added to `scripts/.keptkeys.json` so `generateStrings` no longer prunes them (they are referenced through a template literal the harvester cannot see).
+
 ### Changed
 
 - The two front-end workspaces (`landlord`, `tenant`) now declare `"license": "MIT"` in their `package.json`, like every other workspace, and the `LICENSE` file carries the fork's copyright line (`Copyright (c) 2025-2026 Mael Lacour`) alongside the original author's.

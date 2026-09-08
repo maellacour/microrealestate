@@ -504,14 +504,12 @@
   "Several leases overlap on this property": "Plusieurs contrats se chevauchent sur ce bien",
   "No property found": "Aucun bien trouvé",
   "Results by property - {{year}}.csv": "Résultats par bien - {{year}}.csv",
-  "expenseCategory": {
-    "works": "Travaux",
-    "insurance": "Assurance (PNO)",
-    "property_tax": "Taxe foncière",
-    "condo_charges": "Charges de copropriété",
-    "management_fees": "Frais de gestion",
-    "loan_interest": "Intérêts d'emprunt",
-    "other": "Autre"
-  },
+  "expenseCategory.works": "Travaux",
+  "expenseCategory.insurance": "Assurance (PNO)",
+  "expenseCategory.property_tax": "Taxe foncière",
+  "expenseCategory.condo_charges": "Charges de copropriété",
+  "expenseCategory.management_fees": "Frais de gestion",
+  "expenseCategory.loan_interest": "Intérêts d'emprunt",
+  "expenseCategory.other": "Autre",
   "Retained on rents": "Retenu sur les loyers"
 }

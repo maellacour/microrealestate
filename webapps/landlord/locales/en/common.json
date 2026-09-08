@@ -504,14 +504,12 @@
   "Several leases overlap on this property": "Several leases overlap on this property",
   "No property found": "No property found",
   "Results by property - {{year}}.csv": "Results by property - {{year}}.csv",
-  "expenseCategory": {
-    "works": "Works",
-    "insurance": "Insurance (landlord)",
-    "property_tax": "Property tax",
-    "condo_charges": "Condo charges",
-    "management_fees": "Management fees",
-    "loan_interest": "Loan interest",
-    "other": "Other"
-  },
+  "expenseCategory.works": "Works",
+  "expenseCategory.insurance": "Insurance (landlord)",
+  "expenseCategory.property_tax": "Property tax",
+  "expenseCategory.condo_charges": "Condo charges",
+  "expenseCategory.management_fees": "Management fees",
+  "expenseCategory.loan_interest": "Loan interest",
+  "expenseCategory.other": "Other",
   "Retained on rents": "Retained on rents"
 }
