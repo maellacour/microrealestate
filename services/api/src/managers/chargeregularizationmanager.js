@@ -4,6 +4,7 @@ import {
   computeRegularization,
   regularizationAdjustment
 } from '../businesslogic/chargeregularization.js';
+import i18n from 'i18n';
 import moment from 'moment';
 
 // Only these fields are ever settable from the request body - protects
@@ -159,8 +160,15 @@ function termSettlements(rent) {
   };
 }
 
-function regularizationDescription(regularization) {
-  return `Régularisation des charges ${moment(regularization.periodStart).format('DD/MM/YYYY')} - ${moment(regularization.periodEnd).format('DD/MM/YYYY')}`;
+// Label stored on the posted debt/discount, translated in the realm's locale
+// (it shows up as-is on the rent documents).
+function regularizationDescription(regularization, locale) {
+  // Translate only the label and append the dates in JS: routing the dates
+  // through i18n's mustache would HTML-escape the slashes (01&#x2F;01/…).
+  const label = i18n.__({ phrase: 'Charge regularization', locale });
+  const start = moment(regularization.periodStart).format('DD/MM/YYYY');
+  const end = moment(regularization.periodEnd).format('DD/MM/YYYY');
+  return `${label} ${start} - ${end}`;
 }
 
 // Post the regularization balance onto a rent term as a debt (complement due)
@@ -203,7 +211,7 @@ export async function apply(req, res) {
     throw new ServiceError('nothing to post: the balance is zero', 400);
   }
 
-  const description = regularizationDescription(regularization);
+  const description = regularizationDescription(regularization, realm.locale);
   const settlements = termSettlements(rent);
   if (adjustment.type === 'debt') {
     settlements.debts.push({ description, amount: adjustment.amount });
