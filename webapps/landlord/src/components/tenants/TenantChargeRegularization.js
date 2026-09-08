@@ -9,6 +9,7 @@ import {
 } from '../ui/table';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { Button } from '../ui/button';
+import { Checkbox } from '../ui/checkbox';
 import ChargeRegularizationApplyDialog from './ChargeRegularizationApplyDialog';
 import ChargeRegularizationFormDialog from './ChargeRegularizationFormDialog';
 import ConfirmDialog from '../ConfirmDialog';
@@ -70,6 +71,19 @@ function TenantChargeRegularization() {
       const { status } = await store.chargeRegularization.unapply(
         regularization._id
       );
+      if (status !== 200) {
+        toast.error(t('Something went wrong'));
+      }
+    },
+    [store, t]
+  );
+
+  const handleShare = useCallback(
+    async (regularization, shared) => {
+      const { status } = await store.chargeRegularization.update({
+        _id: regularization._id,
+        shared
+      });
       if (status !== 200) {
         toast.error(t('Something went wrong'));
       }
@@ -184,6 +198,15 @@ function TenantChargeRegularization() {
                         {t('Apply to a term')}
                       </Button>
                     ) : null}
+                    <label className="flex items-center gap-1 text-xs mr-1 whitespace-nowrap">
+                      <Checkbox
+                        checked={!!regularization.shared}
+                        onCheckedChange={(checked) =>
+                          handleShare(regularization, !!checked)
+                        }
+                      />
+                      {t('Share with tenant')}
+                    </label>
                     <Button
                       variant="ghost"
                       size="icon"

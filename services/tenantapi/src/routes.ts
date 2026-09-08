@@ -9,5 +9,9 @@ routes.get(
   '/tenant/:tenantId',
   Middlewares.asyncWrapper(Controllers.getOneTenant)
 );
+routes.get(
+  '/tenant/:tenantId/regularizations',
+  Middlewares.asyncWrapper(Controllers.getSharedChargeRegularizations)
+);
 
 export default routes;
