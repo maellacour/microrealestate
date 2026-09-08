@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- The two front-end workspaces (`landlord`, `tenant`) now declare `"license": "MIT"` in their `package.json`, like every other workspace, and the `LICENSE` file carries the fork's copyright line (`Copyright (c) 2025-2026 Mael Lacour`) alongside the original author's.
+
 ## [1.8.0] - 2026-09-08
 
 ### Added
