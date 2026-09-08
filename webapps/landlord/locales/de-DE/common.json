@@ -549,5 +549,6 @@
   "Common charges": "Gemeinsame Nebenkosten",
   "Generate": "Erzeugen",
   "Regularizations created for each roommate": "Abrechnungen für jeden Mitbewohner erstellt",
-  "Each charge is split by quote-part and a regularization is created for each roommate.": "Jede Nebenkostenposition wird anteilig aufgeteilt und für jeden Mitbewohner wird eine Abrechnung erstellt."
+  "Each charge is split by quote-part and a regularization is created for each roommate.": "Jede Nebenkostenposition wird anteilig aufgeteilt und für jeden Mitbewohner wird eine Abrechnung erstellt.",
+  "To add a roommate, create their lease on this property; it will then appear here.": "Um einen Mitbewohner hinzuzufügen, legen Sie seinen Mietvertrag für diese Immobilie an; er erscheint dann hier."
 }

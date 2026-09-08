@@ -549,5 +549,6 @@
   "Common charges": "Charges communes",
   "Generate": "Générer",
   "Regularizations created for each roommate": "Régularisations créées pour chaque colocataire",
-  "Each charge is split by quote-part and a regularization is created for each roommate.": "Chaque charge est répartie à la quote-part et une régularisation est créée pour chaque colocataire."
+  "Each charge is split by quote-part and a regularization is created for each roommate.": "Chaque charge est répartie à la quote-part et une régularisation est créée pour chaque colocataire.",
+  "To add a roommate, create their lease on this property; it will then appear here.": "Pour ajouter un colocataire, créez son bail sur ce bien ; il apparaîtra alors ici."
 }

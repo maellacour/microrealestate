@@ -257,7 +257,13 @@ function PropertyColocation({ propertyId }) {
             {t('Add')}
           </Button>
         </div>
-      ) : null}
+      ) : (
+        <p className="text-sm text-muted-foreground">
+          {t(
+            'To add a roommate, create their lease on this property; it will then appear here.'
+          )}
+        </p>
+      )}
 
       <div className="flex justify-between items-center gap-2">
         <Button variant="destructive" onClick={() => setConfirmDelete(true)}>

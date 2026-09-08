@@ -1,7 +1,6 @@
-import { LuPlus, LuTrash } from 'react-icons/lu';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button } from '../ui/button';
-import { Checkbox } from '../ui/checkbox';
+import ChargeLinesEditor from '../ChargeLinesEditor';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import moment from 'moment';
@@ -95,29 +94,6 @@ export default function ChargeRegularizationFormDialog({
   );
   const balance = round(provisionsCalled - recoverableTotal);
 
-  const updateLine = useCallback((index, patch) => {
-    setValues((current) => ({
-      ...current,
-      lines: current.lines.map((line, i) =>
-        i === index ? { ...line, ...patch } : line
-      )
-    }));
-  }, []);
-
-  const addLine = useCallback(() => {
-    setValues((current) => ({
-      ...current,
-      lines: [...current.lines, emptyLine()]
-    }));
-  }, []);
-
-  const removeLine = useCallback((index) => {
-    setValues((current) => ({
-      ...current,
-      lines: current.lines.filter((_, i) => i !== index)
-    }));
-  }, []);
-
   const handleSave = useCallback(async () => {
     if (!values.periodStart || !values.periodEnd) {
       toast.error(t('Enter a date'));
@@ -202,51 +178,12 @@ export default function ChargeRegularizationFormDialog({
 
           <div className="space-y-2">
             <Label>{t('Real charges')}</Label>
-            <div className="space-y-2">
-              {values.lines.map((line, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <Input
-                    className="flex-1"
-                    placeholder={t('Description')}
-                    value={line.label}
-                    onChange={(event) =>
-                      updateLine(index, { label: event.target.value })
-                    }
-                  />
-                  <Input
-                    className="w-32"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    placeholder={t('Amount')}
-                    value={line.amount}
-                    onChange={(event) =>
-                      updateLine(index, { amount: event.target.value })
-                    }
-                  />
-                  <label className="flex items-center gap-1 text-sm whitespace-nowrap">
-                    <Checkbox
-                      checked={line.recoverable}
-                      onCheckedChange={(checked) =>
-                        updateLine(index, { recoverable: !!checked })
-                      }
-                    />
-                    {t('Recoverable')}
-                  </label>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => removeLine(index)}
-                  >
-                    <LuTrash className="size-4" />
-                  </Button>
-                </div>
-              ))}
-            </div>
-            <Button variant="outline" size="sm" onClick={addLine}>
-              <LuPlus className="size-4" />
-              {t('Add a line')}
-            </Button>
+            <ChargeLinesEditor
+              lines={values.lines}
+              onChange={(lines) =>
+                setValues((current) => ({ ...current, lines }))
+              }
+            />
           </div>
 
           <div className="space-y-2">
