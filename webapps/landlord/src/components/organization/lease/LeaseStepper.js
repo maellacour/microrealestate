@@ -1,9 +1,6 @@
 import LeaseForm, { validate as LeaseFormValidate } from './LeaseForm';
+import { Step, StepContent, StepLabel, Stepper } from '../../ui/stepper';
 import { useCallback, useContext, useState } from 'react';
-import Step from '@material-ui/core/Step';
-import StepContent from '@material-ui/core/StepContent';
-import StepLabel from '@material-ui/core/StepLabel';
-import Stepper from '@material-ui/core/Stepper';
 import { StoreContext } from '../../../store';
 import TemplateForm from './TemplateForm';
 import useTranslation from 'next-translate/useTranslation';
