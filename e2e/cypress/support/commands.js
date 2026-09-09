@@ -18,7 +18,7 @@ Cypress.Commands.add('signIn', ({ email, password }) => {
 });
 
 Cypress.Commands.add('signOut', () => {
-  cy.get('[data-cy=orgMenu]').click();
+  cy.get('[data-cy=appMenu]').click();
   cy.get('[data-cy=signoutNav]').click();
 });
 
@@ -238,8 +238,9 @@ Cypress.Commands.add('navAppMenu', (pageName) => {
 });
 
 Cypress.Commands.add('navOrgMenu', (pageName) => {
-  cy.get('[data-cy=orgMenu]').click();
-  cy.get(`[data-cy=${pageName}Nav]`).click();
+  cy.get('[data-cy=appMenu]').click();
+  cy.get('[data-cy=settingsNav]').click();
+  cy.get(`a[href$="/settings/${pageName}"]`).click();
   cy.checkPage(pageName);
 });
 

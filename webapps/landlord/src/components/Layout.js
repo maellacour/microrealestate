@@ -1,7 +1,6 @@
 import { HamburgerMenu, SideMenu } from './AppMenu';
 import { cn } from '../utils';
 import EnvironmentBar from './EnvironmentBar';
-import OrganizationMenu from './organization/OrganizationMenu';
 import { StoreContext } from '../store';
 import { Toaster } from '../components/ui/sonner';
 import { useContext } from 'react';
@@ -24,12 +23,9 @@ export default function Layout({ hideMenu, children }) {
         <>
           <div className="sticky top-0 z-50 shadow">
             <EnvironmentBar />
-            {store.user?.signedIn ? (
-              <div className="flex items-center xl:justify-end bg-card w-full gap-2 py-1">
-                {!isXLorGreater ? (
-                  <HamburgerMenu className="flex flex-grow items-center" />
-                ) : null}
-                <OrganizationMenu />
+            {store.user?.signedIn && !isXLorGreater ? (
+              <div className="flex items-center bg-card w-full gap-2 py-1">
+                <HamburgerMenu className="flex flex-grow items-center" />
               </div>
             ) : null}
           </div>

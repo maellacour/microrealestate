@@ -1,6 +1,7 @@
 import {
   LuKeyRound,
   LuLayoutDashboard,
+  LuLogOut,
   LuMenu,
   LuSettings,
   LuUserCircle,
@@ -25,6 +26,7 @@ import { Separator } from './ui/separator';
 import SideMenuButton from './SideMenuButton';
 import SponsorMenu from './SponsorMenu';
 import { StoreContext } from '../store';
+import UserAvatar from './UserAvatar';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 
@@ -116,6 +118,46 @@ const menuItems = [
   }
 ];
 
+function AccountSection() {
+  const { t } = useTranslation('common');
+  const store = useContext(StoreContext);
+
+  const handleSignOut = useCallback(async () => {
+    await store.user.signOut();
+    window.sessionStorage.clear();
+    window.localStorage.clear();
+    window.location.assign(config.BASE_PATH); // redirected to /signin
+  }, [store.user]);
+
+  return (
+    <div>
+      <Separator className="bg-secondary-foreground/25" />
+      <div className="flex items-center gap-3 px-4 py-3">
+        <UserAvatar className="text-sm" />
+        <div className="min-w-0">
+          <div className="text-sm font-medium truncate">
+            {`${store.user.firstName} ${store.user.lastName}`}
+          </div>
+          {store.user.email ? (
+            <div className="text-muted-foreground text-xs truncate">
+              {store.user.email}
+            </div>
+          ) : null}
+        </div>
+      </div>
+      <button
+        type="button"
+        data-cy="signoutNav"
+        onClick={handleSignOut}
+        className="text-muted-foreground hover:text-foreground hover:bg-secondary flex w-full items-center gap-2 px-4 py-2 text-sm"
+      >
+        <LuLogOut className="size-4" />
+        {t('Sign out')}
+      </button>
+    </div>
+  );
+}
+
 export function HamburgerMenu({ className, onChange }) {
   const { t } = useTranslation('common');
   const store = useContext(StoreContext);
@@ -198,6 +240,7 @@ export function HamburgerMenu({ className, onChange }) {
           <div className="text-muted-foreground/50 text-[10px] text-center pb-2">
             v{process.env.NEXT_PUBLIC_APP_VERSION || '?'}
           </div>
+          <AccountSection />
         </SheetContent>
       </Sheet>
       {selectedMenu ? (
@@ -276,9 +319,10 @@ export function SideMenu({ className }) {
           })}
       </div>
       <SponsorMenu className="mb-2" />
-      <div className="text-muted-foreground/50 text-[10px] text-center mb-20">
+      <div className="text-muted-foreground/50 text-[10px] text-center mb-2">
         v{process.env.NEXT_PUBLIC_APP_VERSION || '?'}
       </div>
+      <AccountSection />
     </div>
   );
 }
