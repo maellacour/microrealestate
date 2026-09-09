@@ -4,7 +4,7 @@ import {
   ContactField,
   SubmitButton,
   TextField
-} from '@microrealestate/commonui/components';
+} from '../formfields';
 import { Form, Formik } from 'formik';
 import { mergeOrganization, updateStoreOrganization } from './utils';
 import { QueryKeys, updateOrganization } from '../../utils/restcalls';
