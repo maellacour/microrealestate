@@ -3,14 +3,13 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Loading from './Loading';
 import { LocationIllustration } from './Illustrations';
-import { useTheme } from '@material-ui/core';
 
 const nominatimBaseURL = 'https://nominatim.openstreetmap.org';
+const MARKER_COLOR = '#2d5c4a'; // Bayle pine
 
 export default function Map({ address }) {
   const [center, setCenter] = useState();
   const [loading, setLoading] = useState(true);
-  const theme = useTheme();
 
   useEffect(() => {
     const getLatLong = async () => {
@@ -65,7 +64,7 @@ export default function Map({ address }) {
             <Marker
               height={35}
               width={35}
-              color={theme.palette.info.main}
+              color={MARKER_COLOR}
               anchor={center}
             />
           </PigeonMap>
