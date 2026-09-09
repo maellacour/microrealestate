@@ -65,8 +65,8 @@ function Dashboard() {
             <Shortcuts className="md:col-span-5" />
             <MonthFigures className="md:col-span-3" />
             <GeneralFigures className="md:col-span-2" />
-            <LeaseEndingSoon className="md:col-span-5" />
             <YearFigures className="md:col-span-5" />
+            <LeaseEndingSoon className="md:col-span-5" />
           </div>
         )}
       </div>
