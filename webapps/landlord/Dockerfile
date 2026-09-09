@@ -18,7 +18,6 @@ ENV BASE_PATH=/__MRE_BASE_PATH__
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /usr/app ./
 COPY webapps/commonui/.eslintrc.json webapps/commonui
-COPY webapps/commonui/components webapps/commonui/components
 COPY webapps/commonui/locales webapps/commonui/locales
 COPY webapps/commonui/scripts webapps/commonui/scripts
 COPY webapps/commonui/utils webapps/commonui/utils
