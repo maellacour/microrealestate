@@ -39,6 +39,7 @@ import ExpenseFormDialog from './ExpenseFormDialog';
 import moment from 'moment';
 import NumberFormat from '../NumberFormat';
 import { observer } from 'mobx-react-lite';
+import { Skeleton } from '../ui/skeleton';
 import { StoreContext } from '../../store';
 import { toast } from 'sonner';
 import useFormatNumber from '../../hooks/useFormatNumber';
@@ -149,7 +150,24 @@ function PropertyExpenses({ propertyId }) {
   }, [deletingExpense, store, t]);
 
   if (loading) {
-    return null;
+    return (
+      <div className="space-y-4">
+        <div className="flex justify-end">
+          <Skeleton className="h-10 w-36" />
+        </div>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <Skeleton className="h-28" />
+          <Skeleton className="h-28" />
+          <Skeleton className="h-28" />
+        </div>
+        <Skeleton className="h-40" />
+        <div className="space-y-2">
+          {[0, 1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-9" />
+          ))}
+        </div>
+      </div>
+    );
   }
 
   const hasExpenses = store.expense.items.length > 0;

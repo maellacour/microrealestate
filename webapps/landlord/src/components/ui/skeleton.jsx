@@ -1,0 +1,12 @@
+import { cn } from '../../utils';
+
+function Skeleton({ className, ...props }) {
+  return (
+    <div
+      className={cn('bg-muted animate-pulse rounded-md', className)}
+      {...props}
+    />
+  );
+}
+
+export { Skeleton };
