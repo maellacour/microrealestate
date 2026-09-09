@@ -296,7 +296,7 @@ export function SideMenu({ className }) {
         className
       )}
     >
-      <div className="whitespace-nowrap text-2xl font-semibold px-4 -mt-10">
+      <div className="whitespace-nowrap text-2xl font-semibold px-4 mt-6">
         {store.organization.selected.name}
       </div>
       <div className="font-serif text-lg text-primary px-4 mt-2">
