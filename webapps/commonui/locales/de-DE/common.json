@@ -6,7 +6,9 @@
   "Contact": "Kontakt",
   "Country": "Land",
   "Email": "Email",
+  "Leases ending soon": "Bald endende Mietverträge",
   "Main category": "Hauptkategorie",
+  "No lease ending in the next 90 days": "Kein Mietvertrag endet in den nächsten 90 Tagen",
   "Number of expenses": "Anzahl der Ausgaben",
   "Phone": "Telefon",
   "Phone 1": "Telefon 1",
@@ -16,6 +18,7 @@
   "Street 2": "Straße 2",
   "Total": "Gesamt",
   "Total expenses": "Gesamtkosten",
+  "Within the next 90 days": "In den nächsten 90 Tagen",
   "Zip code": "Postleitzahl",
   "vs {{year}}": "vs. {{year}}"
 }

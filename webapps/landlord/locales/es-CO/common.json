@@ -557,5 +557,8 @@
   "Average per expense": "Promedio por gasto",
   "Main category": "Categoría principal",
   "Breakdown by category": "Desglose por categoría",
-  "vs {{year}}": "vs {{year}}"
+  "vs {{year}}": "vs {{year}}",
+  "Leases ending soon": "Contratos que finalizan pronto",
+  "Within the next 90 days": "En los próximos 90 días",
+  "No lease ending in the next 90 days": "Ningún contrato finaliza en los próximos 90 días"
 }

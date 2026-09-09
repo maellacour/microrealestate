@@ -6,7 +6,9 @@
   "Contact": "Contato",
   "Country": "País",
   "Email": "E-mail",
+  "Leases ending soon": "Contratos terminando em breve",
   "Main category": "Categoria principal",
+  "No lease ending in the next 90 days": "Nenhum contrato termina nos próximos 90 dias",
   "Number of expenses": "Número de despesas",
   "Phone": "Telefone",
   "Phone 1": "Telefone 1",
@@ -16,6 +18,7 @@
   "Street 2": "Rua 2",
   "Total": "Total",
   "Total expenses": "Total de despesas",
+  "Within the next 90 days": "Nos próximos 90 dias",
   "Zip code": "CEP",
   "vs {{year}}": "vs {{year}}"
 }

@@ -557,5 +557,8 @@
   "Average per expense": "Durchschnitt pro Ausgabe",
   "Main category": "Hauptkategorie",
   "Breakdown by category": "Aufschlüsselung nach Kategorie",
-  "vs {{year}}": "vs. {{year}}"
+  "vs {{year}}": "vs. {{year}}",
+  "Leases ending soon": "Bald endende Mietverträge",
+  "Within the next 90 days": "In den nächsten 90 Tagen",
+  "No lease ending in the next 90 days": "Kein Mietvertrag endet in den nächsten 90 Tagen"
 }

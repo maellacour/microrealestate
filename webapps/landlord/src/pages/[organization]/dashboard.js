@@ -6,6 +6,7 @@ import {
   QueryKeys
 } from '../../utils/restcalls';
 import GeneralFigures from '../../components/dashboard/GeneralFigures';
+import LeaseEndingSoon from '../../components/dashboard/LeaseEndingSoon';
 import MonthFigures from '../../components/dashboard/MonthFigures';
 import Page from '../../components/Page';
 import Shortcuts from '../../components/dashboard/Shortcuts';
@@ -64,6 +65,7 @@ function Dashboard() {
             <Shortcuts className="md:col-span-5" />
             <MonthFigures className="md:col-span-3" />
             <GeneralFigures className="md:col-span-2" />
+            <LeaseEndingSoon className="md:col-span-5" />
             <YearFigures className="md:col-span-5" />
           </div>
         )}

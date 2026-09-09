@@ -557,5 +557,8 @@
   "Average per expense": "Moyenne par charge",
   "Main category": "Catégorie principale",
   "Breakdown by category": "Répartition par catégorie",
-  "vs {{year}}": "vs {{year}}"
+  "vs {{year}}": "vs {{year}}",
+  "Leases ending soon": "Baux arrivant à échéance",
+  "Within the next 90 days": "Dans les 90 prochains jours",
+  "No lease ending in the next 90 days": "Aucun bail n'arrive à échéance dans les 90 prochains jours"
 }

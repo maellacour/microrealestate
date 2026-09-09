@@ -557,5 +557,8 @@
   "Average per expense": "Average per expense",
   "Main category": "Main category",
   "Breakdown by category": "Breakdown by category",
-  "vs {{year}}": "vs {{year}}"
+  "vs {{year}}": "vs {{year}}",
+  "Leases ending soon": "Leases ending soon",
+  "Within the next 90 days": "Within the next 90 days",
+  "No lease ending in the next 90 days": "No lease ending in the next 90 days"
 }

@@ -6,7 +6,9 @@
   "Contact": "Contact",
   "Country": "Pays",
   "Email": "Courriel",
+  "Leases ending soon": "Baux arrivant à échéance",
   "Main category": "Catégorie principale",
+  "No lease ending in the next 90 days": "Aucun bail n'arrive à échéance dans les 90 prochains jours",
   "Number of expenses": "Nombre de charges",
   "Phone": "Téléphone",
   "Phone 1": "Téléphone 1",
@@ -16,6 +18,7 @@
   "Street 2": "Rue 2",
   "Total": "Total",
   "Total expenses": "Total des charges",
+  "Within the next 90 days": "Dans les 90 prochains jours",
   "Zip code": "Code postal",
   "vs {{year}}": "vs {{year}}"
 }
