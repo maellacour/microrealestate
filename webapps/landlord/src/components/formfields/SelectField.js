@@ -39,16 +39,19 @@ export function SelectField({ values = [], disabled, ...props }) {
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          {values.map(
-            ({ id, value, label, renderIcon, disabled: disabledMenu }) => (
+          {values
+            // Radix forbids an empty-string item value; the former MUI select
+            // used a blank option as the "nothing selected" state, which Radix
+            // renders via the placeholder instead.
+            .filter(({ value }) => value !== '' && value != null)
+            .map(({ id, value, label, renderIcon, disabled: disabledMenu }) => (
               <SelectItem key={id} value={value} disabled={disabledMenu}>
                 <div className="flex items-center gap-2">
                   {renderIcon ? renderIcon() : null}
                   <span>{label}</span>
                 </div>
               </SelectItem>
-            )
-          )}
+            ))}
         </SelectContent>
       </Select>
     </FormField>
