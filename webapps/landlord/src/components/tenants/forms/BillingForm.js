@@ -1,16 +1,14 @@
 import * as Yup from 'yup';
 
 import { Form, Formik } from 'formik';
-import {
-  NumberField,
-  SubmitButton,
-  TextField
-} from '@microrealestate/commonui/components';
 import { useContext, useMemo } from 'react';
+import { NumberField } from '../../formfields/NumberField';
 import { observer } from 'mobx-react-lite';
 import { Section } from '../../formfields/Section';
 import { StoreContext } from '../../../store';
+import { SubmitButton } from '../../formfields/SubmitButton';
 import { SwitchField } from '../../formfields/SwitchField';
+import { TextField } from '../../formfields/TextField';
 import useTranslation from 'next-translate/useTranslation';
 
 const validationSchema = Yup.object().shape({
