@@ -40,18 +40,18 @@ async function main() {
 
   // 1) landlord login (password hashed by the Account pre-save hook)
   await new Account({
-    firstname: 'Marie',
-    lastname: 'Lacour',
+    firstname: 'Claire',
+    lastname: 'Dubois',
     email: EMAIL,
     password: 'demo'
   }).save();
 
   // 2) the organization — an individual landlord (isCompany = false)
   const realm = await new Realm({
-    name: 'Marie Lacour',
+    name: 'Claire Dubois',
     members: [
       {
-        name: 'Marie Lacour',
+        name: 'Claire Dubois',
         email: EMAIL,
         role: 'administrator',
         registered: true
@@ -71,7 +71,7 @@ async function main() {
       iban: 'FR76 3000 4000 5000 6000 7000 189'
     },
     contacts: [
-      { name: 'Marie Lacour', email: EMAIL, phone1: '0611223344', phone2: '' }
+      { name: 'Claire Dubois', email: EMAIL, phone1: '0611223344', phone2: '' }
     ],
     isCompany: false,
     locale: 'fr-FR',
