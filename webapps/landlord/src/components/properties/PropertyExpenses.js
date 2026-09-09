@@ -1,4 +1,9 @@
 import {
+  ALL_YEARS,
+  expenseYears,
+  summarizeExpenses
+} from '../../utils/expenses';
+import {
   LuHash,
   LuPencil,
   LuPlus,
@@ -45,8 +50,6 @@ import { toast } from 'sonner';
 import useFormatNumber from '../../hooks/useFormatNumber';
 import useTranslation from 'next-translate/useTranslation';
 
-const ALL_YEARS = 'all';
-
 function PropertyExpenses({ propertyId }) {
   const { t } = useTranslation('common');
   const formatNumber = useFormatNumber();
@@ -68,12 +71,10 @@ function PropertyExpenses({ propertyId }) {
     })();
   }, [propertyId, store, t]);
 
-  const years = useMemo(() => {
-    const set = new Set(
-      store.expense.items.map((expense) => moment(expense.date).year())
-    );
-    return Array.from(set).sort((a, b) => b - a);
-  }, [store.expense.items]);
+  const years = useMemo(
+    () => expenseYears(store.expense.items),
+    [store.expense.items]
+  );
 
   // Default to the most recent year once, on first load — never override a
   // choice the user made afterwards (including "All years").
@@ -85,52 +86,10 @@ function PropertyExpenses({ propertyId }) {
     }
   }, [years]);
 
-  const inYear = useCallback(
-    (year) =>
-      store.expense.items.filter(
-        (expense) => moment(expense.date).year() === year
-      ),
-    [store.expense.items]
+  const { expenses, total, byCategory, topCategory, evolution } = useMemo(
+    () => summarizeExpenses(store.expense.items, selectedYear),
+    [store.expense.items, selectedYear]
   );
-
-  const expenses = useMemo(() => {
-    const list =
-      selectedYear === ALL_YEARS ? store.expense.items : inYear(selectedYear);
-    return [...list].sort((a, b) => moment(b.date).diff(moment(a.date)));
-  }, [store.expense.items, selectedYear, inYear]);
-
-  const total = useMemo(
-    () => expenses.reduce((sum, expense) => sum + expense.amount, 0),
-    [expenses]
-  );
-
-  const byCategory = useMemo(() => {
-    const map = expenses.reduce((acc, expense) => {
-      acc[expense.category] = (acc[expense.category] || 0) + expense.amount;
-      return acc;
-    }, {});
-    return Object.entries(map)
-      .map(([category, amount]) => ({ category, amount }))
-      .sort((a, b) => b.amount - a.amount);
-  }, [expenses]);
-
-  // Year-over-year evolution, only meaningful for a single selected year.
-  const evolution = useMemo(() => {
-    if (selectedYear === ALL_YEARS) {
-      return null;
-    }
-    const previous = inYear(selectedYear - 1).reduce(
-      (sum, expense) => sum + expense.amount,
-      0
-    );
-    if (!previous) {
-      return null;
-    }
-    return {
-      previousYear: selectedYear - 1,
-      delta: (total - previous) / previous
-    };
-  }, [selectedYear, inYear, total]);
 
   const openAddDialog = useCallback(() => {
     setEditingExpense(null);
@@ -171,7 +130,6 @@ function PropertyExpenses({ propertyId }) {
   }
 
   const hasExpenses = store.expense.items.length > 0;
-  const topCategory = byCategory[0];
 
   return (
     <div className="space-y-4">

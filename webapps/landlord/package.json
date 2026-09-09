@@ -8,6 +8,7 @@
     "build": "next build --no-lint",
     "start": "next start",
     "lint": "next lint --no-cache",
+    "test": "node ../../node_modules/jest/bin/jest.js",
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,json,css}'",
     "generateStrings": "node scripts/extractlocalizedstrings.js"
   },
