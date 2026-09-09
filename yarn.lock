@@ -1030,32 +1030,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@date-io/core@npm:1.3.13, @date-io/core@npm:1.x, @date-io/core@npm:^1.3.13":
+"@date-io/core@npm:1.3.13, @date-io/core@npm:1.x":
   version: 1.3.13
   resolution: "@date-io/core@npm:1.3.13"
   checksum: 5a9e9d1de20f0346a3c7d2d5946190caef4bfb0b64d82ba1f4c566657a9192667c94ebe7f438d11d4286d9c190974daad4fb2159294225cd8af4d9a140239879
-  languageName: node
-  linkType: hard
-
-"@date-io/date-fns@npm:>= 1 <2":
-  version: 1.3.13
-  resolution: "@date-io/date-fns@npm:1.3.13"
-  dependencies:
-    "@date-io/core": ^1.3.13
-  peerDependencies:
-    date-fns: ^2.0.0
-  checksum: 0026c0e538ea4add57a11936ff6bdb07e99f25275f8bb28c4702bbb7e82c3a41b3e8124132aa719180d462c01a26a3b4801e41b7349cdb73813749d4bf5e8fbd
-  languageName: node
-  linkType: hard
-
-"@date-io/moment@npm:1.3.13":
-  version: 1.3.13
-  resolution: "@date-io/moment@npm:1.3.13"
-  dependencies:
-    "@date-io/core": ^1.3.13
-  peerDependencies:
-    moment: ^2.24.0
-  checksum: c4847f9d1bf09bb22c1acc5806fc50825c0bdb52408c9fec8cc5f9a65f16a8014870b5890a0eeb73b2c53a6487c35acbd2ab2a5c49068ff5a5dccbcb5c9e654b
   languageName: node
   linkType: hard
 
@@ -1764,26 +1742,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-ui/pickers@npm:>=3":
-  version: 3.3.11
-  resolution: "@material-ui/pickers@npm:3.3.11"
-  dependencies:
-    "@babel/runtime": ^7.6.0
-    "@date-io/core": 1.x
-    "@types/styled-jsx": ^2.2.8
-    clsx: ^1.0.2
-    react-transition-group: ^4.0.0
-    rifm: ^0.7.0
-  peerDependencies:
-    "@date-io/core": ^1.3.6
-    "@material-ui/core": ^4.0.0
-    prop-types: ^15.6.0
-    react: ^16.8.0 || ^17.0.0
-    react-dom: ^16.8.0 || ^17.0.0
-  checksum: c97822ae407877d1aa9ab7b14c335511d6879ca2546455ac7a3b156d70966b5678372a6d4d3470c2dced84e59857e2c1e1b2be61d26ab43f7f29806666f33064
-  languageName: node
-  linkType: hard
-
 "@material-ui/styles@npm:^4.11.5":
   version: 4.11.5
   resolution: "@material-ui/styles@npm:4.11.5"
@@ -2105,9 +2063,6 @@ __metadata:
   dependencies:
     "@babel/core": 7.21.3
     "@date-io/core": 1.3.13
-    "@date-io/moment": 1.3.13
-    "@material-ui/core": 4.12.4
-    "@material-ui/pickers": 3.3.10
     "@microrealestate/commonui": "*"
     "@radix-ui/react-avatar": 1.1.1
     "@radix-ui/react-checkbox": 1.1.2
@@ -2161,7 +2116,6 @@ __metadata:
     js-file-download: 0.4.12
     jsesc: 3.0.2
     lodash: 4.17.21
-    material-ui-formik-components: 0.7.3
     mobx: 6.12.3
     mobx-react-lite: 3.4.3
     moment: 2.29.4
@@ -7378,13 +7332,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:^2.2.5":
-  version: 2.5.1
-  resolution: "classnames@npm:2.5.1"
-  checksum: da424a8a6f3a96a2e87d01a432ba19315503294ac7e025f9fece656db6b6a0f7b5003bb1fbb51cbb0d9624d964f1b9bb35a51c73af9b2434c7b292c42231c1e5
-  languageName: node
-  linkType: hard
-
 "clean-stack@npm:^2.0.0":
   version: 2.2.0
   resolution: "clean-stack@npm:2.2.0"
@@ -8130,13 +8077,6 @@ __metadata:
   version: 3.6.0
   resolution: "date-fns@npm:3.6.0"
   checksum: 0daa1e9a436cf99f9f2ae9232b55e11f3dd46132bee10987164f3eebd29f245b2e066d7d7db40782627411ecf18551d8f4c9fcdf2226e48bb66545407d448ab7
-  languageName: node
-  linkType: hard
-
-"date-fns@npm:>=2":
-  version: 4.1.0
-  resolution: "date-fns@npm:4.1.0"
-  checksum: fb681b242cccabed45494468f64282a7d375ea970e0adbcc5dcc92dcb7aba49b2081c2c9739d41bf71ce89ed68dd73bebfe06ca35129490704775d091895710b
   languageName: node
   linkType: hard
 
@@ -12556,47 +12496,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"material-ui-chip-input@npm:>=1":
-  version: 1.1.0
-  resolution: "material-ui-chip-input@npm:1.1.0"
-  dependencies:
-    classnames: ^2.2.5
-    prop-types: ^15.6.1
-  peerDependencies:
-    "@material-ui/core": ^1.0.0 || ^3.1.0
-    react: ^16.3.0
-    react-dom: ^16.3.0
-  checksum: 7a2de88607dffe8dde065d502d8e7b250a8ec3830b52c7542a62be1952b34868f2a6aea72bf7480f1a292bf41a3b079a62f04a0c50717deced88d871d2b1be68
-  languageName: node
-  linkType: hard
-
-"material-ui-formik-components@npm:0.7.3":
-  version: 0.7.3
-  resolution: "material-ui-formik-components@npm:0.7.3"
-  dependencies:
-    "@date-io/date-fns": ">= 1 <2"
-    "@material-ui/pickers": ">=3"
-    date-fns: ">=2"
-    material-ui-chip-input: ">=1"
-  peerDependencies:
-    "@material-ui/core": ">=4"
-    "@material-ui/lab": ">=4.0.0-alpha.45"
-    formik: ">=2"
-    react: ">=16.8"
-    react-dom: ">=16.8"
-  dependenciesMeta:
-    "@date-io/date-fns":
-      optional: true
-    "@material-ui/pickers":
-      optional: true
-    date-fns:
-      optional: true
-    material-ui-chip-input:
-      optional: true
-  checksum: 2734092167374a325b4bd23942b11ca1307c62cad33b2d6eee8cdbcd25ba98ad3beafd6034a85c274911a55eaaf449f116ff1a9ca5536914f30655b0305d89e1
-  languageName: node
-  linkType: hard
-
 "math-interval-parser@npm:^2.0.1":
   version: 2.0.1
   resolution: "math-interval-parser@npm:2.0.1"
@@ -14250,7 +14149,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:15.8.1, prop-types@npm:^15.6.1, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:15.8.1, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
