@@ -24,7 +24,6 @@ import config from '../config';
 import moment from 'moment';
 import { Separator } from './ui/separator';
 import SideMenuButton from './SideMenuButton';
-import SponsorMenu from './SponsorMenu';
 import { StoreContext } from '../store';
 import UserAvatar from './UserAvatar';
 import { useRouter } from 'next/router';
@@ -236,7 +235,6 @@ export function HamburgerMenu({ className, onChange }) {
                 );
               })}
           </div>
-          <SponsorMenu />
           <div className="text-muted-foreground/50 text-[10px] text-center pb-2">
             v{process.env.NEXT_PUBLIC_APP_VERSION || '?'}
           </div>
@@ -321,8 +319,7 @@ export function SideMenu({ className }) {
       {/* Pinned to the viewport bottom so it stays visible even when the
           environment bar (demo/dev) pushes the h-full sidebar past the fold. */}
       <div className="bg-card fixed bottom-0 left-0 w-60 z-50">
-        <SponsorMenu className="mb-2" />
-        <div className="text-muted-foreground/50 text-[10px] text-center mb-2">
+        <div className="text-muted-foreground/50 text-[10px] text-center mb-2 mt-2">
           v{process.env.NEXT_PUBLIC_APP_VERSION || '?'}
         </div>
         <AccountSection />
