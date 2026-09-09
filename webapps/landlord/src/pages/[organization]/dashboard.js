@@ -5,17 +5,34 @@ import {
   fetchTenants,
   QueryKeys
 } from '../../utils/restcalls';
+import dynamic from 'next/dynamic';
 import GeneralFigures from '../../components/dashboard/GeneralFigures';
 import LeaseEndingSoon from '../../components/dashboard/LeaseEndingSoon';
-import MonthFigures from '../../components/dashboard/MonthFigures';
 import Page from '../../components/Page';
 import Shortcuts from '../../components/dashboard/Shortcuts';
+import { Skeleton } from '../../components/ui/skeleton';
 import { StoreContext } from '../../store';
 import { useContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Welcome from '../../components/Welcome';
 import { withAuthentication } from '../../components/Authentication';
-import YearFigures from '../../components/dashboard/YearFigures';
+
+// Charts pull in recharts — load them client-side so it stays out of the
+// dashboard's initial bundle.
+const MonthFigures = dynamic(
+  () => import('../../components/dashboard/MonthFigures'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-[420px] md:col-span-3" />
+  }
+);
+const YearFigures = dynamic(
+  () => import('../../components/dashboard/YearFigures'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-[520px] md:col-span-5" />
+  }
+);
 
 function Dashboard() {
   const store = useContext(StoreContext);

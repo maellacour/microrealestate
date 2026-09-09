@@ -9,6 +9,7 @@ import { useCallback, useContext, useState } from 'react';
 import { Card } from '../../../components/ui/card';
 import ConfirmDialog from '../../../components/ConfirmDialog';
 import { DashboardCard } from '../../../components/dashboard/DashboardCard';
+import dynamic from 'next/dynamic';
 import Map from '../../../components/Map';
 import moment from 'moment';
 import NumberFormat from '../../../components/NumberFormat';
@@ -17,8 +18,8 @@ import Page from '../../../components/Page';
 import PropertyColocation from '../../../components/properties/PropertyColocation';
 import PropertyExpenses from '../../../components/properties/PropertyExpenses';
 import PropertyForm from '../../../components/properties/PropertyForm';
-import PropertyResults from '../../../components/properties/PropertyResults';
 import ShortcutButton from '../../../components/ShortcutButton';
+import { Skeleton } from '../../../components/ui/skeleton';
 import { StoreContext } from '../../../store';
 import { toast } from 'sonner';
 import { toJS } from 'mobx';
@@ -26,6 +27,12 @@ import useFillStore from '../../../hooks/useFillStore';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { withAuthentication } from '../../../components/Authentication';
+
+// Results uses recharts — load it client-side to keep it off the initial bundle.
+const PropertyResults = dynamic(
+  () => import('../../../components/properties/PropertyResults'),
+  { ssr: false, loading: () => <Skeleton className="h-96 w-full" /> }
+);
 
 function PropertyOverviewCard() {
   const { t } = useTranslation('common');

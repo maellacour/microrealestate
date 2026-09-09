@@ -3,15 +3,22 @@ import { useCallback, useContext, useMemo, useState } from 'react';
 import { Alert } from '../ui/alert';
 import ConfirmDialog from '../ConfirmDialog';
 import { downloadDocument } from '../../utils/fetch';
-import ImageViewer from '../ImageViewer/ImageViewer';
+import dynamic from 'next/dynamic';
 import { LuAlertTriangle } from 'react-icons/lu';
 import { observer } from 'mobx-react-lite';
-import PdfViewer from '../PdfViewer/PdfViewer';
 import { StoreContext } from '../../store';
 import { toast } from 'sonner';
 import UploadDialog from '../UploadDialog';
 import UploadFileItem from './UploadFileItem';
 import useTranslation from 'next-translate/useTranslation';
+
+// Heavy viewers (pdf.js / lightbox) — loaded only when a document is opened.
+const ImageViewer = dynamic(() => import('../ImageViewer/ImageViewer'), {
+  ssr: false
+});
+const PdfViewer = dynamic(() => import('../PdfViewer/PdfViewer'), {
+  ssr: false
+});
 
 function UploadFileList({ disabled }) {
   const { t } = useTranslation('common');
