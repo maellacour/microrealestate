@@ -2,15 +2,15 @@
 /*
  * Seed a clean, "particulier" (individual French landlord) demo dataset.
  *
- * Destination in the repo: services/api/scripts/seed-demo.js
- *
  * Run it against the demo database, then dump it over backup/demodb.dump:
- *   MONGO_URL=mongodb://localhost:27017/demodb node services/api/scripts/seed-demo.js
- *   (inside the api dev container MONGO_URL is already set)
- *   yarn mre dumpdb   # then rename the produced backup to backup/demodb.dump
+ *   docker exec <api-container> node /usr/app/services/api/scripts/seed-demo.js
+ *   (MONGO_URL is already set inside the api container)
+ *   mongodump --uri="$MONGO_URL" --gzip --archive=backup/demodb.dump
  *
  * Rents and payments are generated through the real Contract business logic, so
  * every payment falls inside its contract window (no "payments out of frame").
+ * Dates are chosen so 5 tenancies are running "today" (2026) and 1 is a past,
+ * terminated tenant — the tenants list defaults to showing running leases.
  */
 import * as Contract from '../src/managers/contract.js';
 import { Collections } from '@microrealestate/common';
@@ -20,9 +20,6 @@ import mongoose from 'mongoose';
 const round = (v) => Math.round((v || 0) * 100) / 100;
 const dmy = (d) => moment(d).format('DD/MM/YYYY');
 const termOf = (d) => Number(moment(d).startOf('month').format('YYYYMMDDHH'));
-
-// "today" for the demo — a few unpaid recent terms make it realistic.
-const NOW = moment('2026-09-15');
 
 async function main() {
   const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/demodb';
@@ -182,8 +179,8 @@ async function main() {
     timeRange: 'months'
   });
   const bailMeuble = await mkLease({
-    name: 'Bail meublé 1 an',
-    description: 'Location meublée — 1 an reconductible',
+    name: 'Bail meublé',
+    description: 'Location meublée, reconductible',
     numberOfTerms: 12,
     timeRange: 'months'
   });
@@ -305,7 +302,7 @@ async function main() {
     }).save();
   }
 
-  // T1 — up to date, provisions
+  // T1 — running, provisions, up to date
   await mkTenant({
     name: 'Camille Durand',
     reference: 'PARIS-STUDIO-01',
@@ -323,10 +320,10 @@ async function main() {
       }
     ],
     guaranty: 780,
-    payUntil: NOW.clone().subtract(1, 'month')
+    payUntil: '2026-08-01'
   });
 
-  // T2 — two late terms
+  // T2 — running, two late terms
   await mkTenant({
     name: 'Lucas Petit',
     reference: 'LYON-T2-02',
@@ -335,7 +332,7 @@ async function main() {
     rent: 690,
     expenses: 60,
     begin: '2023-09-01',
-    end: '2026-08-31',
+    end: '2027-08-31',
     contacts: [
       {
         name: 'Lucas Petit',
@@ -344,11 +341,11 @@ async function main() {
       }
     ],
     guaranty: 690,
-    payUntil: NOW,
+    payUntil: '2026-08-01',
     skipTerms: [termOf('2026-07-01'), termOf('2026-08-01')]
   });
 
-  // T3 — forfait charges, partial last payment
+  // T3 — running, forfait charges, last term partly paid
   await mkTenant({
     name: 'Emma Moreau',
     reference: 'NANTES-MAISON-03',
@@ -357,7 +354,7 @@ async function main() {
     rent: 1080,
     expenses: 90,
     begin: '2025-06-01',
-    end: '2026-05-31',
+    end: '2027-05-31',
     contacts: [
       {
         name: 'Emma Moreau',
@@ -367,11 +364,11 @@ async function main() {
     ],
     chargesMode: 'forfait',
     guaranty: 2160,
-    payUntil: '2026-05-01',
-    partialTerms: { [termOf('2026-05-01')]: 600 }
+    payUntil: '2026-08-01',
+    partialTerms: { [termOf('2026-08-01')]: 600 }
   });
 
-  // T4 — terminated lease, deposit refunded
+  // T4 — past tenant: terminated lease, deposit refunded
   await mkTenant({
     name: 'Hugo Bernard',
     reference: 'PARIS-GARAGE-04',
@@ -395,7 +392,7 @@ async function main() {
     payUntil: '2025-02-01'
   });
 
-  // T5 + T6 — colocation on the Toulouse dwelling (two individual leases)
+  // T5 + T6 — running colocation on the Toulouse dwelling (two leases)
   const lea = await mkTenant({
     name: 'Léa Martin',
     reference: 'TLS-COLOC-05',
@@ -404,7 +401,7 @@ async function main() {
     rent: 430,
     expenses: 40,
     begin: '2025-09-01',
-    end: '2026-08-31',
+    end: '2027-08-31',
     contacts: [
       {
         name: 'Léa Martin',
@@ -413,7 +410,7 @@ async function main() {
       }
     ],
     guaranty: 430,
-    payUntil: NOW.clone().subtract(1, 'month')
+    payUntil: '2026-08-01'
   });
   const nathan = await mkTenant({
     name: 'Nathan Roux',
@@ -423,7 +420,7 @@ async function main() {
     rent: 390,
     expenses: 40,
     begin: '2025-09-01',
-    end: '2026-08-31',
+    end: '2027-08-31',
     contacts: [
       {
         name: 'Nathan Roux',
@@ -432,7 +429,7 @@ async function main() {
       }
     ],
     guaranty: 390,
-    payUntil: NOW,
+    payUntil: '2026-08-01',
     skipTerms: [termOf('2026-08-01')]
   });
 
