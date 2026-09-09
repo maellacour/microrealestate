@@ -1,13 +1,21 @@
 {
+  "All years": "Todos os anos",
+  "Average per expense": "Média por despesa",
+  "Breakdown by category": "Detalhamento por categoria",
   "City": "Cidade",
   "Contact": "Contato",
   "Country": "País",
   "Email": "E-mail",
+  "Main category": "Categoria principal",
+  "Number of expenses": "Número de despesas",
   "Phone": "Telefone",
   "Phone 1": "Telefone 1",
   "Phone 2": "Telefone 2",
   "State": "Estado",
   "Street 1": "Rua 1",
   "Street 2": "Rua 2",
-  "Zip code": "CEP"
+  "Total": "Total",
+  "Total expenses": "Total de despesas",
+  "Zip code": "CEP",
+  "vs {{year}}": "vs {{year}}"
 }

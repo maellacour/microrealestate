@@ -1,13 +1,21 @@
 {
+  "All years": "Todos los años",
+  "Average per expense": "Promedio por gasto",
+  "Breakdown by category": "Desglose por categoría",
   "City": "Ciudad",
   "Contact": "Contacto",
   "Country": "País",
   "Email": "Correo electrónico",
+  "Main category": "Categoría principal",
+  "Number of expenses": "Número de gastos",
   "Phone": "Teléfono",
   "Phone 1": "Teléfono 1",
   "Phone 2": "Teléfono 2",
   "State": "Departamento/Estado",
   "Street 1": "Calle 1",
   "Street 2": "Calle 2",
-  "Zip code": "Código postal"
+  "Total": "Total",
+  "Total expenses": "Total de gastos",
+  "Zip code": "Código postal",
+  "vs {{year}}": "vs {{year}}"
 }

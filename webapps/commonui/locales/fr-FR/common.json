@@ -1,13 +1,21 @@
 {
+  "All years": "Toutes les années",
+  "Average per expense": "Moyenne par charge",
+  "Breakdown by category": "Répartition par catégorie",
   "City": "Ville",
   "Contact": "Contact",
   "Country": "Pays",
   "Email": "Courriel",
+  "Main category": "Catégorie principale",
+  "Number of expenses": "Nombre de charges",
   "Phone": "Téléphone",
   "Phone 1": "Téléphone 1",
   "Phone 2": "Téléphone 2",
   "State": "Région",
   "Street 1": "Rue 1",
   "Street 2": "Rue 2",
-  "Zip code": "Code postal"
+  "Total": "Total",
+  "Total expenses": "Total des charges",
+  "Zip code": "Code postal",
+  "vs {{year}}": "vs {{year}}"
 }

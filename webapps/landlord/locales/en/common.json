@@ -550,5 +550,12 @@
   "Generate": "Generate",
   "Regularizations created for each roommate": "Regularizations created for each roommate",
   "Each charge is split by quote-part and a regularization is created for each roommate.": "Each charge is split by quote-part and a regularization is created for each roommate.",
-  "To add a roommate, create their lease on this property; it will then appear here.": "To add a roommate, create their lease on this property; it will then appear here."
+  "To add a roommate, create their lease on this property; it will then appear here.": "To add a roommate, create their lease on this property; it will then appear here.",
+  "All years": "All years",
+  "Total expenses": "Total expenses",
+  "Number of expenses": "Number of expenses",
+  "Average per expense": "Average per expense",
+  "Main category": "Main category",
+  "Breakdown by category": "Breakdown by category",
+  "vs {{year}}": "vs {{year}}"
 }

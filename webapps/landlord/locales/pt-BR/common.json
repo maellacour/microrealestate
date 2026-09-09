@@ -550,5 +550,12 @@
   "Generate": "Gerar",
   "Regularizations created for each roommate": "Acertos criados para cada colega",
   "Each charge is split by quote-part and a regularization is created for each roommate.": "Cada encargo é repartido por cota e um acerto é criado para cada colega.",
-  "To add a roommate, create their lease on this property; it will then appear here.": "Para adicionar um colega, crie o contrato dele neste imóvel; ele aparecerá aqui."
+  "To add a roommate, create their lease on this property; it will then appear here.": "Para adicionar um colega, crie o contrato dele neste imóvel; ele aparecerá aqui.",
+  "All years": "Todos os anos",
+  "Total expenses": "Total de despesas",
+  "Number of expenses": "Número de despesas",
+  "Average per expense": "Média por despesa",
+  "Main category": "Categoria principal",
+  "Breakdown by category": "Detalhamento por categoria",
+  "vs {{year}}": "vs {{year}}"
 }

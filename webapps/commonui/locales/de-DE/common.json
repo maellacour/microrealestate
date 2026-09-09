@@ -1,13 +1,21 @@
 {
+  "All years": "Alle Jahre",
+  "Average per expense": "Durchschnitt pro Ausgabe",
+  "Breakdown by category": "Aufschlüsselung nach Kategorie",
   "City": "Stadt",
   "Contact": "Kontakt",
   "Country": "Land",
   "Email": "Email",
+  "Main category": "Hauptkategorie",
+  "Number of expenses": "Anzahl der Ausgaben",
   "Phone": "Telefon",
   "Phone 1": "Telefon 1",
   "Phone 2": "Telefon 2",
   "State": "Bundesland",
   "Street 1": "Straße 1",
   "Street 2": "Straße 2",
-  "Zip code": "Postleitzahl"
+  "Total": "Gesamt",
+  "Total expenses": "Gesamtkosten",
+  "Zip code": "Postleitzahl",
+  "vs {{year}}": "vs. {{year}}"
 }
