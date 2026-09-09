@@ -13,7 +13,7 @@
  * terminated tenant — the tenants list defaults to showing running leases.
  */
 import * as Contract from '../src/managers/contract.js';
-import { Collections } from '@microrealestate/common';
+import { Charges, Collections } from '@microrealestate/common';
 import moment from 'moment';
 import mongoose from 'mongoose';
 
@@ -24,10 +24,11 @@ const termOf = (d) => Number(moment(d).startOf('month').format('YYYYMMDDHH'));
 async function main() {
   const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/demodb';
   await mongoose.connect(MONGO_URL);
-  const { Account, Realm, Property, Lease, Tenant, Colocation } = Collections;
+  const { Account, Realm, Property, Lease, Tenant, Colocation, Expense } =
+    Collections;
 
   await Promise.all(
-    [Account, Realm, Property, Lease, Tenant, Colocation].map((m) =>
+    [Account, Realm, Property, Lease, Tenant, Colocation, Expense].map((m) =>
       m.deleteMany({})
     )
   );
@@ -168,6 +169,93 @@ async function main() {
     },
     price: 850
   });
+
+  // 3b) landlord expenses (P&L) — feeds the Expenses tab + per-property Results
+  const mkExpense = (property, category, amount, date, description) =>
+    new Expense({
+      realmId,
+      propertyId: String(property._id),
+      category,
+      amount,
+      date: moment(date).toDate(),
+      description,
+      createdDate: new Date(),
+      updatedDate: new Date()
+    }).save();
+  await Promise.all([
+    mkExpense(
+      studioParis,
+      'condo_charges',
+      620,
+      '2025-01-15',
+      'Appel de charges de copropriété'
+    ),
+    mkExpense(
+      studioParis,
+      'property_tax',
+      780,
+      '2025-10-10',
+      'Taxe foncière 2025'
+    ),
+    mkExpense(studioParis, 'insurance', 145, '2025-02-01', 'Assurance PNO'),
+    mkExpense(
+      t2Lyon,
+      'condo_charges',
+      540,
+      '2025-01-18',
+      'Charges de copropriété'
+    ),
+    mkExpense(
+      t2Lyon,
+      'management_fees',
+      90,
+      '2026-01-05',
+      'Honoraires de gestion'
+    ),
+    mkExpense(
+      maisonNantes,
+      'works',
+      2300,
+      '2025-04-20',
+      'Réfection de la toiture'
+    ),
+    mkExpense(
+      maisonNantes,
+      'property_tax',
+      1180,
+      '2025-10-10',
+      'Taxe foncière 2025'
+    ),
+    mkExpense(maisonNantes, 'insurance', 210, '2025-03-01', 'Assurance PNO'),
+    mkExpense(
+      colocToulouse,
+      'condo_charges',
+      1450,
+      '2025-01-20',
+      'Charges de copropriété'
+    ),
+    mkExpense(
+      colocToulouse,
+      'property_tax',
+      1650,
+      '2025-10-10',
+      'Taxe foncière 2025'
+    ),
+    mkExpense(
+      colocToulouse,
+      'loan_interest',
+      3400,
+      '2025-12-31',
+      "Intérêts d'emprunt 2025"
+    ),
+    mkExpense(
+      colocToulouse,
+      'works',
+      480,
+      '2026-02-12',
+      'Remplacement du chauffe-eau'
+    )
+  ]);
 
   // 4) contracts (leases)
   const mkLease = (l) =>
@@ -444,6 +532,45 @@ async function main() {
     createdDate: new Date(),
     updatedDate: new Date()
   }).save();
+
+  // colocation common charges (2025) split by quote-part into each roommate's
+  // regularization — exactly what the "Common charges regularization" action does
+  if (Collections.ChargeRegularization && Charges?.splitCommonCharges) {
+    const colocMembers = [
+      { tenantId: String(lea._id), sharePercent: 52.44 },
+      { tenantId: String(nathan._id), sharePercent: 47.56 }
+    ];
+    const commonCharges = [
+      {
+        label: 'Charges de copropriété récupérables',
+        amount: 300,
+        recoverable: true
+      },
+      { label: 'Eau', amount: 210, recoverable: true },
+      { label: 'Entretien chaudière', amount: 120, recoverable: true },
+      {
+        label: 'Taxe foncière (non récupérable)',
+        amount: 420,
+        recoverable: false
+      }
+    ];
+    const split = Charges.splitCommonCharges(commonCharges, colocMembers);
+    await Promise.all(
+      colocMembers.map((m) =>
+        new Collections.ChargeRegularization({
+          realmId,
+          tenantId: m.tenantId,
+          periodStart: moment('2025-09-01').toDate(),
+          periodEnd: moment('2025-12-31').toDate(),
+          lines: split[m.tenantId],
+          note: 'Régularisation des charges communes 2025 (quote-part).',
+          shared: true,
+          createdDate: new Date(),
+          updatedDate: new Date()
+        }).save()
+      )
+    );
+  }
 
   if (Collections.ChargeRegularization) {
     const t1 = await Tenant.findOne({ reference: 'PARIS-STUDIO-01' });
