@@ -3,17 +3,15 @@ import { LuLoader } from 'react-icons/lu';
 import { useFormikContext } from 'formik';
 
 // Formik-aware submit button (shadcn). Drop-in replacement for the former MUI
-// commonui SubmitButton: same { label } API and data-cy="submit" hook. MUI-only
-// props (size/variant/color) are swallowed so they never reach the DOM.
-export function SubmitButton({
-  label,
-  disabled,
-  size, // eslint-disable-line no-unused-vars
-  variant, // eslint-disable-line no-unused-vars
-  color, // eslint-disable-line no-unused-vars
-  ...props
-}) {
+// commonui SubmitButton: same { label } API and data-cy="submit" hook.
+export function SubmitButton({ label, disabled, ...props }) {
   const { isSubmitting } = useFormikContext();
+
+  // Swallow MUI-only props so they never reach the DOM / shadcn Button.
+  delete props.size;
+  delete props.variant;
+  delete props.color;
+
   return (
     <Button
       type="submit"

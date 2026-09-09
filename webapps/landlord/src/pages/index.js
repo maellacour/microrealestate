@@ -29,5 +29,6 @@ export async function getServerSideProps(context) {
     return { props: {} };
   }
 
-  return { props: { organization: toJS(store.organization.selected) } };
+  // Next cannot serialize `undefined`; fall back to null when no org is selected.
+  return { props: { organization: toJS(store.organization.selected) || null } };
 }
