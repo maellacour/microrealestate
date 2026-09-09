@@ -303,7 +303,7 @@ export function SideMenu({ className }) {
         {config.APP_NAME}
       </div>
       <Separator className="bg-secondary-foreground/25 my-4" />
-      <div className="flex-grow overflow-auto">
+      <div className="flex-grow overflow-auto pb-40">
         {menuItems
           .filter((menuItem) => !menuItem.hidden)
           .map((item) => {
@@ -318,11 +318,15 @@ export function SideMenu({ className }) {
             );
           })}
       </div>
-      <SponsorMenu className="mb-2" />
-      <div className="text-muted-foreground/50 text-[10px] text-center mb-2">
-        v{process.env.NEXT_PUBLIC_APP_VERSION || '?'}
+      {/* Pinned to the viewport bottom so it stays visible even when the
+          environment bar (demo/dev) pushes the h-full sidebar past the fold. */}
+      <div className="bg-card fixed bottom-0 left-0 w-60 z-50">
+        <SponsorMenu className="mb-2" />
+        <div className="text-muted-foreground/50 text-[10px] text-center mb-2">
+          v{process.env.NEXT_PUBLIC_APP_VERSION || '?'}
+        </div>
+        <AccountSection />
       </div>
-      <AccountSection />
     </div>
   );
 }
