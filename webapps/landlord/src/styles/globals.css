@@ -160,3 +160,33 @@
     transform: scale(1);
   }
 }
+
+/* Seal used as a branded loading indicator: a bright arc sweeps the outer
+   ring while the dashed ring drifts slowly the other way. */
+.seal-loader-arc,
+.seal-loader-dash {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .seal-loader-arc {
+    animation: seal-spin 1.1s linear infinite;
+  }
+  .seal-loader-dash {
+    animation: seal-spin 9s linear infinite reverse;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .seal-loader-arc {
+    animation: seal-fade-pulse 1.4s ease-in-out infinite;
+  }
+}
+@keyframes seal-fade-pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
