@@ -1,13 +1,7 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '../../../components/ui/card';
 import { fetchOrganizations, QueryKeys } from '../../../utils/restcalls';
 import { Badge } from '../../../components/ui/badge';
 import { Button } from '../../../components/ui/button';
+import { Card } from '../../../components/ui/card';
 import { cn } from '../../../utils';
 import config from '../../../config';
 import Page from '../../../components/Page';
@@ -41,43 +35,42 @@ function OrganizationsSettings() {
   }
 
   return (
-    <Page loading={isLoading} dataCy="organizationsPage">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t('Organizations')}</CardTitle>
-          <CardDescription>{t('Your organizations')}</CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-4">
-          {organizations?.map((organization) => (
-            <Card
-              key={organization._id}
-              className={cn('flex items-center gap-2 p-4')}
-            >
-              {store.organization.selected?._id !== organization._id ? (
-                <Button
-                  variant="link"
-                  onClick={handleSwitchOrganization(organization)}
-                  className="justify-start text-xl p-0 h-fit min-w-32"
-                >
-                  {organization.name}
-                </Button>
-              ) : (
-                <span className="text-xl min-w-32">{organization.name}</span>
-              )}
-              <Badge
-                variant="outline"
-                className="text-secondary-foreground/70 h-fit w-fit"
+    <Page
+      title={t('Organizations')}
+      subtitle={t('Your organizations')}
+      loading={isLoading}
+      dataCy="organizationsPage"
+    >
+      <div className="flex flex-col gap-4">
+        {organizations?.map((organization) => (
+          <Card
+            key={organization._id}
+            className={cn('flex items-center gap-2 p-4')}
+          >
+            {store.organization.selected?._id !== organization._id ? (
+              <Button
+                variant="link"
+                onClick={handleSwitchOrganization(organization)}
+                className="justify-start text-xl p-0 h-fit min-w-32"
               >
-                {t(
-                  organization.members.find(
-                    (member) => member.user === store.user._id
-                  ).role
-                )}
-              </Badge>
-            </Card>
-          ))}
-        </CardContent>
-      </Card>
+                {organization.name}
+              </Button>
+            ) : (
+              <span className="text-xl min-w-32">{organization.name}</span>
+            )}
+            <Badge
+              variant="outline"
+              className="text-secondary-foreground/70 h-fit w-fit"
+            >
+              {t(
+                organization.members.find(
+                  (member) => member.user === store.user._id
+                ).role
+              )}
+            </Badge>
+          </Card>
+        ))}
+      </div>
     </Page>
   );
 }

@@ -1,14 +1,8 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '../../../components/ui/card';
 import { fetchOrganizations, QueryKeys } from '../../../utils/restcalls';
 import { useContext, useState } from 'react';
 import ApplicationFormDialog from '../../../components/organization/members/ApplicationFormDialog';
 import ApplicationShowDialog from '../../../components/organization/members/ApplicationShowDialog';
+import { Card } from '../../../components/ui/card';
 import { LuPlusCircle } from 'react-icons/lu';
 import MemberFormDialog from '../../../components/organization/members/MemberFormDialog';
 import Members from '../../../components/organization/Members';
@@ -46,6 +40,8 @@ function AccessSettings() {
 
   return (
     <Page
+      title={t('Access')}
+      subtitle={t('Managing access to your organization')}
       loading={isLoading}
       ActionBar={
         <div className="grid grid-cols-5 gap-1.5 md:gap-4">
@@ -71,16 +67,8 @@ function AccessSettings() {
       }
       dataCy="accessPage"
     >
-      <Card>
-        <CardHeader>
-          <CardTitle>{t('Access')}</CardTitle>
-          <CardDescription>
-            {t('Managing access to your organization')}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Members organization={organization} />
-        </CardContent>
+      <Card className="p-6">
+        <Members organization={organization} />
       </Card>
       <MemberFormDialog
         open={openMemberFormDialog}

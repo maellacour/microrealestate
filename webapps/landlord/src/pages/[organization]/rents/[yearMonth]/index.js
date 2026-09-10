@@ -15,6 +15,7 @@ import { List } from '../../../../components/ResourceList';
 import { LuRotateCw } from 'react-icons/lu';
 import moment from 'moment';
 import Page from '../../../../components/Page';
+import PeriodPicker from '../../../../components/PeriodPicker';
 import { RentOverview } from '../../../../components/rents/RentOverview';
 import RentTable from '../../../../components/rents/RentTable';
 import { StoreContext } from '../../../../store';
@@ -227,15 +228,30 @@ function Rents() {
     [router.query.yearMonth]
   );
 
+  const handlePeriodChange = useCallback(
+    async (newPeriod) => {
+      store.rent.setPeriod(newPeriod);
+      await router.push(
+        `/${store.organization.selected.name}/rents/${store.rent.periodAsString}`
+      );
+    },
+    [router, store.rent, store.organization.selected.name]
+  );
+
   if (isError) {
     toast.error(t('Error fetching rents'));
   }
 
   return (
-    <Page loading={isLoading} dataCy="rentsPage">
-      <div className="my-4">
-        <RentOverview data={{ period, ...data?.overview }} />
-      </div>
+    <Page
+      title={t('Rents')}
+      PageActions={
+        <PeriodPicker value={period} onChange={handlePeriodChange} />
+      }
+      loading={isLoading}
+      dataCy="rentsPage"
+    >
+      <RentOverview data={data?.overview || {}} className="mb-6" />
 
       {!store.organization.canSendEmails ? (
         <Alert variant="warning" className="mb-4">

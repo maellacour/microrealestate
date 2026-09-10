@@ -11,8 +11,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "format": "prettier --write '**/*.{js,jsx,ts,tsx,json,css}'",
-    "generateStrings": "node scripts/extractlocalizedstrings.js"
+    "format": "prettier --write '**/*.{js,jsx,ts,tsx,json,css}'"
   },
   "devDependencies": {
     "@babel/core": "7.21.3",

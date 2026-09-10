@@ -35,7 +35,7 @@ export function RentAmount({
   className
 }) {
   return (
-    <div className={cn('flex flex-col text-right', className)}>
+    <div className={cn('flex flex-col text-right tabular-nums', className)}>
       <div className="text-xs text-muted-foreground">{label}</div>
       <NumberFormat
         value={amount}

@@ -1923,7 +1923,6 @@ __metadata:
     "@radix-ui/react-switch": 1.1.1
     "@radix-ui/react-tabs": 1.1.1
     "@radix-ui/react-toggle": 1.1.0
-    "@radix-ui/react-toggle-group": 1.1.0
     "@radix-ui/react-tooltip": 1.1.3
     "@react-pdf-viewer/core": 3.12.0
     "@react-pdf-viewer/default-layout": 3.12.0
@@ -3608,31 +3607,6 @@ __metadata:
     "@types/react-dom":
       optional: true
   checksum: 4299f0cba44560ceac8555e31bf6ac7cf5070a0b23c30811d4c3da6597a6938722296e3a0ce47558fe1dc97789c04001c36c15701c7f13b7454acadbbc25ec06
-  languageName: node
-  linkType: hard
-
-"@radix-ui/react-toggle-group@npm:1.1.0":
-  version: 1.1.0
-  resolution: "@radix-ui/react-toggle-group@npm:1.1.0"
-  dependencies:
-    "@radix-ui/primitive": 1.1.0
-    "@radix-ui/react-context": 1.1.0
-    "@radix-ui/react-direction": 1.1.0
-    "@radix-ui/react-primitive": 2.0.0
-    "@radix-ui/react-roving-focus": 1.1.0
-    "@radix-ui/react-toggle": 1.1.0
-    "@radix-ui/react-use-controllable-state": 1.1.0
-  peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
-    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-    "@types/react-dom":
-      optional: true
-  checksum: c665a38b01fc3fc816a63c9d8d689814d17803c4075f3e383182d7613e6552b5bbf0584f68c6e98af8efd738ceba9869ef5b29419f76a80b64e3a7d61b2b41ef
   languageName: node
   linkType: hard
 

@@ -80,9 +80,14 @@ function Shortcuts({ firstConnection = false, className }) {
         </Card>
       ) : (
         <Card
+          role="group"
+          aria-label={t('Shortcuts')}
           className={cn(
             'fixed grid grid-cols-5 gap-1.5 bottom-0 left-0 w-full z-50 border-t rounded-none',
-            'md:relative md:z-auto md:rounded-md md:border md:gap-4 md:p-4',
+            // On a wide screen the card chrome goes, so these read as a quiet
+            // row of actions under the heading rather than a panel competing
+            // with the figures; a hairline is all that separates them.
+            'md:relative md:z-auto md:rounded-none md:border-0 md:border-b md:bg-transparent md:shadow-none md:gap-4 md:px-0 md:pt-0 md:pb-4',
             className
           )}
         >

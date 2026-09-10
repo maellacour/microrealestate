@@ -1,14 +1,39 @@
 import { HamburgerMenu, SideMenu } from './AppMenu';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { cn } from '../utils';
 import EnvironmentBar from './EnvironmentBar';
 import { StoreContext } from '../store';
 import { Toaster } from '../components/ui/sonner';
-import { useContext } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
+
+const COLLAPSED_KEY = 'bayle.sidemenu.collapsed';
 
 export default function Layout({ hideMenu, children }) {
   const store = useContext(StoreContext);
   const isXLorGreater = useMediaQuery('(min-width: 1280px)');
+  // Read after mount: the server has no way to know the stored preference and
+  // rendering the collapsed rail straight away would mismatch the markup.
+  const [collapsed, setCollapsed] = useState(false);
+
+  useEffect(() => {
+    try {
+      setCollapsed(window.localStorage.getItem(COLLAPSED_KEY) === 'true');
+    } catch (error) {
+      setCollapsed(false);
+    }
+  }, []);
+
+  const handleToggleCollapsed = useCallback(() => {
+    setCollapsed((previous) => {
+      const next = !previous;
+      try {
+        window.localStorage.setItem(COLLAPSED_KEY, String(next));
+      } catch (error) {
+        // A browser refusing storage just forgets the choice next visit.
+      }
+      return next;
+    });
+  }, []);
 
   return (
     <>
@@ -30,11 +55,21 @@ export default function Layout({ hideMenu, children }) {
             ) : null}
           </div>
           <div className="flex">
-            {store.user?.signedIn && isXLorGreater ? <SideMenu /> : null}
+            {store.user?.signedIn && isXLorGreater ? (
+              <SideMenu
+                collapsed={collapsed}
+                onToggleCollapsed={handleToggleCollapsed}
+              />
+            ) : null}
             <div
               className={cn(
                 'flex-grow',
-                store.user?.signedIn ? 'xl:ml-60' : ''
+                'transition-[margin] duration-300 ease-out motion-reduce:transition-none',
+                store.user?.signedIn
+                  ? collapsed
+                    ? 'xl:ml-16'
+                    : 'xl:ml-60'
+                  : ''
               )}
             >
               {children}

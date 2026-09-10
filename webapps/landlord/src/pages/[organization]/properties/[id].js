@@ -5,16 +5,17 @@ import {
   TabsList,
   TabsTrigger
 } from '../../../components/ui/tabs';
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
+import { Badge } from '../../../components/ui/badge';
 import { Card } from '../../../components/ui/card';
 import ConfirmDialog from '../../../components/ConfirmDialog';
-import { DashboardCard } from '../../../components/dashboard/DashboardCard';
 import dynamic from 'next/dynamic';
 import Map from '../../../components/Map';
 import moment from 'moment';
 import NumberFormat from '../../../components/NumberFormat';
 import { observer } from 'mobx-react-lite';
 import Page from '../../../components/Page';
+import PanelCard from '../../../components/PanelCard';
 import PropertyColocation from '../../../components/properties/PropertyColocation';
 import PropertyExpenses from '../../../components/properties/PropertyExpenses';
 import PropertyForm from '../../../components/properties/PropertyForm';
@@ -23,6 +24,7 @@ import { Skeleton } from '../../../components/ui/skeleton';
 import { StoreContext } from '../../../store';
 import { toast } from 'sonner';
 import { toJS } from 'mobx';
+import types from '../../../components/properties/types';
 import useFillStore from '../../../hooks/useFillStore';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
@@ -39,21 +41,17 @@ function PropertyOverviewCard() {
   const store = useContext(StoreContext);
 
   return (
-    <DashboardCard
-      Icon={LuKeyRound}
-      title={t('Property')}
-      renderContent={() => (
-        <div className="text-base space-y-2">
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">
-              {store.property.selected.name}
-            </span>
-            <NumberFormat value={store.property.selected.price} />
-          </div>
-          <Map address={store.property.selected.address} />
+    <PanelCard Icon={LuKeyRound} title={t('Property')}>
+      <div className="space-y-3 text-sm">
+        <div className="flex justify-between gap-2">
+          <span className="text-muted-foreground">
+            {t('Rent excluding tax and expenses')}
+          </span>
+          <NumberFormat value={store.property.selected.price} />
         </div>
-      )}
-    />
+        <Map address={store.property.selected.address} />
+      </div>
+    </PanelCard>
   );
 }
 
@@ -62,32 +60,29 @@ function OccupancyHistoryCard() {
   const store = useContext(StoreContext);
 
   return (
-    <DashboardCard
-      Icon={LuHistory}
-      title={t('Previous tenants')}
-      renderContent={() =>
-        store.property.selected?.occupancyHistory?.length ? (
-          store.property.selected.occupancyHistory.map((occupant) => {
-            const occupationDates = t('{{beginDate}} to {{endDate}}', {
-              beginDate: moment(occupant.beginDate, 'DD/MM/YYYY').format('ll'),
-              endDate: moment(occupant.endDate, 'DD/MM/YYYY').format('ll')
-            });
-            return (
-              <div key={occupant.id} className="mt-2">
-                <div className="text-base">{occupant.name}</div>
-                <div className="text-xs text-muted-foreground">
-                  {occupationDates}
-                </div>
+    <PanelCard Icon={LuHistory} title={t('Previous tenants')}>
+      {store.property.selected?.occupancyHistory?.length ? (
+        <div className="flex flex-col gap-3">
+          {store.property.selected.occupancyHistory.map((occupant) => (
+            <div key={occupant.id}>
+              <div className="text-sm">{occupant.name}</div>
+              <div className="text-muted-foreground text-xs">
+                {t('{{beginDate}} to {{endDate}}', {
+                  beginDate: moment(occupant.beginDate, 'DD/MM/YYYY').format(
+                    'll'
+                  ),
+                  endDate: moment(occupant.endDate, 'DD/MM/YYYY').format('ll')
+                })}
               </div>
-            );
-          })
-        ) : (
-          <span className="text-base text-muted-foreground">
-            {t('Property not rented so far')}
-          </span>
-        )
-      }
-    />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <span className="text-muted-foreground text-sm">
+          {t('Property not rented so far')}
+        </span>
+      )}
+    </PanelCard>
   );
 }
 
@@ -110,6 +105,26 @@ function Property() {
   const handleBack = useCallback(() => {
     router.push(store.appHistory.previousPath);
   }, [router, store.appHistory.previousPath]);
+
+  const propertySummary = useMemo(() => {
+    const { _id, status, occupantLabel, type } = store.property.selected;
+    if (!_id) {
+      return null;
+    }
+    const vacant = status === 'vacant';
+    const propertyType = types.find(({ id }) => id === type);
+    return (
+      <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
+        <Badge variant={vacant ? 'warning' : 'success'} className="font-normal">
+          {vacant ? t('Vacant') : t('Rented')}
+        </Badge>
+        {propertyType ? <span>{t(propertyType.labelId)}</span> : null}
+        {!vacant && occupantLabel ? (
+          <span>{t('Occupied by {{tenant}}', { tenant: occupantLabel })}</span>
+        ) : null}
+      </span>
+    );
+  }, [store.property.selected, t]);
 
   const onConfirmDeleteProperty = useCallback(() => {
     setOpenConfirmDeletePropertyDialog(true);
@@ -183,6 +198,8 @@ function Property() {
 
   return (
     <Page
+      title={store.property.selected.name}
+      subtitle={propertySummary}
       loading={fetching}
       ActionBar={
         <div className="grid grid-cols-5 gap-1.5 md:gap-4">

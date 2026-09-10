@@ -1,76 +1,49 @@
-import { LuCalendar, LuTrendingDown, LuTrendingUp } from 'react-icons/lu';
-import { useCallback, useContext } from 'react';
+import { LuTrendingDown, LuTrendingUp } from 'react-icons/lu';
 import { BsReceipt } from 'react-icons/bs';
-import { DashboardCard } from '../dashboard/DashboardCard';
+import { cn } from '../../utils';
+import MetricCard from '../MetricCard';
 import NumberFormat from '../NumberFormat';
-import PeriodPicker from '../PeriodPicker';
-import { StoreContext } from '../../store';
-import { useRouter } from 'next/router';
+import { Progress } from '../ui/progress';
 import useTranslation from 'next-translate/useTranslation';
 
-export function RentOverview({ data }) {
+export function RentOverview({ data, className }) {
   const { t } = useTranslation('common');
-  const store = useContext(StoreContext);
-  const router = useRouter();
 
-  const handlePeriodChange = useCallback(
-    async (period) => {
-      store.rent.setPeriod(period);
-      await router.push(
-        `/${store.organization.selected.name}/rents/${store.rent.periodAsString}`
-      );
-    },
-    [router, store.rent, store.organization.selected.name]
-  );
+  const totalPaid = data.totalPaid || 0;
+  const totalNotPaid = data.totalNotPaid || 0;
+  const called = totalPaid + totalNotPaid;
+  const paidRatio = called ? Math.round((totalPaid / called) * 100) : 0;
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-10 gap-4">
-      <DashboardCard
-        Icon={LuCalendar}
-        title={t('Period')}
-        renderContent={() => (
-          <PeriodPicker value={data.period} onChange={handlePeriodChange} />
-        )}
-        className="2xl:col-span-2"
-      />
-
-      <DashboardCard
-        Icon={BsReceipt}
-        title={t('Rents')}
-        description={t('Rents for the period')}
-        renderContent={() => data.countAll}
-        className="hidden sm:block 2xl:col-span-2 text-center"
-      />
-      <DashboardCard
+    <div className={cn('grid grid-cols-2 gap-4 sm:grid-cols-3', className)}>
+      <MetricCard
         Icon={LuTrendingDown}
-        title={t('Not paid')}
-        description={t('{{count}} rents', {
-          count: data.countNotPaid
-        })}
-        renderContent={() => (
-          <NumberFormat
-            value={data.totalNotPaid}
-            debitColor={true}
-            className="flex-grow"
-          />
-        )}
-        className="hidden sm:block 2xl:col-span-3 text-end"
+        label={t('Not paid')}
+        tone={totalNotPaid > 0 ? 'warning' : 'muted'}
+        value={<NumberFormat value={totalNotPaid} showZero />}
+        hint={t('{{count}} rents', { count: data.countNotPaid || 0 })}
       />
-      <DashboardCard
+      <MetricCard
         Icon={LuTrendingUp}
-        title={t('Paid')}
-        description={t('{{count}} rents', {
-          count: data.countPaid + data.countPartiallyPaid
+        label={t('Paid')}
+        tone="success"
+        value={<NumberFormat value={totalPaid} showZero />}
+        hint={t('{{count}} rents', {
+          count: (data.countPaid || 0) + (data.countPartiallyPaid || 0)
         })}
-        renderContent={() => (
-          <NumberFormat
-            value={data.totalPaid}
-            creditColor={true}
-            showZero={true}
-            className="flex-grow"
-          />
-        )}
-        className="hidden sm:block 2xl:col-span-3 text-end"
+      >
+        <Progress
+          value={paidRatio}
+          className="mt-2 h-1.5"
+          indicatorClassName="bg-success"
+        />
+      </MetricCard>
+      <MetricCard
+        Icon={BsReceipt}
+        label={t('Rents')}
+        value={data.countAll || 0}
+        hint={t('Rents for the period')}
+        className="col-span-2 sm:col-span-1"
       />
     </div>
   );

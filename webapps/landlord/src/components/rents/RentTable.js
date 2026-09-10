@@ -7,9 +7,11 @@ import { Checkbox } from '../ui/checkbox';
 import { cn } from '../../utils';
 import { downloadDocument } from '../../utils/fetch';
 import { EmptyIllustration } from '../Illustrations';
+import { Label } from '../ui/label';
 import moment from 'moment';
 import NewPaymentDialog from '../payment/NewPaymentDialog';
 import RentHistoryDialog from './RentHistoryDialog';
+import RentStatusBadge from './RentStatusBadge';
 import { Separator } from '../ui/separator';
 import { StoreContext } from '../../store';
 import { TbCashRegister } from 'react-icons/tb';
@@ -97,84 +99,99 @@ function RentRow({ rent, isSelected, onSelect, onEdit, onHistory }) {
   const rentAmounts = getRentAmounts(rent);
 
   return (
-    <>
-      <div className="flex flex-col gap-4 md:gap-0 md:flex-row md:items-center">
-        <div className="w-full md:w-2/6 space-y-2">
-          <div className="flex items-center gap-4">
-            {store.organization.canSendEmails ? (
-              rent.occupant.hasContactEmails ? (
+    <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-4">
+      <div className="w-full space-y-1.5 md:w-2/6">
+        <div className="flex items-center gap-3">
+          {store.organization.canSendEmails ? (
+            rent.occupant.hasContactEmails ? (
+              <Checkbox
+                checked={isSelected}
+                onCheckedChange={onSelect(rent)}
+                aria-labelledby={rent.occupant.name}
+              />
+            ) : (
+              <Tooltip title={t('No emails available for this tenant')}>
                 <Checkbox
-                  checked={isSelected}
-                  disabled={!store.organization.canSendEmails}
                   onCheckedChange={onSelect(rent)}
                   aria-labelledby={rent.occupant.name}
+                  disabled
                 />
-              ) : (
-                <Tooltip title={t('No emails available for this tenant')}>
-                  <Checkbox
-                    onCheckedChange={onSelect(rent)}
-                    aria-labelledby={rent.occupant.name}
-                    disabled
-                  />
-                </Tooltip>
-              )
-            ) : null}
+              </Tooltip>
+            )
+          ) : null}
 
-            <Button
-              variant="link"
-              className="p-0 h-fit text-lg whitespace-normal text-left"
-              onClick={onEdit(rent)}
-            >
-              {rent.occupant.name}
-            </Button>
-          </div>
-          <Reminder rent={rent} className="hidden md:inline-flex ml-8" />
+          <Button
+            variant="link"
+            className="h-fit whitespace-normal p-0 text-left text-base font-medium"
+            onClick={onEdit(rent)}
+          >
+            {rent.occupant.name}
+          </Button>
+          <RentStatusBadge status={rent.status} />
         </div>
-        <div className="flex pl-8 md:pl-0 md:grid md:grid-cols-3 lg:grid-cols-5 gap-4 w-full md:w-4/6">
-          <RentAmount
-            label={t('Rent')}
-            amount={rentAmounts.rent}
-            withColor={false}
-            className="hidden lg:block text-muted-foreground"
-          />
-          <RentAmount
-            label={t('Balance')}
-            amount={rentAmounts.balance}
-            withColor={false}
-            className="hidden lg:block text-muted-foreground"
-          />
-          <RentAmount
-            label={t('Rent due')}
-            amount={rentAmounts.totalAmount}
-            withColor={false}
-            debitColor={rentAmounts.totalAmount > 0}
-            creditColor={rentAmounts.totalAmount < 0}
-            className={rentAmounts.totalAmount !== 0 ? 'font-bold' : ''}
-          />
-          <div className="grow">
-            <RentAmount
-              label={t('Settlement')}
-              amount={rent.payment}
-              className={rentAmounts.payment > 0 ? 'font-bold' : ''}
-            />
-          </div>
-          <div className="text-right space-x-2 grow whitespace-nowrap">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onEdit(rent)}
-              className="hidden sm:inline-flex"
-            >
-              <TbCashRegister className="size-6" />
-            </Button>
-            <Button variant="ghost" size="icon" onClick={onHistory(rent)}>
-              <LuHistory className="size-6" />
-            </Button>
-          </div>
-        </div>
-        <Reminder rent={rent} className="md:hidden w-fit" />
+        <Reminder
+          rent={rent}
+          className={cn(
+            'hidden md:inline-flex',
+            store.organization.canSendEmails ? 'ml-7' : null
+          )}
+        />
       </div>
-    </>
+
+      {/* Fixed-width, right-aligned columns so the figures line up down the
+          list instead of drifting with the tenant names. */}
+      <div className="flex w-full flex-wrap items-center justify-end gap-x-6 gap-y-2 md:w-4/6">
+        <RentAmount
+          label={t('Rent')}
+          amount={rentAmounts.rent}
+          withColor={false}
+          className="text-muted-foreground hidden min-w-24 lg:block"
+        />
+        <RentAmount
+          label={t('Balance')}
+          amount={rentAmounts.balance}
+          withColor={false}
+          className="text-muted-foreground hidden min-w-24 lg:block"
+        />
+        <RentAmount
+          label={t('Rent due')}
+          amount={rentAmounts.totalAmount}
+          withColor={false}
+          debitColor={rentAmounts.totalAmount > 0}
+          creditColor={rentAmounts.totalAmount < 0}
+          className={cn(
+            'min-w-24',
+            rentAmounts.totalAmount !== 0 && 'font-bold'
+          )}
+        />
+        <RentAmount
+          label={t('Settlement')}
+          amount={rent.payment}
+          className={cn('min-w-24', rentAmounts.payment > 0 && 'font-bold')}
+        />
+        <div className="flex shrink-0 items-center gap-1">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onEdit(rent)}
+            className="hidden sm:inline-flex"
+            aria-label={t('Add a settlement')}
+          >
+            <TbCashRegister className="size-5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onHistory(rent)}
+            aria-label={t('Schedule')}
+          >
+            <LuHistory className="size-5" />
+          </Button>
+        </div>
+      </div>
+
+      <Reminder rent={rent} className="w-fit md:hidden" />
+    </div>
   );
 }
 
@@ -253,16 +270,23 @@ function RentTable({ rents = [], selected, setSelected }) {
         <Card className="p-6">
           {store.organization.canSendEmails ? (
             <div className="space-y-2">
-              <Checkbox
-                checked={
-                  selected.length > 0 && selected.length < selectableRentNum
-                    ? 'intermediate'
-                    : selected.length === selectableRentNum
-                }
-                disabled={!store.organization.canSendEmails}
-                onCheckedChange={onSelectAllClick}
-                aria-labelledby={t('select all rents')}
-              />
+              <div className="flex items-center gap-3">
+                <Checkbox
+                  id="select-all-rents"
+                  checked={
+                    selected.length > 0 && selected.length < selectableRentNum
+                      ? 'intermediate'
+                      : selected.length === selectableRentNum
+                  }
+                  onCheckedChange={onSelectAllClick}
+                />
+                <Label
+                  htmlFor="select-all-rents"
+                  className="text-muted-foreground cursor-pointer text-xs font-normal"
+                >
+                  {t('Select all')}
+                </Label>
+              </div>
               <Separator className="my-1" />
             </div>
           ) : null}

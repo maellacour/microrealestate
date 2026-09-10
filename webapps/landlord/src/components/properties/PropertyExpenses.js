@@ -38,9 +38,9 @@ import {
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
 import ConfirmDialog from '../ConfirmDialog';
-import { DashboardCard } from '../dashboard/DashboardCard';
 import { EmptyIllustration } from '../Illustrations';
 import ExpenseFormDialog from './ExpenseFormDialog';
+import MetricCard from '../MetricCard';
 import moment from 'moment';
 import NumberFormat from '../NumberFormat';
 import { observer } from 'mobx-react-lite';
@@ -165,11 +165,11 @@ function PropertyExpenses({ propertyId }) {
       {hasExpenses ? (
         <>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <DashboardCard
+            <MetricCard
               Icon={LuWallet}
-              title={t('Total expenses')}
-              renderContent={() => <NumberFormat value={total} />}
-              description={
+              label={t('Total expenses')}
+              value={<NumberFormat value={total} />}
+              hint={
                 evolution
                   ? `${evolution.delta >= 0 ? '+' : ''}${formatNumber(
                       evolution.delta,
@@ -179,11 +179,11 @@ function PropertyExpenses({ propertyId }) {
                   : undefined
               }
             />
-            <DashboardCard
+            <MetricCard
               Icon={LuHash}
-              title={t('Number of expenses')}
-              renderContent={() => expenses.length}
-              description={
+              label={t('Number of expenses')}
+              value={expenses.length}
+              hint={
                 expenses.length
                   ? `${t('Average per expense')}: ${formatNumber(
                       total / expenses.length
@@ -191,19 +191,15 @@ function PropertyExpenses({ propertyId }) {
                   : undefined
               }
             />
-            <DashboardCard
+            <MetricCard
               Icon={LuTag}
-              title={t('Main category')}
-              renderContent={() =>
-                topCategory ? (
-                  <span className="text-2xl xl:text-3xl">
-                    {t(`expenseCategory.${topCategory.category}`)}
-                  </span>
-                ) : (
-                  '--'
-                )
+              label={t('Main category')}
+              value={
+                topCategory
+                  ? t(`expenseCategory.${topCategory.category}`)
+                  : '--'
               }
-              description={
+              hint={
                 topCategory
                   ? `${formatNumber(topCategory.amount)} · ${formatNumber(
                       total ? topCategory.amount / total : 0,

@@ -189,11 +189,10 @@ services:
         - BASE_PATH=$LANDLORD_BASE_PATH
     volumes:
       - ./package.json:/usr/app/package.json
-      - ./webapps/commonui/components:/usr/app/webapps/commonui/components
-      - ./webapps/commonui/locales:/usr/app/webapps/commonui/locales
       - ./webapps/commonui/scripts:/usr/app/webapps/commonui/scripts
       - ./webapps/commonui/utils:/usr/app/webapps/commonui/utils
       - ./webapps/commonui/package.json:/usr/app/webapps/commonui/package.json
+      - ./CHANGELOG.md:/usr/app/CHANGELOG.md
       - ./webapps/landlord/locales:/usr/app/webapps/landlord/locales
       - ./webapps/landlord/public:/usr/app/webapps/landlord/public
       - ./webapps/landlord/scripts:/usr/app/webapps/landlord/scripts
@@ -219,8 +218,6 @@ services:
       - ./types/src:/usr/app/types/src
       - ./types/package.json:/usr/app/types/package.json
       - ./types/tsconfig.json:/usr/app/types/tsconfig.json
-      - ./webapps/commonui/components:/usr/app/webapps/commonui/components
-      - ./webapps/commonui/locales:/usr/app/webapps/commonui/locales
       - ./webapps/commonui/scripts:/usr/app/webapps/commonui/scripts
       - ./webapps/commonui/utils:/usr/app/webapps/commonui/utils
       - ./webapps/commonui/package.json:/usr/app/webapps/commonui/package.json

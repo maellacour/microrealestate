@@ -34,3 +34,5 @@ yarn-error.log*
 .vercel
 .eslintcache
 next-env.d.ts
+# generated at build time from CHANGELOG.md
+/src/generated/

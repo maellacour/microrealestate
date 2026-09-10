@@ -93,7 +93,7 @@ function Tenants() {
   }
 
   return (
-    <Page loading={isLoading} dataCy="tenantsPage">
+    <Page title={t('Tenants')} loading={isLoading} dataCy="tenantsPage">
       <List
         data={data}
         filters={[

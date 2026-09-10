@@ -9,9 +9,9 @@ import {
 } from '../ui/table';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { Button } from '../ui/button';
-import { Checkbox } from '../ui/checkbox';
 import ChargeRegularizationApplyDialog from './ChargeRegularizationApplyDialog';
 import ChargeRegularizationFormDialog from './ChargeRegularizationFormDialog';
+import { Checkbox } from '../ui/checkbox';
 import ConfirmDialog from '../ConfirmDialog';
 import { downloadDocument } from '../../utils/fetch';
 import { EmptyIllustration } from '../Illustrations';

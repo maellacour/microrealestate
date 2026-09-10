@@ -1,5 +1,34 @@
-import { Collections } from '@microrealestate/common';
+import { Collections, Deposit } from '@microrealestate/common';
 import moment from 'moment';
+
+const round = (value) => Math.round(value * 100) / 100;
+
+const termMomentOf = (rent) => {
+  const termMoment = rent.term && moment(rent.term, 'YYYYMMDDHH');
+  return termMoment && termMoment.isValid() ? termMoment : null;
+};
+
+// The last term reached carries the running balance of every term before it
+// (5_balance rolls `grandTotal - payment` forward), so what a tenant still owes
+// is held by that single term.
+function outstandingBalance(tenant, upTo) {
+  const lastTermReached = (tenant.rents || []).reduce((last, rent) => {
+    const termMoment = termMomentOf(rent);
+    if (!termMoment || termMoment.isAfter(upTo, 'day')) {
+      return last;
+    }
+    return !last || termMoment.isAfter(last.termMoment)
+      ? { termMoment, rent }
+      : last;
+  }, null);
+
+  if (!lastTermReached) {
+    return 0;
+  }
+
+  const { total } = lastTermReached.rent;
+  return round(total.grandTotal - total.payment);
+}
 
 export async function all(req, res) {
   const now = moment();
@@ -30,18 +59,14 @@ export async function all(req, res) {
     realmId: req.headers.organizationid
   }).count();
 
-  // compute occupancyRate
-  let occupancyRate;
-  if (propertyCount > 0) {
-    const countPropertyRented = activeTenants.reduce(
-      (acc, { properties = [] }) => {
-        properties.forEach(({ propertyId }) => acc.add(propertyId));
-        return acc;
-      },
-      new Set()
-    ).size;
-    occupancyRate = countPropertyRented / propertyCount;
-  }
+  // count the properties rented by an active tenant
+  const rentedPropertyCount = activeTenants.reduce(
+    (acc, { properties = [] }) => {
+      properties.forEach(({ propertyId }) => acc.add(propertyId));
+      return acc;
+    },
+    new Set()
+  ).size;
 
   // sum all rent payments of the current year
   let totalYearRevenues = 0;
@@ -68,14 +93,71 @@ export async function all(req, res) {
     }, 0);
   }
 
+  // what the current month's terms charge, and what has been settled on them.
+  // `grandTotal` carries the previous balance, so the month's own charge is
+  // `grandTotal - balance`; settlements are counted as recorded, which is why
+  // a month catching up on arrears can collect more than it charges.
+  const currentMonth = allTenants.reduce(
+    (acc, { rents = [] }) => {
+      rents.forEach((rent) => {
+        const termMoment = termMomentOf(rent);
+        if (
+          !termMoment ||
+          !termMoment.isBetween(beginOfTheMonth, endOfTheMonth, 'day', '[]')
+        ) {
+          return;
+        }
+        acc.charged += rent.total.grandTotal - rent.total.balance;
+        acc.collected += rent.total.payment;
+      });
+      return acc;
+    },
+    { charged: 0, collected: 0 }
+  );
+  currentMonth.charged = round(currentMonth.charged);
+  currentMonth.collected = round(currentMonth.collected);
+
+  // rent still owed, over every term reached so far — a tenant who left owing
+  // money still owes it, so this covers ended leases too
+  const arrears = allTenants.reduce(
+    (acc, tenant) => {
+      const owed = outstandingBalance(tenant, endOfTheMonth);
+      if (owed > 0) {
+        acc.total = round(acc.total + owed);
+        acc.tenantCount += 1;
+      }
+      return acc;
+    },
+    { total: 0, tenantCount: 0 }
+  );
+
+  // security deposits of the running leases still in the landlord's hands
+  const depositsHeld = round(
+    activeTenants.reduce(
+      (total, tenant) =>
+        total +
+        Deposit.depositInfo({
+          guaranty: tenant.guaranty,
+          guarantyPayback: tenant.guarantyPayback,
+          guarantyPaybackDate: tenant.guarantyPaybackDate,
+          retained: Deposit.retainedAmount(tenant.rents),
+          leaseEnd: tenant.terminationDate || tenant.endDate
+        }).remaining,
+      0
+    )
+  );
+
   // build overview bucket
   const overview =
     tenantCount || propertyCount
       ? {
           tenantCount,
           propertyCount,
-          occupancyRate,
-          totalYearRevenues
+          rentedPropertyCount,
+          totalYearRevenues,
+          currentMonth,
+          arrears,
+          depositsHeld
         }
       : null;
 
@@ -85,7 +167,7 @@ export async function all(req, res) {
       ? activeTenants
           .reduce((acc, tenant) => {
             const currentRent = tenant.rents.find((rent) => {
-              const termMoment = rent.term && moment(rent.term, 'YYYYMMDDHH');
+              const termMoment = termMomentOf(rent);
               return (
                 termMoment &&
                 termMoment.isBetween(

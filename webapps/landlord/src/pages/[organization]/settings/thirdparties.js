@@ -1,11 +1,5 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '../../../components/ui/card';
 import { fetchOrganizations, QueryKeys } from '../../../utils/restcalls';
+import { Card } from '../../../components/ui/card';
 import Page from '../../../components/Page';
 import { StoreContext } from '../../../store';
 import ThirdPartiesForm from '../../../components/organization/ThirdPartiesForm';
@@ -36,19 +30,16 @@ function ThirdPartiesSettings() {
     orgs?.[0];
 
   return (
-    <Page loading={isLoading} dataCy="thirdpartiesPage">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t('Third-parties')}</CardTitle>
-          <CardDescription>
-            {t(
-              'Connect third-parties to extend the functionality of your organization'
-            )}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ThirdPartiesForm organization={organization} />
-        </CardContent>
+    <Page
+      title={t('Third-parties')}
+      subtitle={t(
+        'Connect third-parties to extend the functionality of your organization'
+      )}
+      loading={isLoading}
+      dataCy="thirdpartiesPage"
+    >
+      <Card className="p-6">
+        <ThirdPartiesForm organization={organization} />
       </Card>
     </Page>
   );

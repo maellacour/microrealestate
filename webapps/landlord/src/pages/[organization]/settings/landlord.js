@@ -1,11 +1,5 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '../../../components/ui/card';
 import { fetchOrganizations, QueryKeys } from '../../../utils/restcalls';
+import { Card } from '../../../components/ui/card';
 import LandlordForm from '../../../components/organization/LandlordForm';
 import Page from '../../../components/Page';
 import { StoreContext } from '../../../store';
@@ -31,19 +25,16 @@ function LandlordSettings() {
     data?.[0];
 
   return (
-    <Page loading={isLoading} dataCy="landlordPage">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t('Landlord')}</CardTitle>
-          <CardDescription>
-            {t(
-              'Landlord information that will be shared with your tenants in contracts and invoices'
-            )}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <LandlordForm organization={organization} />
-        </CardContent>
+    <Page
+      title={t('Landlord')}
+      subtitle={t(
+        'Landlord information that will be shared with your tenants in contracts and invoices'
+      )}
+      loading={isLoading}
+      dataCy="landlordPage"
+    >
+      <Card className="p-6">
+        <LandlordForm organization={organization} />
       </Card>
     </Page>
   );

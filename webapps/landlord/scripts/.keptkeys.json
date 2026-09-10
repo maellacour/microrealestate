@@ -58,7 +58,6 @@
   "Room",
   "Sending",
   "Sign out",
-  "Sponsor this project",
   "Store",
   "tenant_address_city",
   "tenant_address_country",
@@ -94,5 +93,11 @@
   "expenseCategory.condo_charges",
   "expenseCategory.management_fees",
   "expenseCategory.loan_interest",
-  "expenseCategory.other"
+  "expenseCategory.other",
+  "Added",
+  "Changed",
+  "Deprecated",
+  "Fixed",
+  "Removed",
+  "Security"
 ]
