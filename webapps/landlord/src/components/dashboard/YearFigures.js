@@ -64,8 +64,8 @@ function YearFigures({ className }) {
       renderContent={() => (
         <ChartContainer
           config={{
-            paid: { color: 'hsl(var(--chart-2))' },
-            notPaid: { color: 'hsl(var(--chart-1))' }
+            paid: { color: 'hsl(var(--chart-1))' },
+            notPaid: { color: 'hsl(var(--chart-2))' }
           }}
           className="h-[450px] w-full"
         >
@@ -103,11 +103,11 @@ function YearFigures({ className }) {
               content={() => (
                 <div className="flex justify-center gap-4 text-sm mb-6">
                   <div className="flex items-center gap-2 text-warning">
-                    <div className="size-2 bg-[hsl(var(--chart-1))]" />
+                    <div className="size-2 bg-[hsl(var(--chart-2))]" />
                     <span>{t('Not paid')}</span>
                   </div>
                   <div className="flex items-center gap-2 text-success">
-                    <div className="size-2 bg-[hsl(var(--chart-2))]" />
+                    <div className="size-2 bg-[hsl(var(--chart-1))]" />
                     <span>{t('Paid')}</span>
                   </div>
                 </div>
@@ -115,7 +115,7 @@ function YearFigures({ className }) {
             />
             <Bar
               dataKey="notPaid"
-              fill="hsl(var(--chart-1))"
+              fill="hsl(var(--chart-2))"
               stackId="stack"
               cursor="pointer"
               label={{
@@ -124,14 +124,14 @@ function YearFigures({ className }) {
                 formatter: (value) => (value < 0 ? formatNumber(value) : ''),
                 className: 'tracking-tight text-[9px] md:text-sm'
               }}
-              stroke="hsl(var(--chart-1-border))"
+              stroke="hsl(var(--chart-2-border))"
               radius={[0, 4, 4, 0]}
               barSize={20}
               onClick={handleClick('notPaid')}
             />
             <Bar
               dataKey="paid"
-              fill="hsl(var(--chart-2))"
+              fill="hsl(var(--chart-1))"
               stackId="stack"
               cursor="pointer"
               label={{
@@ -140,7 +140,7 @@ function YearFigures({ className }) {
                 formatter: (value) => (value > 0 ? formatNumber(value) : ''),
                 className: 'tracking-tight text-[9px] md:text-sm'
               }}
-              stroke="hsl(var(--chart-2-border))"
+              stroke="hsl(var(--chart-1-border))"
               radius={[0, 4, 4, 0]}
               barSize={30}
               onClick={handleClick('paid')}

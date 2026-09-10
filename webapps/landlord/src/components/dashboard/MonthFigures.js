@@ -109,8 +109,8 @@ function MonthFigures({ className }) {
         renderContent={() => (
           <ChartContainer
             config={{
-              paid: { color: 'hsl(var(--chart-2))' },
-              notPaid: { color: 'hsl(var(--chart-1))' }
+              paid: { color: 'hsl(var(--chart-1))' },
+              notPaid: { color: 'hsl(var(--chart-2))' }
             }}
             className="h-[220px] w-full"
           >
@@ -126,11 +126,11 @@ function MonthFigures({ className }) {
                 content={() => (
                   <div className="flex justify-center gap-4 text-sm">
                     <div className="flex items-center gap-2 text-warning">
-                      <div className="size-2 bg-[hsl(var(--chart-1))]" />
+                      <div className="size-2 bg-[hsl(var(--chart-2))]" />
                       <span>{t('Not paid')}</span>
                     </div>
                     <div className="flex items-center gap-2 text-success">
-                      <div className="size-2 bg-[hsl(var(--chart-2))]" />
+                      <div className="size-2 bg-[hsl(var(--chart-1))]" />
                       <span>{t('Paid')}</span>
                     </div>
                   </div>
@@ -141,7 +141,7 @@ function MonthFigures({ className }) {
                 stackId="rents"
                 cornerRadius={4}
                 fill="var(--color-paid)"
-                stroke="hsl(var(--chart-2-border))"
+                stroke="hsl(var(--chart-1-border))"
                 label={{
                   fill: 'hsl(var(--success))',
                   position: 'outside',
@@ -156,7 +156,7 @@ function MonthFigures({ className }) {
                 stackId="rents"
                 cornerRadius={4}
                 fill="var(--color-notPaid)"
-                stroke="hsl(var(--chart-1-border))"
+                stroke="hsl(var(--chart-2-border))"
                 label={{
                   fill: 'hsl(var(--warning))',
                   position: 'outside',
