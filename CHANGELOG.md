@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-09-10
+
+A major version for the rebrand rather than for a breaking change: the app is
+renamed, relit and renavigated, and the fork now carries its own schema and its
+own images. Nothing below requires a migration — upgrading from 1.8.0 needs no
+action beyond pulling the new images.
+
 ### Added
 
 - A **What's new** panel in the side menu, which reads this changelog: every release newest-first, the unreleased work labelled as such, and the version you are running marked as installed. A dot on the entry means the notes have changed since you last opened it — it compares a digest of the notes baked in at build time, so it keeps working while the top entry is still "Unreleased", and costs nothing to check. The notes themselves are a separate 35 kB chunk fetched the first time you open the panel, so the app shell grows by 2 kB for the whole feature. The changelog is written in English, so the panel is English in every language. Opening the panel redraws the Bayle seal beside its heading — the same mark the panel was opened from, its dashed ring then turning slowly while you read — and the releases rise into place one after another; both are disabled under `prefers-reduced-motion`.
