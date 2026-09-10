@@ -56,3 +56,62 @@ describe('Tenant schema - rent term frequency', () => {
     expect(tenant.toObject().frequency).toBeUndefined();
   });
 });
+
+describe('Tenant schema - charges mode', () => {
+  it('defaults chargesMode to provisions', () => {
+    const tenant = new Collections.Tenant({
+      realmId: '507f1f77bcf86cd799439012',
+      name: 'Tenant'
+    });
+
+    expect(tenant.toObject().chargesMode).toBe('provisions');
+  });
+
+  it('accepts forfait', () => {
+    const tenant = new Collections.Tenant({
+      realmId: '507f1f77bcf86cd799439012',
+      name: 'Tenant',
+      chargesMode: 'forfait'
+    });
+
+    expect(tenant.validateSync()).toBeUndefined();
+    expect(tenant.toObject().chargesMode).toBe('forfait');
+  });
+
+  it('rejects an unknown charges mode', () => {
+    const tenant = new Collections.Tenant({
+      realmId: '507f1f77bcf86cd799439012',
+      name: 'Tenant',
+      chargesMode: 'monthly'
+    });
+
+    expect(tenant.validateSync()?.errors?.chargesMode).toBeDefined();
+  });
+});
+
+describe('ChargeRegularization schema', () => {
+  it('defaults shared to false and keeps lines', () => {
+    const reg = new Collections.ChargeRegularization({
+      realmId: '507f1f77bcf86cd799439012',
+      tenantId: '507f1f77bcf86cd799439013',
+      periodStart: new Date('2017-01-01'),
+      periodEnd: new Date('2017-12-31'),
+      lines: [{ label: 'condo', amount: 500, recoverable: true }]
+    });
+
+    const obj = reg.toObject();
+    expect(obj.shared).toBe(false);
+    expect(obj.lines[0].recoverable).toBe(true);
+    expect(reg.validateSync()).toBeUndefined();
+  });
+
+  it('rejects an unknown applied type', () => {
+    const reg = new Collections.ChargeRegularization({
+      realmId: '507f1f77bcf86cd799439012',
+      tenantId: '507f1f77bcf86cd799439013',
+      appliedType: 'refund'
+    });
+
+    expect(reg.validateSync()?.errors?.appliedType).toBeDefined();
+  });
+});

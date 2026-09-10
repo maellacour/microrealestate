@@ -3,6 +3,8 @@ import { setAccessToken, setOrganizationId } from '../utils/fetch';
 
 import Accounting from './Accounting';
 import AppHistory from './AppHistory';
+import ChargeRegularization from './ChargeRegularization';
+import Colocation from './Colocation';
 import Dashboard from './Dashboard';
 import Document from './Document';
 import Expense from './Expense';
@@ -28,6 +30,8 @@ export default class Store {
     this.template = new Template();
     this.document = new Document();
     this.expense = new Expense();
+    this.chargeRegularization = new ChargeRegularization();
+    this.colocation = new Colocation();
     this.dashboard = new Dashboard();
     this.accounting = new Accounting();
     this.propertyAccounting = new PropertyAccounting();
@@ -42,6 +46,8 @@ export default class Store {
       template: observable,
       document: observable,
       expense: observable,
+      chargeRegularization: observable,
+      colocation: observable,
       dashboard: observable,
       accounting: observable,
       propertyAccounting: observable,

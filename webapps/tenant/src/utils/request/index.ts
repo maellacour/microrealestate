@@ -1,8 +1,13 @@
-import { fetchAllTenants, fetchOneTenant } from './tenant';
+import {
+  fetchAllTenants,
+  fetchOneTenant,
+  fetchTenantRegularizations
+} from './tenant';
 
 const Request = {
   fetchAllTenants,
-  fetchOneTenant
+  fetchOneTenant,
+  fetchTenantRegularizations
 };
 
 export default Request;

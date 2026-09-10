@@ -1,8 +1,18 @@
 import { Card } from './ui/card';
 import { cn } from '../utils';
 import Loading from './Loading';
+import PageHeader from './PageHeader';
 
-function Page({ children, ActionBar, loading = false, dataCy, className }) {
+function Page({
+  children,
+  title,
+  subtitle,
+  PageActions,
+  ActionBar,
+  loading = false,
+  dataCy,
+  className
+}) {
   return (
     <div
       data-cy={dataCy}
@@ -11,6 +21,9 @@ function Page({ children, ActionBar, loading = false, dataCy, className }) {
         className
       )}
     >
+      {title ? (
+        <PageHeader title={title} subtitle={subtitle} actions={PageActions} />
+      ) : null}
       {ActionBar ? (
         <Card
           className={cn(

@@ -13,7 +13,7 @@ import {
   SelectField,
   SubmitButton,
   TextField
-} from '@microrealestate/commonui/components';
+} from '../../formfields';
 import { ArrayField } from '../../formfields/ArrayField';
 import { DateField } from '../../formfields/DateField';
 import moment from 'moment';

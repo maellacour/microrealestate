@@ -2,13 +2,19 @@ const path = require('path');
 const nextTranslate = require('next-translate-plugin');
 const { version } = require('./package.json');
 
+// Parses CHANGELOG.md into the module the "What's new" panel loads. Done here
+// so it runs for `dev` and `build` alike; it hands back a digest of the notes
+// the app shell can compare without fetching them.
+const changelog = require('./scripts/generatechangelog');
+
 module.exports = nextTranslate({
   output: 'standalone',
   experimental: {
     externalDir: true
   },
   env: {
-    NEXT_PUBLIC_APP_VERSION: version
+    NEXT_PUBLIC_APP_VERSION: version,
+    NEXT_PUBLIC_CHANGELOG_ID: changelog.id
   },
   webpack: (
     config /*,

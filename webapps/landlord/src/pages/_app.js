@@ -14,14 +14,10 @@ import * as Yup from 'yup';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Application from '../components/Application';
 import config from '../config';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Head from 'next/head';
 import { InjectStoreContext } from '../store';
 import moment from 'moment';
 import { Roboto } from 'next/font/google';
-import theme from '../styles/theme';
-import { ThemeProvider } from '@material-ui/core/styles';
-import { useEffect } from 'react';
 
 const queryClient = new QueryClient();
 
@@ -60,20 +56,12 @@ function MyApp(props) {
   const { Component, pageProps } = props;
   moment.locale(pageProps?.__lang ?? 'en');
 
-  useEffect(() => {
-    // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles);
-    }
-  }, []);
-
   return (
     <>
       <Head>
         <title>{APP_TITLE.join(' - ')}</title>
-        {/* PWA primary color */}
-        <meta name="theme-color" content={theme.palette.primary.main} />
+        {/* PWA primary color — Bayle pine */}
+        <meta name="theme-color" content="#2d5c4a" />
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
@@ -81,17 +69,13 @@ function MyApp(props) {
         <link rel="shortcut icon" href={`${config.BASE_PATH}/favicon.svg`} />
       </Head>
       <main className={roboto.className}>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <QueryClientProvider client={queryClient}>
-            <InjectStoreContext initialData={pageProps.initialState?.store}>
-              <Application {...pageProps}>
-                <Component {...pageProps} />
-              </Application>
-            </InjectStoreContext>
-          </QueryClientProvider>
-        </ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <InjectStoreContext initialData={pageProps.initialState?.store}>
+            <Application {...pageProps}>
+              <Component {...pageProps} />
+            </Application>
+          </InjectStoreContext>
+        </QueryClientProvider>
       </main>
     </>
   );

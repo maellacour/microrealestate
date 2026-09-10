@@ -142,6 +142,13 @@ const TenantSchema = new mongoose.Schema<CollectionTypes.Tenant>({
   guarantyPaybackReference: String,
   guarantyPaybackNote: String,
 
+  // charges regime: 'provisions' (reconciled yearly) or 'forfait' (flat fee)
+  chargesMode: {
+    type: String,
+    enum: ['provisions', 'forfait'],
+    default: 'provisions'
+  },
+
   // ui state
   stepperMode: { type: Boolean, default: false }
 });

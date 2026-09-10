@@ -197,7 +197,7 @@ function PropertyResults({ propertyId }) {
               </CardHeader>
               <CardContent>
                 <ChartContainer
-                  config={{ collected: { color: 'hsl(var(--chart-2))' } }}
+                  config={{ collected: { color: 'hsl(var(--chart-1))' } }}
                   className="h-[350px] w-full"
                 >
                   <BarChart data={chartData} layout="vertical">
@@ -228,8 +228,8 @@ function PropertyResults({ propertyId }) {
                     />
                     <Bar
                       dataKey="collected"
-                      fill="hsl(var(--chart-2))"
-                      stroke="hsl(var(--chart-2-border))"
+                      fill="hsl(var(--chart-1))"
+                      stroke="hsl(var(--chart-1-border))"
                       radius={[0, 4, 4, 0]}
                       barSize={20}
                       label={{

@@ -93,6 +93,7 @@ function Contract() {
 
   return (
     <Page
+      title={store.lease.selected?.name}
       loading={fetching}
       ActionBar={
         <div className="grid grid-cols-5 gap-1.5 md:gap-4">

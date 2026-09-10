@@ -4,13 +4,10 @@ import BillingForm, {
 import LeaseContractForm, {
   validate as LeaseContractFormValidate
 } from './forms/LeaseContractForm';
+import { Step, StepContent, StepLabel, Stepper } from '../ui/stepper';
 import TenantForm, { validate as TenantFormValidate } from './forms/TenantForm';
 import { useCallback, useContext, useState } from 'react';
 import DocumentsForm from './forms/DocumentsForm';
-import Step from '@material-ui/core/Step';
-import StepContent from '@material-ui/core/StepContent';
-import StepLabel from '@material-ui/core/StepLabel';
-import Stepper from '@material-ui/core/Stepper';
 import { StoreContext } from '../../store';
 import useTranslation from 'next-translate/useTranslation';
 

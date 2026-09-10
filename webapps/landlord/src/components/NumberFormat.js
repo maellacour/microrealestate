@@ -14,7 +14,9 @@ export default function NumberFormat({
 }) {
   const formatNumber = useFormatNumber();
 
-  const baseClassName = cn('whitespace-nowrap', className);
+  // Lining figures everywhere: a column of amounts stays aligned and digits
+  // stop shifting width as values change.
+  const baseClassName = cn('whitespace-nowrap tabular-nums', className);
   if (rawValue === undefined || rawValue === null || Number.isNaN(rawValue)) {
     return (
       <div className={cn('text-muted-foreground', baseClassName)}>

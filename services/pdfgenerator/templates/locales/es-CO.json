@@ -69,5 +69,13 @@
   "Levy": "Débito automático",
   "Deposit retention": "Retención sobre el depósito de garantía",
   "No payment recorded": "Ningún pago registrado",
-  "Note": "Nota"
+  "Note": "Nota",
+  "Charge regularization": "Liquidación de cargos",
+  "Regularization issued on {{date}}": "Liquidación emitida el {{date}}",
+  "Period from {{startDate}} to {{endDate}}": "Período del {{startDate}} al {{endDate}}",
+  "Recoverable charges": "Cargos recuperables",
+  "No recoverable charge recorded": "No se registraron cargos recuperables",
+  "Provisions called": "Provisiones cobradas",
+  "Overpaid (credit to tenant)": "Excedente (a favor del arrendatario)",
+  "Complement due by tenant": "Complemento a cargo del arrendatario"
 }

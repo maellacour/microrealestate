@@ -58,5 +58,12 @@
   "transfer": "Überweisung",
   "unpaid": "unbezahlte",
   "Verification": "Überprüfung",
-  "Your email": "Ihre E-Mail"
+  "Your email": "Ihre E-Mail",
+  "Charge regularization": "Nebenkostenabrechnung",
+  "Description": "Beschreibung",
+  "Amount": "Betrag",
+  "Provisions called": "Angeforderte Vorauszahlungen",
+  "Recoverable charges": "Umlagefähige Nebenkosten",
+  "Overpaid (credit to you)": "Guthaben (zu Ihren Gunsten)",
+  "Complement due": "Nachzahlung fällig"
 }

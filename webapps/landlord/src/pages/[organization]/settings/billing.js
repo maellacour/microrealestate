@@ -1,12 +1,6 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '../../../components/ui/card';
 import { fetchOrganizations, QueryKeys } from '../../../utils/restcalls';
 import BillingForm from '../../../components/organization/BillingForm';
+import { Card } from '../../../components/ui/card';
 import Page from '../../../components/Page';
 import { StoreContext } from '../../../store';
 import { toast } from 'sonner';
@@ -32,19 +26,16 @@ function BillingSettings() {
     data?.[0];
 
   return (
-    <Page loading={isLoading} dataCy="billingPage">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t('Billing')}</CardTitle>
-          <CardDescription>
-            {t(
-              'Billing information that will be shared with your tenants in invoices'
-            )}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <BillingForm organization={organization} />
-        </CardContent>
+    <Page
+      title={t('Billing')}
+      subtitle={t(
+        'Billing information that will be shared with your tenants in invoices'
+      )}
+      loading={isLoading}
+      dataCy="billingPage"
+    >
+      <Card className="p-6">
+        <BillingForm organization={organization} />
       </Card>
     </Page>
   );

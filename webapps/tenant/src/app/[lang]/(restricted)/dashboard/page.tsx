@@ -1,3 +1,4 @@
+import { ChargeRegularizationCard } from '@/components/charge-regularization-card';
 import { ContractCard } from '@/components/contract-card';
 import getServerSession from '@/utils/session/server/getsession';
 import Request from '@/utils/request';
@@ -13,7 +14,10 @@ export default async function Home() {
   return (
     <main className="flex flex-col gap-10">
       {leases.map((lease) => (
-        <ContractCard key={lease.tenant.id} lease={lease} />
+        <div key={lease.tenant.id} className="flex flex-col gap-10">
+          <ContractCard lease={lease} />
+          <ChargeRegularizationCard lease={lease} />
+        </div>
       ))}
     </main>
   );

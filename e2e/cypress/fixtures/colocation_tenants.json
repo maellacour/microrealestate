@@ -1,0 +1,70 @@
+[
+  {
+    "name": "Alice Colocataire",
+    "isCompany": false,
+    "address": {
+      "street1": "10 rue de la République",
+      "street2": "",
+      "zipCode": "69002",
+      "city": "Lyon",
+      "state": "Auvergne-Rhône-Alpes",
+      "country": "France"
+    },
+    "contacts": [
+      {
+        "name": "Alice Colocataire",
+        "email": "alice@test.com",
+        "phone": "0400000001"
+      }
+    ],
+    "lease": {
+      "contract": "369",
+      "beginDate": "01/01/2023",
+      "properties": [
+        {
+          "name": "Colocation Lyon",
+          "expense": {
+            "title": "charges",
+            "amount": 20
+          },
+          "entryDate": "01/01/2023",
+          "exitDate": "31/12/2031"
+        }
+      ]
+    }
+  },
+  {
+    "name": "Bob Colocataire",
+    "isCompany": false,
+    "address": {
+      "street1": "10 rue de la République",
+      "street2": "",
+      "zipCode": "69002",
+      "city": "Lyon",
+      "state": "Auvergne-Rhône-Alpes",
+      "country": "France"
+    },
+    "contacts": [
+      {
+        "name": "Bob Colocataire",
+        "email": "bob@test.com",
+        "phone": "0400000002"
+      }
+    ],
+    "lease": {
+      "contract": "369",
+      "beginDate": "01/01/2023",
+      "properties": [
+        {
+          "name": "Colocation Lyon",
+          "expense": {
+            "title": "charges",
+            "amount": 20
+          },
+          "entryDate": "01/01/2023",
+          "exitDate": "31/12/2031"
+        }
+      ]
+    }
+  }
+]

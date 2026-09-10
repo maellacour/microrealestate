@@ -58,5 +58,12 @@
   "transfer": "transferência",
   "unpaid": "não pago",
   "Verification": "Verificação",
-  "Your email": "Seu email"
+  "Your email": "Seu email",
+  "Charge regularization": "Acerto de encargos",
+  "Description": "Descrição",
+  "Amount": "Valor",
+  "Provisions called": "Provisões cobradas",
+  "Recoverable charges": "Encargos recuperáveis",
+  "Overpaid (credit to you)": "Excedente (a seu favor)",
+  "Complement due": "Complemento devido"
 }

@@ -1,9 +1,9 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary
-} from '@material-ui/core';
 import { Card, CardContent, CardHeader } from '../ui/card';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger
+} from '../ui/collapsible';
 import {
   Dialog,
   DialogContent,
@@ -123,10 +123,6 @@ function RentHistory({ tenantId }) {
     fetchTenantRents();
   }, [t, tenantId, store.rent, store, fetchTenantRents]);
 
-  const handleAccordionChange = (year) => (event, isExpanded) => {
-    setExpandedYear(isExpanded ? year : false);
-  };
-
   const handleClick = useCallback(
     (rent) => {
       setSelectedPayment(rent);
@@ -171,24 +167,24 @@ function RentHistory({ tenantId }) {
           <div className="overflow-y-auto p-4">
             {rentYears.map((year) => {
               return (
-                <Accordion
+                <Collapsible
                   key={year}
-                  expanded={expandedYear === year}
-                  onChange={handleAccordionChange(year)}
+                  open={expandedYear === year}
+                  onOpenChange={(open) => setExpandedYear(open ? year : false)}
+                  className="border-b"
                 >
-                  <AccordionSummary expandIcon={<LuChevronsUpDown />}>
+                  <CollapsibleTrigger className="flex w-full items-center justify-between py-3 font-medium">
                     {year}
-                  </AccordionSummary>
-                  {expandedYear === year ? (
-                    <AccordionDetails>
-                      <YearRentList
-                        tenant={tenant}
-                        year={year}
-                        onClick={handleClick}
-                      />
-                    </AccordionDetails>
-                  ) : null}
-                </Accordion>
+                    <LuChevronsUpDown className="size-4 text-muted-foreground" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pb-3">
+                    <YearRentList
+                      tenant={tenant}
+                      year={year}
+                      onClick={handleClick}
+                    />
+                  </CollapsibleContent>
+                </Collapsible>
               );
             })}
           </div>

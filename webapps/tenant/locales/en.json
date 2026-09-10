@@ -58,5 +58,12 @@
   "transfer": "transfer",
   "unpaid": "unpaid",
   "Verification": "Verification",
-  "Your email": "Your email"
+  "Your email": "Your email",
+  "Charge regularization": "Charge regularization",
+  "Description": "Description",
+  "Amount": "Amount",
+  "Provisions called": "Provisions called",
+  "Recoverable charges": "Recoverable charges",
+  "Overpaid (credit to you)": "Overpaid (credit to you)",
+  "Complement due": "Complement due"
 }

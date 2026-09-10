@@ -1,19 +1,9 @@
 'use client';
 
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger
-} from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import getEnv from '@/utils/env/client';
-import { Separator } from '@/components/ui/separator';
-import SideMenuButton from './side-menu-button';
+import { LogOut } from 'lucide-react';
 import useApiFetcher from '@/utils/fetch/client';
-import UserAvatar from './user-avatar';
 import useSession from '@/utils/session/client/usesession';
 import { useToast } from '@/components/ui/use-toast';
 import useTranslation from '@/utils/i18n/client/useTranslation';
@@ -43,32 +33,22 @@ export default function UserMenu() {
   }
 
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <div>
-          <Button data-cy="userMenu" className="bg-card hover:bg-card">
-            <UserAvatar />
-          </Button>
-        </div>
-      </SheetTrigger>
-      <SheetContent side="right" className="flex flex-col px-4">
-        <SheetHeader className="flex flex-row items-center">
-          <SheetTitle>{session?.email || ''}</SheetTitle>
-        </SheetHeader>
-        <Separator className="bg-secondary-foreground/25" />
-        <div>
-          <SheetClose asChild>
-            <SideMenuButton
-              item={{
-                key: 'signout',
-                labelId: 'Sign out',
-                dataCy: 'signoutNav'
-              }}
-              onClick={handleSignOut}
-            />
-          </SheetClose>
-        </div>
-      </SheetContent>
-    </Sheet>
+    <div className="flex items-center gap-2 sm:gap-3">
+      {session?.email ? (
+        <span className="text-muted-foreground hidden max-w-[16rem] truncate text-sm sm:inline">
+          {session.email}
+        </span>
+      ) : null}
+      <Button
+        variant="ghost"
+        size="sm"
+        data-cy="signoutNav"
+        onClick={handleSignOut}
+        className="text-muted-foreground hover:text-foreground gap-2"
+      >
+        <LogOut className="size-4" />
+        <span className="hidden sm:inline">{t('Sign out')}</span>
+      </Button>
+    </div>
   );
 }

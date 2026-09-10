@@ -5,7 +5,6 @@ import {
   TabsTrigger
 } from '../../../components/ui/tabs';
 import { useCallback, useContext } from 'react';
-import { Card } from '../../../components/ui/card';
 import { downloadDocument } from '../../../utils/fetch';
 import IncomingTenants from '../../../components/accounting/IncomingTenants';
 import moment from 'moment';
@@ -23,7 +22,7 @@ import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { withAuthentication } from '../../../components/Authentication';
 
-function TopBar({ onSearch }) {
+function YearPicker() {
   const store = useContext(StoreContext);
   const router = useRouter();
   const year = router.query.year || moment().year();
@@ -40,16 +39,11 @@ function TopBar({ onSearch }) {
   );
 
   return (
-    <div className="flex flex-col-reverse md:flex-row gap-4 p-2">
-      <SearchFilterBar onSearch={onSearch} className="flex-grow" />
-      <PeriodPicker
-        format="YYYY"
-        period="year"
-        value={moment(year, 'YYYY')}
-        onChange={onChange}
-        className="text-2xl gap-4"
-      />
-    </div>
+    <PeriodPicker
+      period="year"
+      value={moment(year, 'YYYY')}
+      onChange={onChange}
+    />
   );
 }
 
@@ -162,10 +156,17 @@ function Accounting() {
   );
 
   return (
-    <Page loading={fetching} dataCy="accountingPage">
-      <Card className="px-4 py-2 mb-6">
-        <TopBar onSearch={handleSearch} />
-      </Card>
+    <Page
+      title={t('Accounting')}
+      PageActions={
+        <>
+          <SearchFilterBar onSearch={handleSearch} className="w-full sm:w-60" />
+          <YearPicker />
+        </>
+      }
+      loading={fetching}
+      dataCy="accountingPage"
+    >
       <Tabs defaultValue="incoming">
         <TabsList className="flex justify-start w-screen-nomargin-sm md:w-full overflow-x-auto overflow-y-hidden">
           <TabsTrigger value="incoming" className="min-w-48 sm:w-full">{`${t(

@@ -58,5 +58,12 @@
   "transfer": "virement",
   "unpaid": "impayé",
   "Verification": "Vérification",
-  "Your email": "Votre courriel"
+  "Your email": "Votre courriel",
+  "Charge regularization": "Régularisation des charges",
+  "Description": "Description",
+  "Amount": "Montant",
+  "Provisions called": "Provisions appelées",
+  "Recoverable charges": "Charges récupérables",
+  "Overpaid (credit to you)": "Trop-perçu (en votre faveur)",
+  "Complement due": "Complément dû"
 }

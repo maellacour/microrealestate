@@ -69,18 +69,23 @@ describe('Create/delete resources', () => {
 
     cy.navAppMenu('dashboard');
     cy.contains(
-      i18n.getFixedT(userWithCompanyAccount.locale)('Occupancy rate')
+      i18n.getFixedT(userWithCompanyAccount.locale)('Collected this month')
+    ).should('be.visible');
+    cy.contains(
+      i18n.getFixedT(userWithCompanyAccount.locale)('Outstanding rent')
     ).should('be.visible');
     cy.contains(
       i18n.getFixedT(userWithCompanyAccount.locale)('Revenues')
     ).should('be.visible');
     cy.contains(
-      i18n.getFixedT(userWithCompanyAccount.locale)('Settlements')
+      i18n.getFixedT(userWithCompanyAccount.locale)('Portfolio')
+    ).should('be.visible');
+    cy.contains(
+      i18n.getFixedT(userWithCompanyAccount.locale)('Needs attention')
     ).should('be.visible');
     cy.contains(
       i18n.getFixedT(userWithCompanyAccount.locale)('Top 5 of not paid rents')
     ).should('be.visible');
-    cy.get('.recharts-radial-bar-sector').should('be.visible');
     cy.get('.recharts-bar').should('be.visible');
 
     cy.navAppMenu('tenants');

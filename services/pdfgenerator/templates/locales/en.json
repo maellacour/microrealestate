@@ -69,5 +69,13 @@
   "Levy": "Levy",
   "Deposit retention": "Deposit retention",
   "No payment recorded": "No payment recorded",
-  "Note": "Note"
+  "Note": "Note",
+  "Charge regularization": "Charge regularization",
+  "Regularization issued on {{date}}": "Regularization issued on {{date}}",
+  "Period from {{startDate}} to {{endDate}}": "Period from {{startDate}} to {{endDate}}",
+  "Recoverable charges": "Recoverable charges",
+  "No recoverable charge recorded": "No recoverable charge recorded",
+  "Provisions called": "Provisions called",
+  "Overpaid (credit to tenant)": "Overpaid (credit to tenant)",
+  "Complement due by tenant": "Complement due by tenant"
 }

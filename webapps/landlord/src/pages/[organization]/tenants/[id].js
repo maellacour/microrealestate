@@ -6,6 +6,7 @@ import {
   LuTrash
 } from 'react-icons/lu';
 import { useCallback, useContext, useMemo, useState } from 'react';
+import { Badge } from '../../../components/ui/badge';
 import { Card } from '../../../components/ui/card';
 import ConfirmDialog from '../../../components/ConfirmDialog';
 import ContractOverviewCard from '../../../components/tenants/ContractOverviewCard';
@@ -187,8 +188,36 @@ function Tenant() {
     [setOpenConfirmEditTenant]
   );
 
+  const leaseSummary = useMemo(() => {
+    const { beginDate, endDate, terminated, terminationDate } =
+      store.tenant.selected;
+    if (!beginDate) {
+      return null;
+    }
+    return (
+      <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
+        <Badge
+          variant={terminated ? 'secondary' : 'success'}
+          className="font-normal"
+        >
+          {terminated ? t('Lease ended') : t('Lease running')}
+        </Badge>
+        <span>
+          {t('From {{startDate}} to {{endDate}}', {
+            startDate: moment(beginDate, 'DD/MM/YYYY').format('L'),
+            endDate: moment(terminationDate || endDate, 'DD/MM/YYYY').format(
+              'L'
+            )
+          })}
+        </span>
+      </span>
+    );
+  }, [store.tenant.selected, t]);
+
   return (
     <Page
+      title={store.tenant.selected.name}
+      subtitle={leaseSummary}
       loading={fetching}
       ActionBar={
         <div className="grid grid-cols-5 gap-1.5 md:gap-4">

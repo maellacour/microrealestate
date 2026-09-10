@@ -1,4 +1,6 @@
 import * as accountingManager from './managers/accountingmanager.js';
+import * as chargeRegularizationManager from './managers/chargeregularizationmanager.js';
+import * as colocationManager from './managers/colocationmanager.js';
 import * as dashboardManager from './managers/dashboardmanager.js';
 import * as emailManager from './managers/emailmanager.js';
 import * as expenseManager from './managers/expensemanager.js';
@@ -96,6 +98,58 @@ export default function routes() {
     Middlewares.asyncWrapper(expenseManager.remove)
   );
   router.use('/expenses', expensesRouter);
+
+  const chargeRegularizationsRouter = express.Router();
+  chargeRegularizationsRouter.get(
+    '/',
+    Middlewares.asyncWrapper(chargeRegularizationManager.all)
+  );
+  chargeRegularizationsRouter.get(
+    '/:id',
+    Middlewares.asyncWrapper(chargeRegularizationManager.one)
+  );
+  chargeRegularizationsRouter.post(
+    '/',
+    Middlewares.asyncWrapper(chargeRegularizationManager.add)
+  );
+  chargeRegularizationsRouter.patch(
+    '/:id',
+    Middlewares.asyncWrapper(chargeRegularizationManager.update)
+  );
+  chargeRegularizationsRouter.delete(
+    '/:ids',
+    Middlewares.asyncWrapper(chargeRegularizationManager.remove)
+  );
+  chargeRegularizationsRouter.post(
+    '/:id/apply',
+    Middlewares.asyncWrapper(chargeRegularizationManager.apply)
+  );
+  chargeRegularizationsRouter.post(
+    '/:id/unapply',
+    Middlewares.asyncWrapper(chargeRegularizationManager.unapply)
+  );
+  router.use('/chargeregularizations', chargeRegularizationsRouter);
+
+  const colocationsRouter = express.Router();
+  colocationsRouter.get('/', Middlewares.asyncWrapper(colocationManager.all));
+  colocationsRouter.get(
+    '/:id',
+    Middlewares.asyncWrapper(colocationManager.one)
+  );
+  colocationsRouter.post('/', Middlewares.asyncWrapper(colocationManager.add));
+  colocationsRouter.patch(
+    '/:id',
+    Middlewares.asyncWrapper(colocationManager.update)
+  );
+  colocationsRouter.delete(
+    '/:ids',
+    Middlewares.asyncWrapper(colocationManager.remove)
+  );
+  colocationsRouter.post(
+    '/:id/regularize',
+    Middlewares.asyncWrapper(colocationManager.regularize)
+  );
+  router.use('/colocations', colocationsRouter);
 
   // registered before /accounting/:year so the per-property report stays the
   // obvious owner of that path segment

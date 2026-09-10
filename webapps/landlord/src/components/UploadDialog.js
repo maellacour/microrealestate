@@ -16,7 +16,7 @@ import { StoreContext } from '../store';
 import { toast } from 'sonner';
 import { toJS } from 'mobx';
 import { uploadDocument } from '../utils/fetch';
-import { UploadField } from '@microrealestate/commonui/components';
+import { UploadField } from './formfields';
 import useTranslation from 'next-translate/useTranslation';
 
 const UPLOAD_MAX_SIZE = 2_000_000_000; // 2Gb

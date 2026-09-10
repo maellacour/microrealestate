@@ -1,5 +1,6 @@
 export { default as Service } from './utils/service.js';
 export { default as EnvironmentConfig } from './utils/environmentconfig.js';
+export * as Charges from './utils/charges.js';
 export * as Crypto from './utils/crypto.js';
 export * as Deposit from './utils/deposit.js';
 export * as Format from './utils/format.js';
