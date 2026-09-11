@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.0.2] - 2026-09-11
+
+### Fixed
+
+- Completed the landlord image build fix started in 2.0.1. `next.config.js` reads the changelog at build time via `webapps/landlord/scripts/generatechangelog`, but the Dockerfile never copied the `scripts/` directory into the build stage, so `next build` still failed with `Cannot find module './scripts/generatechangelog'`. The scripts directory is now copied in, so the landlord image builds.
+
 ## [2.0.1] - 2026-09-11
 
 ### Changed
@@ -14,7 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
-- The landlord Docker image failed to build because `CHANGELOG.md` was excluded by `.dockerignore` while the Dockerfile copies it in; the changelog is now un-ignored so the build succeeds.
+- The landlord Docker image could not copy `CHANGELOG.md` (read at build time for the What's new panel) because `.dockerignore` excluded every `.md` file; the changelog is now un-ignored.
 
 ## [2.0.0] - 2026-09-10
 

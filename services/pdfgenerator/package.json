@@ -1,6 +1,6 @@
 {
   "name": "@bayle/pdfgenerator",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Generates PDF documents (letters, contracts, invoices...)",
   "main": "./src/index.js",
   "private": true,

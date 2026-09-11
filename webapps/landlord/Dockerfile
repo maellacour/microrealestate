@@ -27,6 +27,7 @@ COPY webapps/landlord/public webapps/landlord/public
 COPY webapps/landlord/src webapps/landlord/src
 COPY webapps/landlord/i18n.js webapps/landlord
 COPY webapps/landlord/next.config.js webapps/landlord
+COPY webapps/landlord/scripts webapps/landlord/scripts
 COPY webapps/landlord/package.json webapps/landlord
 COPY webapps/landlord/postcss.config.js webapps/landlord
 COPY webapps/landlord/tailwind.config.js webapps/landlord
