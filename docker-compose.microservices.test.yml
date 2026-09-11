@@ -12,7 +12,7 @@ services:
   ###############################################################################
   resetservice:
     restart: unless-stopped
-    image: 'ghcr.io/microrealestate/microrealestate/resetservice:${MRE_VERSION:-latest}'
+    image: 'ghcr.io/maellacour/bayle/resetservice:${MRE_VERSION:-latest}'
     build:
       context: .
       dockerfile: services/resetservice/Dockerfile
