@@ -1,5 +1,5 @@
 {
-  "name": "@microrealestate/tenantapi",
+  "name": "@bayle/tenantapi",
   "version": "2.0.0",
   "description": "Api for tenant user interface",
   "author": "Mael Lacour",
@@ -27,11 +27,11 @@
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,json,css}'"
   },
   "dependencies": {
-    "@microrealestate/common": "*",
+    "@bayle/common": "*",
     "moment": "2.29.4"
   },
   "devDependencies": {
-    "@microrealestate/types": "*",
+    "@bayle/types": "*",
     "@typescript-eslint/eslint-plugin": "7.15.0",
     "@typescript-eslint/parser": "7.15.0",
     "eslint": "8.57.0",

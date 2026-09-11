@@ -1,5 +1,5 @@
 {
-  "name": "@microrealestate/resetservice",
+  "name": "@bayle/resetservice",
   "version": "2.0.0",
   "description": "Service which allows to reset the MicroRealEstate databases",
   "author": "Mael Lacour",
@@ -27,10 +27,10 @@
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,json,css}'"
   },
   "dependencies": {
-    "@microrealestate/common": "*"
+    "@bayle/common": "*"
   },
   "devDependencies": {
-    "@microrealestate/types": "*",
+    "@bayle/types": "*",
     "@typescript-eslint/eslint-plugin": "7.15.0",
     "@typescript-eslint/parser": "7.15.0",
     "eslint": "8.57.0",

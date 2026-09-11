@@ -34,7 +34,7 @@ const Collections = {
   }
 };
 
-jest.unstable_mockModule('@microrealestate/common', () => ({
+jest.unstable_mockModule('@bayle/common', () => ({
   Collections,
   logger: loggerMock,
   EnvironmentConfig: class EnvironmentConfig {},

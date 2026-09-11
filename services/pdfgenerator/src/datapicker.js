@@ -1,5 +1,5 @@
 import path from 'path';
-import { Service } from '@microrealestate/common';
+import { Service } from '@bayle/common';
 
 export default async function (templateId, params) {
   const { DATA_DIRECTORY } = Service.getInstance().envConfig.getValues();

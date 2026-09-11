@@ -41,7 +41,7 @@ const Collections = {
   }
 };
 
-jest.unstable_mockModule('@microrealestate/common', () => ({
+jest.unstable_mockModule('@bayle/common', () => ({
   Collections,
   logger: {
     debug: jest.fn(),

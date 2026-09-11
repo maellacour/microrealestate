@@ -1,5 +1,5 @@
 // Barrel for the shadcn form fields — the drop-in replacement for the former
-// MUI-based @microrealestate/commonui/components form fields.
+// MUI-based @bayle/commonui/components form fields.
 export { AddressField } from './AddressField';
 export { ContactField } from './ContactField';
 export { NumberField } from './NumberField';

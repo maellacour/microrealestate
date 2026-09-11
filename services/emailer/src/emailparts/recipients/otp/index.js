@@ -1,4 +1,4 @@
-import { Service } from '@microrealestate/common';
+import { Service } from '@bayle/common';
 
 export function get(email /*, params, data*/) {
   if (!email) {

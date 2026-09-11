@@ -1,4 +1,4 @@
-import { env } from '@microrealestate/commonui/utils';
+import { env } from '@bayle/commonui/utils';
 
 const config = {
   APP_NAME: env('APP_NAME'),

@@ -2,7 +2,7 @@ import * as utils from '../index.js';
 import fileUrl from 'file-url';
 import moment from 'moment';
 import path from 'path';
-import { Service } from '@microrealestate/common';
+import { Service } from '@bayle/common';
 
 export async function get(params) {
   const { TEMPLATES_DIRECTORY } = Service.getInstance().envConfig.getValues();

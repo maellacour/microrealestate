@@ -11,9 +11,9 @@ COPY types types
 COPY services/common services/common
 COPY services/emailer/package.json services/emailer/package.json
 RUN --mount=type=cache,id=node_modules,target=/root/.yarn YARN_CACHE_FOLDER=/root/.yarn \
-    yarn workspaces focus @microrealestate/emailer && \
-    yarn workspace @microrealestate/types run build && \
-    yarn workspace @microrealestate/common run build
+    yarn workspaces focus @bayle/emailer && \
+    yarn workspace @bayle/types run build && \
+    yarn workspace @bayle/common run build
 
 FROM base AS deps
 WORKDIR /usr/app
@@ -27,7 +27,7 @@ COPY --from=build /usr/app/services/common/package.json ./services/common/packag
 COPY --from=build /usr/app/services/emailer/package.json ./services/emailer/package.json
 COPY --from=build /usr/app/services/common/dist ./services/common/dist
 RUN --mount=type=cache,id=node_modules,target=/root/.yarn YARN_CACHE_FOLDER=/root/.yarn \
-    yarn workspaces focus --production @microrealestate/emailer
+    yarn workspaces focus --production @bayle/emailer
 # prepare temp directory
 RUN mkdir -p ./services/emailer/tmp
 RUN chown -R 1000 ./services/emailer/tmp 

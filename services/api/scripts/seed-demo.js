@@ -13,7 +13,7 @@
  * terminated tenant — the tenants list defaults to showing running leases.
  */
 import * as Contract from '../src/managers/contract.js';
-import { Charges, Collections } from '@microrealestate/common';
+import { Charges, Collections } from '@bayle/common';
 import moment from 'moment';
 import mongoose from 'mongoose';
 

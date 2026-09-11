@@ -1,7 +1,7 @@
 import '@/app/globals.css';
 import { cn } from '@/utils';
 import { EnvScript } from 'next-runtime-env';
-import { Locale } from '@microrealestate/types';
+import { Locale } from '@bayle/types';
 import type { Metadata } from 'next';
 import { unstable_noStore as noStore } from 'next/cache';
 import Providers from '@/components/providers';

@@ -1,4 +1,4 @@
-import { Collections } from '@microrealestate/common';
+import { Collections } from '@bayle/common';
 import moment from 'moment';
 
 export async function get(tenantId, params) {

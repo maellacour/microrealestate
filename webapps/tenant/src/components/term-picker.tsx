@@ -1,6 +1,6 @@
 import { DateRange } from 'react-day-picker';
 import { DateRangePicker } from './daterange-picker';
-import { LeaseTimeRange } from '@microrealestate/types';
+import { LeaseTimeRange } from '@bayle/types';
 import MonthYearPicker from './monthyear-picker';
 
 export default function TermPicker({

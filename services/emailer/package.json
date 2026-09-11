@@ -1,5 +1,5 @@
 {
-  "name": "@microrealestate/emailer",
+  "name": "@bayle/emailer",
   "version": "2.0.0",
   "description": "Generates and sends emails",
   "main": "./src/index.js",
@@ -31,7 +31,7 @@
   "author": "Mael Lacour",
   "license": "MIT",
   "dependencies": {
-    "@microrealestate/common": "*",
+    "@bayle/common": "*",
     "axios": "1.19.0",
     "ejs": "3.1.10",
     "i18n": "0.14.2",

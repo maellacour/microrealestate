@@ -3,7 +3,7 @@ import fs from 'fs-extra';
 import multer from 'multer';
 import os from 'os';
 import path from 'path';
-import { Service } from '@microrealestate/common';
+import { Service } from '@bayle/common';
 
 export default function () {
   const { UPLOAD_MAX_SIZE, UPLOADS_DIRECTORY } =

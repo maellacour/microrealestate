@@ -3,12 +3,12 @@ import { jest } from '@jest/globals';
 import mongoose from 'mongoose';
 
 // Import the real Mongoose collections directly (bypassing
-// @microrealestate/common's main entry point, which pulls in
+// @bayle/common's main entry point, which pulls in
 // express-winston/winston and breaks under jest's ESM runner).
 // This gives us the real Tenant schema so casting behaves exactly
 // as it does in production.
 const Collections = await import(
-  '@microrealestate/common/dist/collections/index.js'
+  '@bayle/common/dist/collections/index.js'
 );
 
 // No live MongoDB connection is available in this test: disable command
@@ -19,7 +19,7 @@ const Collections = await import(
 // passed and the (unreachable) database was actually contacted.
 mongoose.set('bufferCommands', false);
 
-jest.unstable_mockModule('@microrealestate/common', () => ({
+jest.unstable_mockModule('@bayle/common', () => ({
   Collections,
   logger: {
     debug: jest.fn(),

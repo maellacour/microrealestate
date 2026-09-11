@@ -10,7 +10,7 @@ import * as propertyAccountingManager from './managers/propertyaccountingmanager
 import * as propertyManager from './managers/propertymanager.js';
 import * as realmManager from './managers/realmmanager.js';
 import * as rentManager from './managers/rentmanager.js';
-import { Middlewares, Service } from '@microrealestate/common';
+import { Middlewares, Service } from '@bayle/common';
 import express from 'express';
 
 export default function routes() {

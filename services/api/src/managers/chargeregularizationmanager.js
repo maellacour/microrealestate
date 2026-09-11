@@ -1,5 +1,5 @@
 import * as Contract from './contract.js';
-import { Charges, Collections, ServiceError } from '@microrealestate/common';
+import { Charges, Collections, ServiceError } from '@bayle/common';
 import i18n from 'i18n';
 import moment from 'moment';
 

@@ -25,13 +25,13 @@ yarn ci        # Start in CI/test mode
 
 ### Service-Specific Development
 Each service has consistent build patterns:
-- `yarn workspace @microrealestate/[service] run dev` - Development with watch mode
+- `yarn workspace @bayle/[service] run dev` - Development with watch mode
 - Services depend on shared `types` and `common` packages that auto-rebuild
 
 ## Key Patterns and Conventions
 
 ### Service Structure
-- All services extend `Service` class from `@microrealestate/common`
+- All services extend `Service` class from `@bayle/common`
 - Authentication via JWT tokens (access + refresh tokens)
 - Middleware pattern: `needAccessToken()`, `checkOrganization()`, `notRoles()`
 - Error handling with `ServiceError` class and `asyncWrapper` middleware

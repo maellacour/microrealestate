@@ -1,5 +1,5 @@
 {
-  "name": "@microrealestate/cli",
+  "name": "@bayle/cli",
   "version": "2.0.0",
   "description": "The MicroRealEstate CLI",
   "main": "src/index.js",

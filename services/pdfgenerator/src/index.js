@@ -1,5 +1,5 @@
 import * as pdf from './pdf.js';
-import { EnvironmentConfig, logger, Service } from '@microrealestate/common';
+import { EnvironmentConfig, logger, Service } from '@bayle/common';
 import { fileURLToPath } from 'url';
 import locale from 'locale';
 import path from 'path';

@@ -9,9 +9,9 @@ let dbTenants = [];
 let aggregatePipeline;
 
 // The deposit computation is the real one: only the database access is faked.
-const Deposit = await import('@microrealestate/common/dist/utils/deposit.js');
+const Deposit = await import('@bayle/common/dist/utils/deposit.js');
 
-jest.unstable_mockModule('@microrealestate/common', () => ({
+jest.unstable_mockModule('@bayle/common', () => ({
   Deposit,
   Collections: {
     Tenant: {

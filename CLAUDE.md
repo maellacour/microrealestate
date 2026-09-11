@@ -110,11 +110,11 @@ microrealestate/
 ├── cli/                    # `mre` CLI — wraps docker compose, generates/validates .env
 ├── base.env / .env         # Env template + local env (ports, secrets, URLs)
 ├── docker-compose*.yml     # Prod (root), microservices.{base,dev,prod,test,ci}, monitoring
-├── types/src/              # @microrealestate/types — shared TS types
+├── types/src/              # @bayle/types — shared TS types
 │   ├── common/collections.ts   # Realm, Tenant, Lease, Property, Document…
 │   └── api/tenant/             # tenantapi request/response contracts
 ├── services/
-│   ├── common/src/         # @microrealestate/common — the shared backend lib
+│   ├── common/src/         # @bayle/common — the shared backend lib
 │   │   ├── collections/    # Mongoose models: account, document, email, lease,
 │   │   │                   #   property, realm, template, tenant
 │   │   └── utils/          # service.ts (bootstrap), environmentconfig, middlewares,
@@ -213,14 +213,14 @@ Token secrets are three separate env vars: `AUTHENTICATOR_ACCESS_TOKEN_SECRET`, 
 - **Every service bootstraps identically** — `Service.getInstance(new EnvironmentConfig({...}))` then `service.init({ name, onStartUp })` then `service.startUp()`. Copy an existing service's `index.js` rather than inventing a shape.
 - **Env is declared, not read ad hoc** — every `process.env` var a service uses is listed in its `EnvironmentConfig`; read it back via `Service.getInstance().envConfig.getValues()`.
 - **All backend imports are ESM with explicit `.js` extensions**, including from TS sources (`./utils/service.js`). This is required — don't drop the extension.
-- **Shared code goes through `@microrealestate/common` / `@microrealestate/types`**, never a relative path across workspaces.
+- **Shared code goes through `@bayle/common` / `@bayle/types`**, never a relative path across workspaces.
 - **`realmId` on every query.** A query without it is a cross-organization data leak.
 - **Async routes are wrapped** — `Middlewares.asyncWrapper(handler)`. Errors are `ServiceError(message, status)`.
 - **Landlord state is MobX** — class stores under `src/store`, hydrated server-side via `useFillStore`; fetching lives in the store, not in components.
 - **Landlord UI is mid-migration** — new components use Tailwind + `components/ui` (shadcn); MUI v4 remains in older screens. Prefer shadcn for new work; don't mass-convert existing screens.
 - **Landlord forms = formik + yup; tenant forms = react-hook-form + zod.** Follow the app you're in.
 - **Money and dates** — `moment` in services and landlord, `date-fns` in tenant. Amounts are plain numbers; formatting goes through `useFormatNumber` / `utils/numberformat.js`.
-- **Locale strings** live in `webapps/commonui/locales/<locale>/` (frontends) and `services/*/src/locales/` (emails, API messages). Regenerate with `yarn workspace @microrealestate/landlord run generateStrings`.
+- **Locale strings** live in `webapps/commonui/locales/<locale>/` (frontends) and `services/*/src/locales/` (emails, API messages). Regenerate with `yarn workspace @bayle/landlord run generateStrings`.
 - **Nothing runs outside Docker.** Services resolve each other by container name (`http://api:8200`), so `node src/index.js` on the host will not work.
 
 ---
@@ -266,8 +266,8 @@ yarn mre dumpdb
 yarn mre restoredb
 
 # Tests
-yarn workspace @microrealestate/api run test     # Jest (needs --experimental-vm-modules, already wired)
-yarn workspace @microrealestate/common run test
+yarn workspace @bayle/api run test     # Jest (needs --experimental-vm-modules, already wired)
+yarn workspace @bayle/common run test
 yarn e2e:ci      # Cypress headless, app must be running in CI mode
 yarn e2e:run     # Cypress with browser
 yarn e2e:open    # Cypress UI

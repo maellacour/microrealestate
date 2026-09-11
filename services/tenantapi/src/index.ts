@@ -4,7 +4,7 @@ import {
   logger,
   Middlewares,
   Service
-} from '@microrealestate/common';
+} from '@bayle/common';
 import routes from './routes.js';
 
 Main();

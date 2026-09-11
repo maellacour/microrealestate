@@ -1,4 +1,4 @@
-import { Collections, Deposit } from '@microrealestate/common';
+import { Collections, Deposit } from '@bayle/common';
 import moment from 'moment';
 
 const round = (value) => Math.round(value * 100) / 100;

@@ -1,5 +1,5 @@
 {
-  "name": "@microrealestate/e2e",
+  "name": "@bayle/e2e",
   "version": "2.0.0",
   "description": "MicroRealEstate e2e tests",
   "private": true,

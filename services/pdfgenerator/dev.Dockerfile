@@ -15,7 +15,7 @@ COPY types/package.json types/package.json
 COPY services/common/package.json services/common/package.json
 COPY services/pdfgenerator/package.json services/pdfgenerator/package.json
 RUN --mount=type=cache,id=node_modules,target=/root/.yarn YARN_CACHE_FOLDER=/root/.yarn \
-    yarn workspaces focus @microrealestate/pdfgenerator
+    yarn workspaces focus @bayle/pdfgenerator
 
 FROM base
 RUN apk upgrade --no-cache --available \
@@ -29,4 +29,4 @@ RUN apk upgrade --no-cache --available \
 ENV CHROMIUM_BIN /usr/bin/chromium-browser
 WORKDIR /usr/app
 COPY --from=deps /usr/app ./
-CMD ["yarn", "workspace", "@microrealestate/pdfgenerator", "run", "dev"]
+CMD ["yarn", "workspace", "@bayle/pdfgenerator", "run", "dev"]

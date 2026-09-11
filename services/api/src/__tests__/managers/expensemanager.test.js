@@ -24,7 +24,7 @@ class FakeExpense {
   }
 }
 
-jest.unstable_mockModule('@microrealestate/common', () => ({
+jest.unstable_mockModule('@bayle/common', () => ({
   Collections: { Expense: FakeExpense }
 }));
 

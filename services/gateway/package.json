@@ -1,5 +1,5 @@
 {
-  "name": "@microrealestate/gateway",
+  "name": "@bayle/gateway",
   "version": "2.0.0",
   "description": "Microservices gateway",
   "author": "Mael Lacour",
@@ -27,13 +27,13 @@
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,json,css}'"
   },
   "dependencies": {
-    "@microrealestate/common": "*",
+    "@bayle/common": "*",
     "axios": "1.19.0",
     "cors": "2.8.5",
     "http-proxy-middleware": "2.0.7"
   },
   "devDependencies": {
-    "@microrealestate/types": "*",
+    "@bayle/types": "*",
     "@types/cors": "2.8.15",
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",

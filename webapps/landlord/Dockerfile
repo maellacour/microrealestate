@@ -10,7 +10,7 @@ COPY .yarn/releases .yarn/releases
 COPY webapps/commonui/package.json webapps/commonui/package.json
 COPY webapps/landlord/package.json webapps/landlord/package.json
 RUN --mount=type=cache,id=node_modules,target=/root/.yarn YARN_CACHE_FOLDER=/root/.yarn \
-    yarn workspaces focus @microrealestate/landlord
+    yarn workspaces focus @bayle/landlord
 
 FROM base AS build
 WORKDIR /usr/app
@@ -31,7 +31,7 @@ COPY webapps/landlord/package.json webapps/landlord
 COPY webapps/landlord/postcss.config.js webapps/landlord
 COPY webapps/landlord/tailwind.config.js webapps/landlord
 COPY webapps/landlord/tsconfig.json webapps/landlord
-RUN  yarn workspace @microrealestate/landlord run build
+RUN  yarn workspace @bayle/landlord run build
 # following lines needed to be able to run webapps/commonui/scripts at container runtime
 RUN touch /usr/app/webapps/landlord/public/__ENV.js
 RUN chown -R 1000 /usr/app/webapps/landlord/.next && \

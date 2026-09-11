@@ -8,7 +8,7 @@ import {
   Middlewares,
   Service,
   ServiceError
-} from '@microrealestate/common';
+} from '@bayle/common';
 import express from 'express';
 import fs from 'fs-extra';
 import Handlebars from 'handlebars';

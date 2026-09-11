@@ -2,7 +2,7 @@ import {
   PaymentMethod,
   PaymentStatus,
   TenantAPI
-} from '@microrealestate/types';
+} from '@bayle/types';
 import moment from 'moment';
 
 export const getAllTenants: {

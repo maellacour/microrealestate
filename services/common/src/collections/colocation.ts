@@ -1,4 +1,4 @@
-import { CollectionTypes } from '@microrealestate/types';
+import { CollectionTypes } from '@bayle/types';
 import mongoose from 'mongoose';
 import Property from './property.js';
 import Realm from './realm.js';

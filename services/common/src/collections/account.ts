@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcrypt';
 import mongoose, { CallbackError } from 'mongoose';
-import { CollectionTypes } from '@microrealestate/types';
+import { CollectionTypes } from '@bayle/types';
 import RealmModel from './realm.js';
 
 const AccountSchema = new mongoose.Schema<CollectionTypes.Account>({

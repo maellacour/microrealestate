@@ -3,7 +3,7 @@ import * as jose from 'jose';
 import { action, computed, flow, makeObservable, observable } from 'mobx';
 import { apiFetcher, authApiFetcher, setAccessToken } from '../utils/fetch';
 
-import { isServer } from '@microrealestate/commonui/utils';
+import { isServer } from '@bayle/commonui/utils';
 
 export const ADMIN_ROLE = 'administrator';
 export const RENTER_ROLE = 'renter';

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { EnvironmentValues } from '@microrealestate/types';
+import { EnvironmentValues } from '@bayle/types';
 import logger from './logger.js';
 
 const baseEnvironmentValues = {

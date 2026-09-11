@@ -1,20 +1,22 @@
-# MicroRealEstate
+# Bayle
 
-[![Continuous Integration](https://github.com/microrealestate/microrealestate/actions/workflows/ci.yml/badge.svg?event=push)](https://github.com/microrealestate/microrealestate/actions/workflows/ci.yml)
+[![Continuous Integration](https://github.com/maellacour/microrealestate/actions/workflows/ci.yml/badge.svg?event=push)](https://github.com/maellacour/microrealestate/actions/workflows/ci.yml)
 
-MicroRealEstate is an open-source application designed to assist landlords in managing their properties and rentals. MicroRealEstate (MRE) serves as a centralized platform for landlords to streamline their property management tasks.
+Bayle is a self-hosted application that helps landlords manage their properties, tenants, leases and rent payments — a single place to keep everything organised.
+
+> Bayle began as a fork of [MicroRealEstate](https://github.com/microrealestate/microrealestate) and has since diverged significantly. It remains free and open source under the MIT License. See [Credits & License](#credits--license).
 
 ## Key Features
 
-- Centralized Property and Tenant Information: MRE allows landlords to store all property and tenant details in one convenient location. From property specifications to tenant records and contact information.
+- **Centralized property and tenant information** — store all property specifications, tenant records and contact details in one convenient location.
 
-- Rent Lease Creation: MRE simplifies the process of creating rent leases. It offers customizable templates that enable landlords to generate lease.
+- **Rent lease creation** — customizable templates that make generating leases straightforward.
 
-- Rent Payment Tracking: MRE provides a comprehensive system for tracking rent payments, helping landlords stay updated on transactions and promptly address any overdue payments.
+- **Rent payment tracking** — a comprehensive system to stay updated on transactions and promptly address overdue payments.
 
-- Custom Document Generation: MRE allows landlords to create custom documents for effective communication with tenants. Personalized letters, notices, and announcements can be generated to ensure clear and consistent correspondence.
+- **Custom document generation** — personalized letters, notices and announcements for clear, consistent correspondence with tenants.
 
-- Collaboration: Whether you are an independent landlord or manage a real estate business with multiple collaborators, MRE supports collaboration and facilitates task coordination within teams.
+- **Collaboration** — whether you are an independent landlord or manage a business with multiple collaborators, Bayle supports team task coordination.
 
 ## Screenshots
 
@@ -40,10 +42,10 @@ MicroRealEstate is an open-source application designed to assist landlords in ma
 ### Download the docker-compose.yml file
 
 ``` shell
-mkdir mre
-cd mre
-curl https://raw.githubusercontent.com/microrealestate/microrealestate/master/docker-compose.yml > docker-compose.yml
-curl https://raw.githubusercontent.com/microrealestate/microrealestate/master/.env.domain > .env
+mkdir bayle
+cd bayle
+curl https://raw.githubusercontent.com/maellacour/microrealestate/main/docker-compose.yml > docker-compose.yml
+curl https://raw.githubusercontent.com/maellacour/microrealestate/main/.env.domain > .env
 ```
 
 Update the secrets and tokens in the `.env` file (at the end of the file).
@@ -96,7 +98,7 @@ The backup and restore commands can be executed when the application is running 
 
 #### Backup
 
-In the mre directory run:
+In the bayle directory run:
 
 ``` shell
 docker compose run mongo /usr/bin/mongodump --uri=mongodb://mongo/mredb --gzip --archive=./backup/mredb-$(date +%F_%T).dump
@@ -108,7 +110,7 @@ The archive file will be placed in the "backup" folder.
 
 #### Restore
 
-In the mre/backup directory, select an archive file you want to restore. 
+In the bayle/backup directory, select an archive file you want to restore.
 
 Then run the restore command:
 
@@ -125,23 +127,8 @@ Again, replace "mredb" with the name of your database (see .env file). By defaul
 
 To run the application in development mode, follow the steps outlined in the documentation available [here](./docs/DEVELOPER.md)
 
-## Donate
+## Credits & License
 
-Thank you for your interest in supporting MicroRealEstate.
-Every contribution will help us pay our ongoing maintenance and development costs 🙏
-
-[![Donate](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/camelaissani)
-
-## Contact
-
-LinkedIn: [www.linkedin.com/in/caissani](https://www.linkedin.com/in/caissani/)
-
-X: [@camelaissani](https://x.com/camelaissani)
-
-## License
-
-The project is licensed under the MIT License. To view the license details, please follow the link below:
+Bayle is a fork of [MicroRealEstate](https://github.com/microrealestate/microrealestate) by Camel Aissani and contributors, originally released under the MIT License. Bayle continues to be distributed under the MIT License, and the original copyright notice is preserved in [LICENSE](./LICENSE).
 
 [MIT License](./LICENSE)
-
-Feel free to review the license terms and conditions to understand the permissions and restrictions associated with the project.

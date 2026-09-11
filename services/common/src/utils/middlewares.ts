@@ -10,7 +10,7 @@ import {
   ServiceRequest,
   ServiceResponse,
   UserServicePrincipal
-} from '@microrealestate/types';
+} from '@bayle/types';
 import logger from './logger.js';
 import Realm from '../collections/realm.js';
 import ServiceError from './serviceerror.js';

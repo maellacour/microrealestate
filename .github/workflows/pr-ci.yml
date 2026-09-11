@@ -45,16 +45,16 @@ jobs:
         run: yarn
 
       - name: Build shared libraries
-        run: yarn workspace @microrealestate/common run build
+        run: yarn workspace @bayle/common run build
 
       - name: Test common
-        run: yarn workspace @microrealestate/common run test
+        run: yarn workspace @bayle/common run test
 
       - name: Test api
-        run: yarn workspace @microrealestate/api run test
+        run: yarn workspace @bayle/api run test
 
       - name: Test cli
-        run: yarn workspace @microrealestate/cli run test
+        run: yarn workspace @bayle/cli run test
 
   build-images:
     permissions:

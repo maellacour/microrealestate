@@ -1,4 +1,4 @@
-import { Charges, Collections, ServiceError } from '@microrealestate/common';
+import { Charges, Collections, ServiceError } from '@bayle/common';
 
 // Only these fields are ever settable from the request body - protects
 // realmId/createdDate from being spoofed by a client.

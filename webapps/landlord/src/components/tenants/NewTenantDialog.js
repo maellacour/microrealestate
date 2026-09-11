@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import { Button } from '../ui/button';
-import { contractEndMoment } from '@microrealestate/commonui/utils/contract';
+import { contractEndMoment } from '@bayle/commonui/utils/contract';
 import moment from 'moment';
 import ResponsiveDialog from '../ResponsiveDialog';
 import { SelectField } from '../formfields/SelectField';

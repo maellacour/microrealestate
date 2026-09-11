@@ -1,4 +1,4 @@
-import { Collections, logger, Service } from '@microrealestate/common';
+import { Collections, logger, Service } from '@bayle/common';
 import fs from 'fs-extra';
 import moment from 'moment';
 import path from 'path';

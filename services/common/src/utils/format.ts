@@ -1,4 +1,4 @@
-import { Locale } from '@microrealestate/types';
+import { Locale } from '@bayle/types';
 
 export function formatNumber(
   locale: Locale,

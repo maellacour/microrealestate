@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- The project is now named **Bayle** throughout: the README, the root package and the internal workspace scope (`@microrealestate/*` → `@bayle/*`). This completes the distancing from upstream MicroRealEstate; Bayle remains MIT-licensed and credits the original in the README. Docker image paths (`ghcr.io/maellacour/microrealestate/*`) are unchanged.
+
 ## [2.0.0] - 2026-09-10
 
 A major version for the rebrand rather than for a breaking change: the app is

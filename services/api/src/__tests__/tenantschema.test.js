@@ -1,10 +1,10 @@
 /* eslint-env node, mocha */
 
 // Import the real Mongoose collections directly (bypassing
-// @microrealestate/common's main entry point, which pulls in
+// @bayle/common's main entry point, which pulls in
 // express-winston/winston and breaks under jest's ESM runner).
 const Collections = await import(
-  '@microrealestate/common/dist/collections/index.js'
+  '@bayle/common/dist/collections/index.js'
 );
 
 describe('Tenant schema - rent term frequency', () => {

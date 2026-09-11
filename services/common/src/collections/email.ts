@@ -1,4 +1,4 @@
-import { CollectionTypes } from '@microrealestate/types';
+import { CollectionTypes } from '@bayle/types';
 import mongoose from 'mongoose';
 
 const EmailSchema = new mongoose.Schema<CollectionTypes.Email>({
