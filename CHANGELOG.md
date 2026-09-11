@@ -6,9 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-09-11
+
 ### Changed
 
 - The project is now named **Bayle** throughout: the README, the root package, the internal workspace scope (`@microrealestate/*` → `@bayle/*`) and the container image paths (`ghcr.io/maellacour/microrealestate/*` → `ghcr.io/maellacour/bayle/*`). This completes the distancing from upstream MicroRealEstate; Bayle remains MIT-licensed and credits the original in the README. The image path follows the GitHub repository name (CI publishes to `ghcr.io/${{ github.repository }}/*`), so the new path takes effect once the repository is renamed to `bayle`; dev and prod build locally and are unaffected in the meantime.
+
+### Fixed
+
+- The landlord Docker image failed to build because `CHANGELOG.md` was excluded by `.dockerignore` while the Dockerfile copies it in; the changelog is now un-ignored so the build succeeds.
 
 ## [2.0.0] - 2026-09-10
 
