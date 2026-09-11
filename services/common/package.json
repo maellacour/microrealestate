@@ -1,6 +1,6 @@
 {
   "name": "@bayle/common",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Common modules required by the MicroRealEstate services'",
   "author": "Mael Lacour",
   "license": "MIT",

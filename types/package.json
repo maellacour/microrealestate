@@ -1,6 +1,6 @@
 {
   "name": "@bayle/types",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Typescript types for the MicroRealEstate application'",
   "author": "Mael Lacour",
   "license": "MIT",
