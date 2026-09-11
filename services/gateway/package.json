@@ -1,6 +1,6 @@
 {
   "name": "@bayle/gateway",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Microservices gateway",
   "author": "Mael Lacour",
   "license": "MIT",

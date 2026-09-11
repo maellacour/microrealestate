@@ -1,6 +1,6 @@
 {
   "name": "@bayle/tenantapi",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Api for tenant user interface",
   "author": "Mael Lacour",
   "license": "MIT",
