@@ -1,6 +1,6 @@
 {
   "name": "@bayle/resetservice",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Service which allows to reset the MicroRealEstate databases",
   "author": "Mael Lacour",
   "license": "MIT",
