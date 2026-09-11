@@ -1,6 +1,6 @@
 {
-  "name": "@microrealestate/api",
-  "version": "2.0.0",
+  "name": "@bayle/api",
+  "version": "2.0.1",
   "description": "Api service",
   "main": "src/index.js",
   "private": true,
@@ -25,7 +25,7 @@
   "author": "Mael Lacour",
   "license": "MIT",
   "dependencies": {
-    "@microrealestate/common": "*",
+    "@bayle/common": "*",
     "axios": "1.19.0",
     "i18n": "0.13.3",
     "json2csv": "5.0.6",

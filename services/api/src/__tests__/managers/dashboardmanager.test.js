@@ -4,7 +4,7 @@ import moment from 'moment';
 
 // The deposit maths is shared with the accounting views — exercise the real
 // implementation rather than a stand-in.
-const Deposit = await import('@microrealestate/common/dist/utils/deposit.js');
+const Deposit = await import('@bayle/common/dist/utils/deposit.js');
 
 // Data served to the manager, reset before each test.
 let dbTenants = [];
@@ -13,7 +13,7 @@ let dbPropertyCount = 0;
 let tenantFilter;
 let propertyFilter;
 
-jest.unstable_mockModule('@microrealestate/common', () => ({
+jest.unstable_mockModule('@bayle/common', () => ({
   Collections: {
     Tenant: {
       find: (filter) => {

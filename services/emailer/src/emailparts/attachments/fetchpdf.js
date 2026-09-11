@@ -1,7 +1,7 @@
 import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
-import { Service } from '@microrealestate/common';
+import { Service } from '@bayle/common';
 
 export default function (
   authorizationHeader,

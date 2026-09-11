@@ -3,7 +3,7 @@ import {
   EnvironmentConfig,
   logger,
   MongoClient
-} from '@microrealestate/common';
+} from '@bayle/common';
 import { fileURLToPath } from 'url';
 
 async function updateThirdPartyConfiguration() {

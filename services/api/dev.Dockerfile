@@ -14,10 +14,10 @@ COPY types/package.json types/package.json
 COPY services/common/package.json services/common/package.json
 COPY services/api/package.json services/api/package.json
 RUN --mount=type=cache,id=node_modules,target=/root/.yarn YARN_CACHE_FOLDER=/root/.yarn \
-    yarn workspaces focus @microrealestate/api
+    yarn workspaces focus @bayle/api
 
 FROM base
 RUN apk --no-cache add mongodb-tools
 WORKDIR /usr/app
 COPY --from=deps /usr/app ./
-CMD ["yarn", "workspace", "@microrealestate/api", "run", "dev"]
+CMD ["yarn", "workspace", "@bayle/api", "run", "dev"]

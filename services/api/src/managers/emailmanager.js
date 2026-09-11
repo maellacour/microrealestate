@@ -1,4 +1,4 @@
-import { Collections, logger, Service } from '@microrealestate/common';
+import { Collections, logger, Service } from '@bayle/common';
 import axios from 'axios';
 import moment from 'moment';
 

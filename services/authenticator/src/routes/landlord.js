@@ -4,7 +4,7 @@ import {
   Middlewares,
   Service,
   ServiceError
-} from '@microrealestate/common';
+} from '@bayle/common';
 import axios from 'axios';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';

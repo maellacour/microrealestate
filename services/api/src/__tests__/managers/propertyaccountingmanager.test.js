@@ -26,7 +26,7 @@ let expenseFilter;
 
 const lean = (data) => ({ lean: () => Promise.resolve(data) });
 
-jest.unstable_mockModule('@microrealestate/common', () => ({
+jest.unstable_mockModule('@bayle/common', () => ({
   Collections: {
     Property: {
       find: (filter) => {

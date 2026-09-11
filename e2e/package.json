@@ -1,6 +1,6 @@
 {
-  "name": "@microrealestate/e2e",
-  "version": "2.0.0",
+  "name": "@bayle/e2e",
+  "version": "2.0.1",
   "description": "MicroRealEstate e2e tests",
   "private": true,
   "scripts": {

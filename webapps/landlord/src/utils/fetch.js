@@ -1,5 +1,5 @@
 import axios, { Cancel } from 'axios';
-import { isClient, isServer } from '@microrealestate/commonui/utils';
+import { isClient, isServer } from '@bayle/commonui/utils';
 
 import config from '../config';
 import FileDownload from 'js-file-download';

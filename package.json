@@ -1,7 +1,7 @@
 {
-  "name": "microrealestate",
-  "version": "2.0.0",
-  "description": "The application which helps the landlords to manage their property rents.",
+  "name": "bayle",
+  "version": "2.0.1",
+  "description": "Bayle — self-hosted property and rent management for landlords.",
   "private": true,
   "repository": {
     "type": "git",
@@ -29,9 +29,9 @@
     "types"
   ],
   "scripts": {
-    "e2e:ci": "yarn workspace @microrealestate/e2e run cypress:ci",
-    "e2e:run": "yarn workspace @microrealestate/e2e run cypress:run",
-    "e2e:open": "yarn workspace @microrealestate/e2e run cypress:open",
+    "e2e:ci": "yarn workspace @bayle/e2e run cypress:ci",
+    "e2e:run": "yarn workspace @bayle/e2e run cypress:run",
+    "e2e:open": "yarn workspace @bayle/e2e run cypress:open",
     "format": "yarn workspaces foreach run format",
     "lint": "yarn workspaces foreach -pv run lint",
     "dev": "cross-env MRE_VERSION=dev node cli/src/index.js dev",

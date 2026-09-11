@@ -1,4 +1,4 @@
-import { Collections } from '@microrealestate/common';
+import { Collections } from '@bayle/common';
 
 // Only these fields are ever settable from the request body - protects
 // realmId/createdDate from being spoofed by a client.

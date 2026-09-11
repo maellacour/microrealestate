@@ -1,6 +1,6 @@
 {
-  "name": "@microrealestate/authenticator",
-  "version": "2.0.0",
+  "name": "@bayle/authenticator",
+  "version": "2.0.1",
   "description": "Authenticator service",
   "main": "./src/index.js",
   "private": true,
@@ -42,7 +42,7 @@
     "typescript": "5.5.4"
   },
   "dependencies": {
-    "@microrealestate/common": "*",
+    "@bayle/common": "*",
     "axios": "1.19.0",
     "bcrypt": "5.1.1",
     "jsonwebtoken": "9.0.0",

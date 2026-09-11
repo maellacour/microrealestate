@@ -5,7 +5,7 @@ import {
   logger,
   Service,
   ServiceError
-} from '@microrealestate/common';
+} from '@bayle/common';
 import axios from 'axios';
 import moment from 'moment';
 

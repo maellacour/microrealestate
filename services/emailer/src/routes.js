@@ -4,7 +4,7 @@ import {
   Middlewares,
   Service,
   ServiceError
-} from '@microrealestate/common';
+} from '@bayle/common';
 import express from 'express';
 import locale from 'locale';
 

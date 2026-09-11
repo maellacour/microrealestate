@@ -1,4 +1,4 @@
-import { logger, Service } from '@microrealestate/common';
+import { logger, Service } from '@bayle/common';
 import fileUrl from 'file-url';
 import fs from 'fs';
 import path from 'path';

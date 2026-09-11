@@ -5,7 +5,7 @@ import 'moment/locale/pt';
 import 'moment/locale/de';
 import 'moment/locale/es';
 import { type ClassValue, clsx } from 'clsx';
-import { LeaseTimeRange, Locale, TenantAPI } from '@microrealestate/types';
+import { LeaseTimeRange, Locale, TenantAPI } from '@bayle/types';
 import { Lease } from '@/types';
 import moment from 'moment';
 import { twMerge } from 'tailwind-merge';

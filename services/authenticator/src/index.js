@@ -1,4 +1,4 @@
-import { EnvironmentConfig, logger, Service } from '@microrealestate/common';
+import { EnvironmentConfig, logger, Service } from '@bayle/common';
 import routes from './routes/index.js';
 
 Main();

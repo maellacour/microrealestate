@@ -2,7 +2,7 @@ import * as Mocks from '@/mocks/api';
 import getApiFetcher from '../fetch/server';
 import getServerEnv from '../env/server';
 import { Lease } from '@/types';
-import { TenantAPI } from '@microrealestate/types';
+import { TenantAPI } from '@bayle/types';
 import { toUILease } from '..';
 
 export async function fetchOneTenant(tenantId: string): Promise<Lease | null> {

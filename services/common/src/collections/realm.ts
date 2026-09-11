@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import { CollectionTypes } from '@microrealestate/types';
+import { CollectionTypes } from '@bayle/types';
 import mongoose from 'mongoose';
 
 const RealmSchema = new mongoose.Schema<CollectionTypes.Realm>({

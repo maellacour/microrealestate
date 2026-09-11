@@ -1,6 +1,6 @@
 {
-  "name": "@microrealestate/tenant",
-  "version": "2.0.0",
+  "name": "@bayle/tenant",
+  "version": "2.0.1",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -48,7 +48,7 @@
     "zod": "3.24.2"
   },
   "devDependencies": {
-    "@microrealestate/types": "*",
+    "@bayle/types": "*",
     "@types/negotiator": "0.6.2",
     "@types/node": "22.13.5",
     "@types/react": "18.2.32",

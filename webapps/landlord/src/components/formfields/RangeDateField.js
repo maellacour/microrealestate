@@ -1,7 +1,7 @@
 import { useField, useFormikContext } from 'formik';
 
 import { DateField } from './DateField';
-import { durationEndMoment } from '@microrealestate/commonui/utils/contract';
+import { durationEndMoment } from '@bayle/commonui/utils/contract';
 import moment from 'moment';
 import { useEffect } from 'react';
 

@@ -11,9 +11,9 @@ COPY types/package.json types/package.json
 COPY services/common/package.json services/common/package.json
 COPY services/resetservice/package.json services/resetservice/package.json
 RUN --mount=type=cache,id=node_modules,target=/root/.yarn YARN_CACHE_FOLDER=/root/.yarn \
-    yarn workspaces focus @microrealestate/resetservice
+    yarn workspaces focus @bayle/resetservice
 
 FROM base
 WORKDIR /usr/app
 COPY --from=deps /usr/app ./
-CMD ["yarn", "workspace", "@microrealestate/resetservice", "run", "dev"]
+CMD ["yarn", "workspace", "@bayle/resetservice", "run", "dev"]

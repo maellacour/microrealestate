@@ -1,5 +1,5 @@
 import type { LocaleMap, LocalizedMessages, TFunction } from '@/types';
-import { Locale } from '@microrealestate/types';
+import { Locale } from '@bayle/types';
 
 export const LOCALES = ['de-DE', 'en', 'fr', 'pt-BR', 'es-CO'] as const;
 export const DEFAULT_LOCALE = 'en' as const;

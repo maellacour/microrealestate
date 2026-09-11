@@ -1,4 +1,5 @@
 *.md
+!CHANGELOG.md
 .github
 .husky
 .vscode

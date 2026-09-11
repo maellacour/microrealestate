@@ -1,7 +1,7 @@
 import EnvironmentConfig from './environmentconfig.js';
 import logger from './logger.js';
 import redis from 'redis';
-import { RedisClientTypes } from '@microrealestate/types';
+import { RedisClientTypes } from '@bayle/types';
 
 process.on('SIGINT', async () => {
   try {

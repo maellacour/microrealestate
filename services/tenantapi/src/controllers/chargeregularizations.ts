@@ -4,8 +4,8 @@ import {
   Collections,
   logger,
   ServiceError
-} from '@microrealestate/common';
-import { UserServicePrincipal } from '@microrealestate/types';
+} from '@bayle/common';
+import { UserServicePrincipal } from '@bayle/types';
 
 const round = (value: number) => Math.round((value || 0) * 100) / 100;
 

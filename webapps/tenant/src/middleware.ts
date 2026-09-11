@@ -4,7 +4,7 @@ import {
   LOCALES
 } from '@/utils/i18n/common';
 import getServerEnv from './utils/env/server';
-import { Locale } from '@microrealestate/types';
+import { Locale } from '@bayle/types';
 import { match } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
 import type { NextRequest } from 'next/server';

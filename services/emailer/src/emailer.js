@@ -8,7 +8,7 @@ import {
   logger,
   Service,
   ServiceError
-} from '@microrealestate/common';
+} from '@bayle/common';
 
 export async function status(recordId, startTerm, endTerm) {
   const query = {};

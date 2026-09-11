@@ -2,7 +2,7 @@ import ejs from 'ejs';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
-import { Service } from '@microrealestate/common';
+import { Service } from '@bayle/common';
 import templateFunctions from './utils/templatefunctions.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

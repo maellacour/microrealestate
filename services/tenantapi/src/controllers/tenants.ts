@@ -4,13 +4,13 @@ import {
   Deposit,
   logger,
   ServiceError
-} from '@microrealestate/common';
+} from '@bayle/common';
 import {
   CollectionTypes,
   MongooseDocument,
   TenantAPI,
   UserServicePrincipal
-} from '@microrealestate/types';
+} from '@bayle/types';
 import moment from 'moment';
 
 export async function getOneTenant(

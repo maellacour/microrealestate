@@ -1,4 +1,4 @@
-import { Collections } from '@microrealestate/common';
+import { Collections } from '@bayle/common';
 
 export async function get(email, params) {
   const dbAccount = await Collections.Account.findOne({ email });

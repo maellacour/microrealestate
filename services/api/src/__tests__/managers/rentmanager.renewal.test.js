@@ -3,13 +3,13 @@ import { jest } from '@jest/globals';
 import moment from 'moment';
 
 // Import the real Mongoose collections directly (bypassing
-// @microrealestate/common's main entry point, which pulls in
+// @bayle/common's main entry point, which pulls in
 // express-winston/winston and breaks under jest's ESM runner).
 const Collections = await import(
-  '@microrealestate/common/dist/collections/index.js'
+  '@bayle/common/dist/collections/index.js'
 );
 
-jest.unstable_mockModule('@microrealestate/common', () => ({
+jest.unstable_mockModule('@bayle/common', () => ({
   Collections,
   logger: {
     debug: jest.fn(),

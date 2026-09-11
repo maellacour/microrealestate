@@ -1,4 +1,4 @@
-import { Collections, Deposit } from '@microrealestate/common';
+import { Collections, Deposit } from '@bayle/common';
 import i18n from 'i18n';
 import moment from 'moment';
 import { Parser } from 'json2csv';

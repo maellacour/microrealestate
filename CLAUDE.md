@@ -72,7 +72,7 @@ For multi-step tasks, state a brief plan:
 
 **MicroRealEstate** helps landlords manage properties, tenants, leases and rent payments. It is a **Docker-composed microservice application** with two Next.js frontends (landlord + tenant), an Express/MongoDB backend split across several services, and a Node CLI (`mre`) that orchestrates the compose files.
 
-This checkout is the **`maellacour` fork** (`git@github.com:maellacour/microrealestate.git`), tracking upstream `microrealestate/microrealestate`. Work happens on `develop`; `main` is the PR target. The fork publishes its own images to `ghcr.io/maellacour/microrealestate/*` — see the Docker section, this matters.
+This checkout is the **`maellacour` fork** (`git@github.com:maellacour/microrealestate.git`), tracking upstream `microrealestate/microrealestate`. Work happens on `develop`; `main` is the PR target. The fork publishes its own images to `ghcr.io/maellacour/bayle/*` — see the Docker section, this matters.
 
 Data is multi-tenant by **realm** (an organization). Almost every collection carries a `realmId`, and almost every API request carries an `organizationId` header. Keep this isolation intact — it is the security boundary.
 
@@ -110,11 +110,11 @@ microrealestate/
 ├── cli/                    # `mre` CLI — wraps docker compose, generates/validates .env
 ├── base.env / .env         # Env template + local env (ports, secrets, URLs)
 ├── docker-compose*.yml     # Prod (root), microservices.{base,dev,prod,test,ci}, monitoring
-├── types/src/              # @microrealestate/types — shared TS types
+├── types/src/              # @bayle/types — shared TS types
 │   ├── common/collections.ts   # Realm, Tenant, Lease, Property, Document…
 │   └── api/tenant/             # tenantapi request/response contracts
 ├── services/
-│   ├── common/src/         # @microrealestate/common — the shared backend lib
+│   ├── common/src/         # @bayle/common — the shared backend lib
 │   │   ├── collections/    # Mongoose models: account, document, email, lease,
 │   │   │                   #   property, realm, template, tenant
 │   │   └── utils/          # service.ts (bootstrap), environmentconfig, middlewares,
@@ -213,14 +213,14 @@ Token secrets are three separate env vars: `AUTHENTICATOR_ACCESS_TOKEN_SECRET`, 
 - **Every service bootstraps identically** — `Service.getInstance(new EnvironmentConfig({...}))` then `service.init({ name, onStartUp })` then `service.startUp()`. Copy an existing service's `index.js` rather than inventing a shape.
 - **Env is declared, not read ad hoc** — every `process.env` var a service uses is listed in its `EnvironmentConfig`; read it back via `Service.getInstance().envConfig.getValues()`.
 - **All backend imports are ESM with explicit `.js` extensions**, including from TS sources (`./utils/service.js`). This is required — don't drop the extension.
-- **Shared code goes through `@microrealestate/common` / `@microrealestate/types`**, never a relative path across workspaces.
+- **Shared code goes through `@bayle/common` / `@bayle/types`**, never a relative path across workspaces.
 - **`realmId` on every query.** A query without it is a cross-organization data leak.
 - **Async routes are wrapped** — `Middlewares.asyncWrapper(handler)`. Errors are `ServiceError(message, status)`.
 - **Landlord state is MobX** — class stores under `src/store`, hydrated server-side via `useFillStore`; fetching lives in the store, not in components.
 - **Landlord UI is mid-migration** — new components use Tailwind + `components/ui` (shadcn); MUI v4 remains in older screens. Prefer shadcn for new work; don't mass-convert existing screens.
 - **Landlord forms = formik + yup; tenant forms = react-hook-form + zod.** Follow the app you're in.
 - **Money and dates** — `moment` in services and landlord, `date-fns` in tenant. Amounts are plain numbers; formatting goes through `useFormatNumber` / `utils/numberformat.js`.
-- **Locale strings** live in `webapps/commonui/locales/<locale>/` (frontends) and `services/*/src/locales/` (emails, API messages). Regenerate with `yarn workspace @microrealestate/landlord run generateStrings`.
+- **Locale strings** live in `webapps/commonui/locales/<locale>/` (frontends) and `services/*/src/locales/` (emails, API messages). Regenerate with `yarn workspace @bayle/landlord run generateStrings`.
 - **Nothing runs outside Docker.** Services resolve each other by container name (`http://api:8200`), so `node src/index.js` on the host will not work.
 
 ---
@@ -229,7 +229,7 @@ Token secrets are three separate env vars: `AUTHENTICATOR_ACCESS_TOKEN_SECRET`, 
 
 Compose files layer: `docker-compose.microservices.base.yml` (shared definitions) + `.dev.yml` / `.prod.yml` / `.test.yml`. `docker-compose.yml` at the root is the **self-hosting** file consumed by end users.
 
-- `docker-compose.microservices.base.yml` pulls **`ghcr.io/maellacour/microrealestate/*`** — the fork's images.
+- `docker-compose.microservices.base.yml` pulls **`ghcr.io/maellacour/bayle/*`** — the fork's images.
 - `docker-compose.yml` (self-host) still pulls **`ghcr.io/microrealestate/microrealestate/*`** — upstream.
 
 The fork carries schema changes upstream doesn't have, so **mixing the two registries silently drops fields** (see CHANGELOG: "All services now consistently use fork images"). If you touch image references, keep every service on one registry.
@@ -266,8 +266,8 @@ yarn mre dumpdb
 yarn mre restoredb
 
 # Tests
-yarn workspace @microrealestate/api run test     # Jest (needs --experimental-vm-modules, already wired)
-yarn workspace @microrealestate/common run test
+yarn workspace @bayle/api run test     # Jest (needs --experimental-vm-modules, already wired)
+yarn workspace @bayle/common run test
 yarn e2e:ci      # Cypress headless, app must be running in CI mode
 yarn e2e:run     # Cypress with browser
 yarn e2e:open    # Cypress UI

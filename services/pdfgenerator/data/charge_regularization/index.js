@@ -1,5 +1,5 @@
 import * as utils from '../index.js';
-import { Collections, Service } from '@microrealestate/common';
+import { Collections, Service } from '@bayle/common';
 import fileUrl from 'file-url';
 import moment from 'moment';
 import path from 'path';

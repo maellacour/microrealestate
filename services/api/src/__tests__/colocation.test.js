@@ -4,7 +4,7 @@ import {
   sharesAreComplete,
   splitByShares,
   splitCommonCharges
-} from '@microrealestate/common/dist/utils/charges.js';
+} from '@bayle/common/dist/utils/charges.js';
 
 const sum = (arr) => Math.round(arr.reduce((s, v) => s + v, 0) * 100) / 100;
 

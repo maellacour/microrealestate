@@ -10,7 +10,7 @@ COPY .yarn/releases .yarn/releases
 COPY types/package.json types/package.json
 COPY webapps/tenant/package.json webapps/tenant/package.json
 RUN --mount=type=cache,id=node_modules,target=/root/.yarn YARN_CACHE_FOLDER=/root/.yarn \
-    yarn workspaces focus @microrealestate/tenant
+    yarn workspaces focus @bayle/tenant
 
 FROM base AS build
 WORKDIR /usr/app
@@ -29,8 +29,8 @@ COPY webapps/tenant/tsconfig.json webapps/tenant
 COPY webapps/tenant/locales webapps/tenant/locales
 COPY webapps/tenant/public webapps/tenant/public
 COPY webapps/tenant/src webapps/tenant/src
-RUN yarn workspace @microrealestate/types run build && \
-    yarn workspace @microrealestate/tenant run build
+RUN yarn workspace @bayle/types run build && \
+    yarn workspace @bayle/tenant run build
 # following lines needed to be able to run webapps/commonui/scripts at container runtime
 RUN chown -R 1000 /usr/app/webapps/tenant/.next && \
     chown -R 1000 /usr/app/webapps/tenant/public

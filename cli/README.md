@@ -13,7 +13,7 @@ npm install -g @yao-pkg/pkg
 Install the packages
 
 ```shell
-yarn workspaces focus @microrealestate/cli
+yarn workspaces focus @bayle/cli
 ```
 
 Run the `pkg` tool to create the mre executables

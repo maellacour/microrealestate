@@ -3,7 +3,7 @@ import {
   ConnectionRole,
   InternalServicePrincipal,
   ServiceOptions
-} from '@microrealestate/types';
+} from '@bayle/types';
 import _cookieParser from 'cookie-parser';
 import _methodOverride from 'method-override';
 import EnvironmentConfig from './environmentconfig.js';

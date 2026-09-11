@@ -1,5 +1,5 @@
 import { DEFAULT_LOCALE } from '@/utils/i18n/common';
-import { Locale } from '@microrealestate/types';
+import { Locale } from '@bayle/types';
 
 export const DEFAULT_CURRENCY: Readonly<string> = 'USD';
 

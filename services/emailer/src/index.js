@@ -1,4 +1,4 @@
-import { EnvironmentConfig, logger, Service } from '@microrealestate/common';
+import { EnvironmentConfig, logger, Service } from '@bayle/common';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import i18n from 'i18n';
