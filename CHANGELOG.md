@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
-- The project is now named **Bayle** throughout: the README, the root package and the internal workspace scope (`@microrealestate/*` → `@bayle/*`). This completes the distancing from upstream MicroRealEstate; Bayle remains MIT-licensed and credits the original in the README. Docker image paths (`ghcr.io/maellacour/microrealestate/*`) are unchanged.
+- The project is now named **Bayle** throughout: the README, the root package, the internal workspace scope (`@microrealestate/*` → `@bayle/*`) and the container image paths (`ghcr.io/maellacour/microrealestate/*` → `ghcr.io/maellacour/bayle/*`). This completes the distancing from upstream MicroRealEstate; Bayle remains MIT-licensed and credits the original in the README. The image path follows the GitHub repository name (CI publishes to `ghcr.io/${{ github.repository }}/*`), so the new path takes effect once the repository is renamed to `bayle`; dev and prod build locally and are unaffected in the meantime.
 
 ## [2.0.0] - 2026-09-10
 

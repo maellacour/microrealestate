@@ -72,7 +72,7 @@ For multi-step tasks, state a brief plan:
 
 **MicroRealEstate** helps landlords manage properties, tenants, leases and rent payments. It is a **Docker-composed microservice application** with two Next.js frontends (landlord + tenant), an Express/MongoDB backend split across several services, and a Node CLI (`mre`) that orchestrates the compose files.
 
-This checkout is the **`maellacour` fork** (`git@github.com:maellacour/microrealestate.git`), tracking upstream `microrealestate/microrealestate`. Work happens on `develop`; `main` is the PR target. The fork publishes its own images to `ghcr.io/maellacour/microrealestate/*` — see the Docker section, this matters.
+This checkout is the **`maellacour` fork** (`git@github.com:maellacour/microrealestate.git`), tracking upstream `microrealestate/microrealestate`. Work happens on `develop`; `main` is the PR target. The fork publishes its own images to `ghcr.io/maellacour/bayle/*` — see the Docker section, this matters.
 
 Data is multi-tenant by **realm** (an organization). Almost every collection carries a `realmId`, and almost every API request carries an `organizationId` header. Keep this isolation intact — it is the security boundary.
 
@@ -229,7 +229,7 @@ Token secrets are three separate env vars: `AUTHENTICATOR_ACCESS_TOKEN_SECRET`, 
 
 Compose files layer: `docker-compose.microservices.base.yml` (shared definitions) + `.dev.yml` / `.prod.yml` / `.test.yml`. `docker-compose.yml` at the root is the **self-hosting** file consumed by end users.
 
-- `docker-compose.microservices.base.yml` pulls **`ghcr.io/maellacour/microrealestate/*`** — the fork's images.
+- `docker-compose.microservices.base.yml` pulls **`ghcr.io/maellacour/bayle/*`** — the fork's images.
 - `docker-compose.yml` (self-host) still pulls **`ghcr.io/microrealestate/microrealestate/*`** — upstream.
 
 The fork carries schema changes upstream doesn't have, so **mixing the two registries silently drops fields** (see CHANGELOG: "All services now consistently use fork images"). If you touch image references, keep every service on one registry.
